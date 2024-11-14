@@ -1,1 +1,11 @@
-Here you introduce the project, it's name, it's members and the assignment and client info.
+# Developer Collaboration tool
+
+Team: Purple Alligator
+
+Members:
+- Nestoras
+- Denys
+- Jan
+- Kirill
+- Ilya
+- Yevheniia
