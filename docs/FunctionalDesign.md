@@ -137,7 +137,25 @@ Feature 9: User management
 - **Developer**
     - They participate in brainstorming sessions.
 
-## Epics and User Stories ( unrefined )
+## User Stories
+
+1. As a developer, I want to participate in online sessions with other team members, so I can evaluate ideas with the
+   entire team or come up with designs for software.
+2. As a developer, I want to work with objects, arrows, and labels in a visual editor, so I can present my ideas.
+3. As a team member, I want to see contributions of other developers during sessions, so I know how effective the
+   brainstorming process is.
+4. As a leader, I want to see the action history done during a session, so I can analyze the entire thought process.
+5. As a leader, I want to export the result of the session into a Git repository, so I can store the result
+   independently to the system.
+6. As a leader, I want to start a new session, so others can participate.
+7. As a leader, I want to close an active session, so nobody can contribute to resolved topics anymore.
+8. As a leader, I want to invite other members to a sessions, so they can participate in the brainstorming process.
+9. As an administrator, I want to appoint new leaders, so they can manage sessions.
+10. As an administrator, I want to add new team members to the system, so they can utilize the online editor.
+11. As an administrator, I want to manage accounts of other users, so I have full control over who has access to the
+    system.
+12. As a team member, I want to be able to change my password, so I can properly secure my account.
+13. As a leader, I want to be able to undo actions done to the system, so I can revert changes.
 
 ## Mockups and wireframes (Low-Fidelity)
 
