@@ -30,7 +30,7 @@ Feature 1: Editor
 | S1.2.4 | The system should provide the ability to add labels to objects.                                     | MUST     | U1.2                                 |
 | S1.2.5 | The system should provide the ability to change the color of objects.                               | MUST     | U1.2                                 |
 | S1.2.6 | The system should provide the ability to change styles of arrows.                                   | MUST     | U1.2                                 |
-| S1.2.7 | The system should automatically resize rectangles based on the amount of text content in the label. | MUST     | U1.2                                 |
+| S1.2.7 | The system should automatically resize rectangles based on the amount of text content in the label. | SHOULD   | U1.2                                 |
 | S1.2.8 | The system should provide the ability to zoom in and out.                                           | COULD    | U1.2                                 |
 | S1.2.9 | The system should provide the ability to add images to the canvas.                                  | COULD    | U1.2                                 |
 
@@ -110,7 +110,7 @@ Feature 9: User management
 |--------|----------------------------------------------------------------------------------------------------------------|----------|----------------------|
 | U9.1   | As an administrator I want to be able to create accounts for other users.                                      | MUST     | Interview 1 & Advice |
 | S9.1.1 | The system has a page with a form with an email address, a password, and a role selection for creating a user. | MUST     | U9.1                 |
-| U9.2   | As an administrator I want to manage existing user accounts.                                                   | SHOULD   | Interview 1 & Advice |
+| U9.2   | As an administrator I want to edit/delete existing user accounts.                                              | SHOULD   | Interview 1 & Advice |
 | S9.2.1 | The system has a button leading to a list of users that can be managed.                                        | SHOULD   | U9.2                 |
 | S9.2.2 | The system has a button to delete an existing user account (which is not an administrator).                    | SHOULD   | U9.2                 |
 | S9.2.3 | The system has a form for editing the email address of an existing user account.                               | COULD    | U9.2                 |
