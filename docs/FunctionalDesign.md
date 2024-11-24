@@ -33,14 +33,14 @@ and seamless integration.
    * A dashboard lists all active sessions accessible to the user.
 4. Invitation System:
    * Leader can invite specific team members to sessions, ensuring that only relevant users participate in discussions and editing.
-1. Real-Time Collaboration:
+5. Real-Time Collaboration:
    - Users can work together on a shared visual editor, seeing each other's actions (e.g., mouse cursor, edits) in real time.
    - Supports a rich visual interface with objects, arrows, labels, and customization options (e.g., color, styles).
-3. Git Integration:
-   * Leader can export session outcomes directly to a Git repository, saving work as Markdown or an image for further usage.
-6. Replay Functionality:
+6. Git Integration:
+   * Leader can export session outcomes directly to a Git repository, saving work as Markdown file for further usage.
+7. Replay Functionality:
    * Leader can replay the session history to analyze the collaborative process and understand the sequence of actions taken by the team.
-7. Statistical Insights:
+8. Statistical Insights:
    * A dedicated statistics page shows contributions from team members, visualized through metrics like action counts.
 
 ## Scope
