@@ -26,6 +26,7 @@ Attendees: Jan, Denys, Nestoras, Yevheniia, Kirill
 
 Topic: Discussing requirements from the client, deciding on the technical stack, delegating tasks
 
+
 ### 22.11.2024
 
 Attendees: Jan, Denys, Ilya, Yevheniia, Kirill, Fedor
@@ -38,3 +39,15 @@ Topics:
 - Discussing the technical stack for the database (SQLite vs PostgreSQL)
 - Reviewing the user and system requirements (by Ilya, Nestoras, and Jan)
 - Updated the hour log
+
+### 25.11.2024
+
+Attendees: Jan, Denys, Nestoras, Yevhennia, Kirill, Rokas, Fedor, Ilya
+
+Topic:
+
+- Welcoming a new team member: Rokas
+- Yevhennia created DB design, commited and approved.
+- Jan, Ilya, Fedor were working on backlog, not finished yet.
+- Wireframes finalised by Denys waiting to be approved, worked on documentation
+- Kirill reviewed wireframes, DB design
