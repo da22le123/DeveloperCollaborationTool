@@ -159,6 +159,60 @@ Feature 9: User management
 
 ## Mockups and wireframes (Low-Fidelity)
 
+![wireframe1](./wireframes/wireframe1.png)
+
+Login page allows users that are part of the system to login to the system by providing email and password.
+
+![wireframe2](./wireframes/wireframe2.png)
+
+Once logged in, user will be able to join possible sessions that he/she has been added to or depending on the role, user’s own created sessions. Session has two buttons to keep track of current session status: open (to open) and close (to close) - leads can manage it. 
+On top, there are 5 buttons : manage users (only for admin), create a new session (only for leaders), add new users (only for administrator), circled first letter username (leads to change user's current password) and logout button to leave an account.
+
+![wireframe3](./wireframes/wireframe3.png)
+
+Leader or administrator can create a new session by providing a name.
+
+![wireframe4](./wireframes/wireframe4.png)
+
+Admin can manage users by assigning and unassigning leader. "Delete" button to delete an existing user.
+
+![wireframe5](./wireframes/wireframe5.png)
+
+After successfully logging in, the user can change their current password. This page is accessible by clicking on the first letter of their name (displayed in a circle) next to the logout button.
+
+![wireframe6](./wireframes/wireframe6.png)
+
+Admin can edit user's email by clicking on user in 'Manage Users' page. Additionally, admin can search for the user by an email. 
+
+![wireframe7](./wireframes/wireframe7.png)
+
+On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub. The project leader can invite new members to the project by clicking the "Invite Members" button. 
+Below these options, movable objects and arrows are available for creating and editing diagrams. The "Explore Statistics" button displays the number of contributions made by project members. 
+The "View History" button provides a list of all changes made by project members. 
+
+
+On the right-hand side, a collaboration space is provided. Users can create different diagrams and view changes in real time. Objects can easily be deleted by clicking on it and press "delete" keyboard. If user wants to change a label, he/she just presses a label and can immediately change it. Moreover, when someone is making a change, their cursor, along with their name, will be visible.
+
+![wireframe12](./wireframes/wireframe12.png)
+
+If the users decide to change the object or label, they can simply select the object, and a blue radius will appear. For changing the label, an editing cursor will be displayed.
+
+![wireframe8](./wireframes/wireframe8.png)
+
+When clicking on a replay entry in the history, the saved state as a diagram will be visible. 
+
+![wireframe9](./wireframes/wireframe9.png)
+
+Project admin can invite users to existing project. Additionally, he/she can search for the user by email. 
+
+![wireframe10](./wireframes/wireframe10.png)
+
+Administrator can create a new user by providing an email, name, password and role. 
+
+![wireframe11](./wireframes/wireframe11.png)
+
+Users can see the names of contributors along with the number of changes they have made, allowing for easy identification of the most active participants in the project.
+
 # System architecture
 
 ## Basic architecture with logical components
