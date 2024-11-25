@@ -29,7 +29,7 @@ and seamless integration.
 2. Role-Based Access Control:
    * Role distinctions (Administrator, Leader, Developer) ensure that permissions align with user responsibilities, such as managing sessions, inviting collaborators, managing users.
 3. Session Management:
-   * Users can create, close, and reopen sessions to organize their work.
+   * Leaders can create, close, and reopen sessions to organize their work.
    * A dashboard lists all active sessions accessible to the user.
 4. Invitation System:
    * Leader can invite specific team members to sessions, ensuring that only relevant users participate in discussions and editing.
@@ -39,7 +39,7 @@ and seamless integration.
 6. Git Integration:
    * Leader can export session outcomes directly to a Git repository, saving work as Markdown file for further usage.
 7. Replay Functionality:
-   * Leader can replay the session history to analyze the collaborative process and understand the sequence of actions taken by the team.
+   * There is a feature to view the history of changes, leaders can undo the last action
 8. Statistical Insights:
    * A dedicated statistics page shows contributions from team members, visualized through metrics like action counts.
 
