@@ -11,6 +11,37 @@
 # Solution overview
 
 ## Solution vision
+### The Problem
+The client needed a real-time collaboration tool to brainstorm ideas and display them visually in real time. 
+The lack of real-time interaction, advanced features like action replays, and role-based access control makes it difficult for teams to collaborate efficiently and stay organized.
+Our task is to provide the client with a reliable editing tool that combines visual diagramming. This tool will offer features like real-time collaboration, 
+session management, Git integration, and role-based permissions, ensuring an efficient and user-friendly solution for team brainstorming ideas.
+
+### The Envisioned Solution
+Our proposed solution is an innovative collaborative editing tool that combines the flexibility of visual diagramming (like draw.io). 
+This tool is designed to streamline the brainstorming for teams by providing real-time collaboration features with enhanced functionality 
+and seamless integration.
+
+#### The features our solution proposes
+
+1. Authentication and User Management:
+    * User access with login credentials and the ability for administrators to manage new and/or existing users.
+2. Role-Based Access Control:
+   * Role distinctions (Administrator, Leader, Developer) ensure that permissions align with user responsibilities, such as managing sessions, inviting collaborators, managing users.
+3. Session Management:
+   * Leaders can create, close, and reopen sessions to organize their work.
+   * A dashboard lists all active sessions accessible to the user.
+4. Invitation System:
+   * Leader can invite specific team members to sessions, ensuring that only relevant users participate in discussions and editing.
+5. Real-Time Collaboration:
+   - Users can work together on a shared visual editor, seeing each other's actions (e.g., mouse cursor, edits) in real time.
+   - Supports a rich visual interface with objects, arrows, labels, and customization options (e.g., color, styles).
+6. Git Integration:
+   * Leader can export session outcomes directly to a Git repository, saving work as Markdown file for further usage.
+7. Replay Functionality:
+   * There is a feature to view the history of changes, leaders can undo the last action
+8. Statistical Insights:
+   * A dedicated statistics page shows contributions from team members, visualized through metrics like action counts.
 
 ## Scope
 
