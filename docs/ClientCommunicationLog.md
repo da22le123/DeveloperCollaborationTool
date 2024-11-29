@@ -84,3 +84,24 @@ them. The client missed following information in the document:
 
 The client stated that even though the document is not complete, they are happy with the progress and this version of
 the document will do for the Sprint 1.
+
+## Email to the client with questions regarding system implementation (27.11.2024) 
+
+### Email content
+
+During the backlog planning, a few questions arose regarding the system implementation. The email was sent to the client
+to clarify these questions.
+
+Questions that were asked in the email: 
+
+1. What devices must application be accessible from? Is desktop the only priority now?
+2. Do you want to restrict access to view closed sessions to only leader role?
+3. What statistics should be gathered and displayed per user?
+4. We decided to implement the replay history in the following way:
+5. What clicking on the item of the "Replay History" should do? Is there any desired functionality?
+6. What user roles are allowed to view replay history? Ou suggestion is that everyone could do that.
+7. Is functionality to manage users restricts to only adding users? 
+
+### Response from the client
+
+To be added.
