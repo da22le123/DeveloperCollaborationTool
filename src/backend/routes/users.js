@@ -1,8 +1,8 @@
 import express from "express";
-import {handleLogin} from "../controllers/usersController.js";
+import { handleLogin } from "../controllers/usersController.js";
 
-const router = express.Router();
+const usersRouter = express.Router();
 
-router.post('/tokens', handleLogin);
+usersRouter.post("/tokens", handleLogin);
 
-export default router;
+export { usersRouter };
