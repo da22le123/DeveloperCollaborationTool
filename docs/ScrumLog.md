@@ -51,3 +51,18 @@ Topic:
 - Jan, Ilya, Fedor were working on backlog, not finished yet.
 - Wireframes finalised by Denys waiting to be approved, worked on documentation
 - Kirill reviewed wireframes, DB design
+
+### 29.11.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Discussion of the work done so far, and new issue assignments among members.
+
+- Denys worked on the backend login functionality, implemented it fully and waits for approval.
+- Jan finished the whole backlog, now researches possible technologies that can be used for rendering different kind of objects in the document.
+- Ilya worked with Jan on the backlog and communicates with client to fully understand what the client needs to be built. Will assign a task to himself.
+- Rokas will be assigned with his first issue after the meeting.
+- Kirill researched gitlab integration, will assign issue to himself after meeting.
+- Nestoras works on the frontend part of login.
+- Yevheniia worked on the database setup and now waits for approval and fixes possible issues (Issue #47). Her next task is researching on webSocket (issue #21).
+- Fedor worked with Jan and Ilya on issue. 
