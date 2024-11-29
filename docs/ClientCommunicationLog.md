@@ -58,3 +58,29 @@ developers. There must be a way to protect sessions from being seen by members w
 The application will be hosted on a private VPS. Whether it will be behind a VPN was not specified.
 
 An extra functionality (nice to have) is having guests adding comments to existing documents without modifying them.
+
+## Email to the client with initial solution proposal (25.11.2024)
+
+### Email content
+
+The email was sent to the client to propose a solution based on the requirements gathered during the first Interview,
+and
+the written assignment description and to ask for approval of the current version of Functional Design document as well
+as the wireframes.
+
+P.S. You can see the current version of the Functional Design document and wireframes in the `docs` folder.
+
+### Response from the client
+
+The client responded with a few questions and concerns regarding the Functional Design document version that was sent to
+them. The client missed following information in the document:
+
+* User story for "Providing comments on on screen items."
+* User story for "What shapes would resemble."
+* An "insight envisioning process." An "activity diagram, chaining the user stories together, and showing the flow of
+  the application."
+* Data architecture explanation
+* Navigation map for the wireframes
+
+The client stated that even though the document is not complete, they are happy with the progress and this version of
+the document will do for the Sprint 1.
