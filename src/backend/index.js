@@ -4,6 +4,7 @@ import express from "express";
 import "express-async-errors";
 
 import { usersRouter } from "./routes/users.js";
+import {connectToDatabase} from "./database/database.js";
 
 const app = express();
 
@@ -23,7 +24,10 @@ const errorHandling = (err, req, res, next) => {
 app.use("/", usersRouter);
 app.use(errorHandling);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+void (async () => {
+    await connectToDatabase()
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+        console.log(`App listening at http://localhost:${port}`);
+    });
+})()
