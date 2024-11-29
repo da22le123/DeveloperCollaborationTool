@@ -3,11 +3,16 @@ import UserModel from './model/User.js';
 import SessionModel from './model/Session.js';
 import SessionMemberModel from './model/SessionMember.js';
 import ActionModel from './model/Action.js';
+import * as path from "node:path";
+
+const dbFilePath = path.resolve('./database.sqlite');
+
+
 
 // Database configuration
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite', // File path for the SQLite database
+    storage: dbFilePath, // File path for the SQLite database
     logging: false,               // Disable Sequelize logs
 });
 
@@ -30,12 +35,17 @@ User.belongsToMany(Session, { through: SessionMember, foreignKey: 'user_id' });
 SessionMember.belongsTo(User, { foreignKey: 'user_id' });
 SessionMember.belongsTo(Session, { foreignKey: 'session_id' });
 
+// method for creating the database file and syncing the schema
+const createDatabaseFile = async () => {
+    await sequelize.authenticate();
+    await sequelize.sync();
+};
+
+
 // Function to connect to the database
 const connectToDatabase = async () => {
     try {
-
-        await sequelize.authenticate();
-        await sequelize.sync(); // Ensures tables are created if they don't exist
+        await createDatabaseFile();
     } catch (error) {
         console.error('Error connecting to the database:', error.message);
         throw error;
@@ -52,9 +62,4 @@ const closeConnection = async () => {
     }
 };
 
-
-
-
-
 export { sequelize, User, Session, SessionMember, Action, connectToDatabase, closeConnection };
-
