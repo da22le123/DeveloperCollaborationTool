@@ -1,10 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { loginSchema } from "../schemas.js";
 import { User } from "../database/database.js";
-
-dotenv.config();
 
 export const handleLogin = async (req, res, next) => {
     const validatedData = await loginSchema.validate(req.body, {
@@ -29,7 +26,6 @@ export const handleLogin = async (req, res, next) => {
             isLead: foundUser.is_lead,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "12h" },
     );
     res.status(200).json({ token });
 };

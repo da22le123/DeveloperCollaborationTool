@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const errorHandling = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
     if (err.name === "ValidationError") {
         return res.status(400).json({
             error: "Validation error",
@@ -22,7 +22,7 @@ const errorHandling = (err, req, res, next) => {
 };
 
 app.use("/", usersRouter);
-app.use(errorHandling);
+app.use(errorHandler);
 
 void (async () => {
     await connectToDatabase();
