@@ -2,17 +2,54 @@
 
 # Introduction
 
-## Problem
-
-## Problem analysis
-
-## Context research
+This document provides a functional design for the collaborative editing tool. The tool is designed to streamline the
+brainstorming process for teams by providing real-time collaboration features with enhanced functionality and seamless
+integration. The tool will offer features like real-time collaboration, session management, Git integration, and
+role-based permissions, ensuring an efficient and user-friendly solution for team brainstorming ideas.
 
 # Solution overview
 
-## Solution vision
+### The Problem
 
-## Scope
+The client needed a real-time collaboration tool to brainstorm ideas and display them visually in real time.
+The lack of real-time interaction, advanced features like action replays, and role-based access control makes it
+difficult for teams to collaborate efficiently and stay organized.
+Our task is to provide the client with a reliable editing tool that combines visual diagramming. This tool will offer
+features like real-time collaboration,
+session management, Git integration, and role-based permissions, ensuring an efficient and user-friendly solution for
+team brainstorming ideas.
+
+### The Envisioned Solution
+
+Our proposed solution is an innovative collaborative editing tool that combines the flexibility of visual diagramming (
+like draw.io).
+This tool is designed to streamline the brainstorming for teams by providing real-time collaboration features with
+enhanced functionality
+and seamless integration.
+
+#### The features our solution proposes
+
+1. Authentication and User Management:
+    * User access with login credentials and the ability for administrators to manage new and/or existing users.
+2. Role-Based Access Control:
+    * Role distinctions (Administrator, Leader, Developer) ensure that permissions align with user responsibilities,
+      such as managing sessions, inviting collaborators, managing users.
+3. Session Management:
+    * Leaders can create, close, and reopen sessions to organize their work.
+    * A dashboard lists all active sessions accessible to the user.
+4. Invitation System:
+    * Leader can invite specific team members to sessions, ensuring that only relevant users participate in discussions
+      and editing.
+5. Real-Time Collaboration:
+    - Users can work together on a shared visual editor, seeing each other's actions (e.g., mouse cursor, edits) in real
+      time.
+    - Supports a rich visual interface with objects, arrows, labels, and customization options (e.g., color, styles).
+6. Git Integration:
+    * Leader can export session outcomes directly to a Git repository, saving work as Markdown file for further usage.
+7. Replay Functionality:
+    * There is a feature to view the history of changes, leaders can undo the last action
+8. Statistical Insights:
+    * A dedicated statistics page shows contributions from team members, visualized through metrics like action counts.
 
 ## Requirements
 
@@ -115,12 +152,6 @@ Feature 9: User management
 | S9.2.2 | The system has a button to delete an existing user account (which is not an administrator).                    | SHOULD   | U9.2                 |
 | S9.2.3 | The system has a form for editing the email address of an existing user account.                               | COULD    | U9.2                 |
 
-## Risks and assumptions
-
-# Functional specs
-
-## Business logic: roles, rules and data involved
-
 ### User Roles
 
 - **Administrator**
@@ -159,10 +190,68 @@ Feature 9: User management
 
 ## Mockups and wireframes (Low-Fidelity)
 
-# System architecture
+![wireframe1](./wireframes/wireframe1.png)
 
-## Basic architecture with logical components
+Login page allows users that are part of the system to login to the system by providing email and password.
 
-## Deploy and Component diagram
+![wireframe2](./wireframes/wireframe2.png)
 
-# Change Log
+Once logged in, user will be able to join possible sessions that he/she has been added to or depending on the role,
+user’s own created sessions. Session has two buttons to keep track of current session status: open (to open) and close (
+to close) - leads can manage it.
+On top, there are 5 buttons : manage users (only for admin), create a new session (only for leaders), add new users (
+only for administrator), circled first letter username (leads to change user's current password) and logout button to
+leave an account.
+
+![wireframe3](./wireframes/wireframe3.png)
+
+Leader or administrator can create a new session by providing a name.
+
+![wireframe4](./wireframes/wireframe4.png)
+
+Admin can manage users by assigning and unassigning leader. "Delete" button to delete an existing user.
+
+![wireframe5](./wireframes/wireframe5.png)
+
+After successfully logging in, the user can change their current password. This page is accessible by clicking on the
+first letter of their name (displayed in a circle) next to the logout button.
+
+![wireframe6](./wireframes/wireframe6.png)
+
+Admin can edit user's email by clicking on user in 'Manage Users' page. Additionally, admin can search for the user by
+an email.
+
+![wireframe7](./wireframes/wireframe7.png)
+
+On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub. The
+project leader can invite new members to the project by clicking the "Invite Members" button.
+Below these options, movable objects and arrows are available for creating and editing diagrams. The "Explore
+Statistics" button displays the number of contributions made by project members.
+The "View History" button provides a list of all changes made by project members.
+
+On the right-hand side, a collaboration space is provided. Users can create different diagrams and view changes in real
+time. Objects can easily be deleted by clicking on it and press "delete" keyboard. If user wants to change a label,
+he/she just presses a label and can immediately change it. Moreover, when someone is making a change, their cursor,
+along with their name, will be visible.
+
+![wireframe12](./wireframes/wireframe12.png)
+
+If the users decide to change the object or label, they can simply select the object, and a blue radius will appear. For
+changing the label, an editing cursor will be displayed.
+
+![wireframe8](./wireframes/wireframe8.png)
+
+When clicking on a replay entry in the history, the saved state as a diagram will be visible.
+
+![wireframe9](./wireframes/wireframe9.png)
+
+Project admin can invite users to existing project. Additionally, he/she can search for the user by email.
+
+![wireframe10](./wireframes/wireframe10.png)
+
+Administrator can create a new user by providing an email, name, password and role.
+
+![wireframe11](./wireframes/wireframe11.png)
+
+Users can see the names of contributors along with the number of changes they have made, allowing for easy
+identification of the most active participants in the project.

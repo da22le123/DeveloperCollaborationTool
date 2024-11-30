@@ -1,0 +1,31 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { loginSchema } from "../schemas.js";
+import { User } from "../database/database.js";
+
+export const handleLogin = async (req, res, next) => {
+    const validatedData = await loginSchema.validate(req.body, {
+        abortEarly: false,
+    });
+
+    const { email, password } = validatedData;
+
+    const foundUser = await User.findOne({ where: { email } });
+    if (!foundUser)
+        return res.status(401).json({ message: "Invalid credentials!" });
+
+    const match = await bcrypt.compare(password, foundUser.password);
+    if (!match)
+        return res.status(401).json({ message: "Invalid credentials!" });
+
+    const token = jwt.sign(
+        {
+            id: foundUser.id,
+            username: foundUser.username,
+            isAdmin: foundUser.is_admin,
+            isLead: foundUser.is_lead,
+        },
+        process.env.JWT_SECRET,
+    );
+    res.status(200).json({ token });
+};

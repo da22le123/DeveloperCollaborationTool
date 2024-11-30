@@ -14,6 +14,31 @@
 
 ## Software architecture (overview, libs, protocols, frameworks, components, api’s, etc)
 
+**Library for database**
+
+SQLite is used as the software library for database implementation in this project due to its lightweight and serverless nature,
+which eliminates the need for complex setup or administration as required by systems like PostgreSQL.
+It is easy to integrate and requires minimal configuration, making it an ideal choice for development environments.
+SQLite uses file-based storage, where the entire database is contained within a single file,
+simplifying deployment and ensuring portability across different environments.
+Furthermore,
+its suitability for local development eliminates the need for a cloud database during the development phase,
+offering a cost-effective and efficient solution.
+Despite its simplicity, SQLite ensures reliable and secure database transactions by being fully ACID-compliant
+(Atomicity, Consistency, Isolation, Durability).
+
+**ORM library for querying/modifying database:**
+
+Sequelize, an Object-Relational Mapping (ORM) library for Node.js, was used for database management.
+It allows developers to define models representing database tables using JavaScript, manage relationships between them,
+and perform CRUD (Create, Read, Update, Delete) operations in an intuitive and readable way,
+improving code maintainability.
+Additionally, Sequelize supports multiple SQL dialects, such as SQLite, PostgresSQL, and MySQL.
+In this project, SQLite was chosen,
+but Sequelize's flexibility ensures scalability if the database dialect needs to be changed in the future.
+Its built-in features, such as migrations, validations, and associations,
+save development time and provide a structured, consistent approach to database management.
+
 ## Information architecture (what data provided how, navigation)
 
 ## Security architecture
