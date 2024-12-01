@@ -26,3 +26,9 @@ export const modifyUser = yup.object({
 export const sessionSchema = yup.object({
     name: yup.string().required("Session name is required"),
 });
+
+
+export const userIdSchema = yup
+    .number()
+    .positive("userId must be a positive number")
+    .required("userId is required");
