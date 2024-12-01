@@ -13,7 +13,7 @@ const loginTest = () => {
 </script>
 
 <main>
-    <div class="card bg-amber-500">
+    <div class="card">
         <Counter />
     </div>
     {#if $tokenStore}

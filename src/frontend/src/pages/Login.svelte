@@ -5,7 +5,5 @@
 </script>
 
 <main>
-    <div>
-        <LoginForm/>
-    </div>
+    <LoginForm/>
 </main>
