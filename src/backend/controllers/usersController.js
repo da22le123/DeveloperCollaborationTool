@@ -1,31 +1,38 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { loginSchema } from "../schemas.js";
+import { registerSchema } from "../schemas.js";
 import { User } from "../database/database.js";
 
-export const handleLogin = async (req, res, next) => {
-    const validatedData = await loginSchema.validate(req.body, {
+export const handleNewUser = async (req, res, next) => {
+    const validatedData = await registerSchema.validate(req.body, {
         abortEarly: false,
     });
 
-    const { email, password } = validatedData;
+    const { email, username, password, role } = validatedData;
 
-    const foundUser = await User.findOne({ where: { email } });
-    if (!foundUser)
-        return res.status(401).json({ message: "Invalid credentials!" });
+    let isLead = false;
+    let isAdmin = false;
 
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (!match)
-        return res.status(401).json({ message: "Invalid credentials!" });
+    if (role === "Lead") {
+        isLead = true;
+    } else if (role === "Developer") {
+        isLead = false;
+        isAdmin = false;
+    }
 
-    const token = jwt.sign(
-        {
-            id: foundUser.id,
-            username: foundUser.username,
-            isAdmin: foundUser.is_admin,
-            isLead: foundUser.is_lead,
-        },
-        process.env.JWT_SECRET,
-    );
-    res.status(200).json({ token });
+    const duplicateUser = await User.findOne({ where: { email } });
+
+    if (duplicateUser)
+        return res.status(409).json({ message: "User already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+        email,
+        username,
+        password: hashedPassword,
+        is_admin: isAdmin,
+        is_lead: isLead,
+    });
+
+    res.status(201).json({ newUser });
 };

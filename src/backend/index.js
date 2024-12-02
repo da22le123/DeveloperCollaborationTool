@@ -4,6 +4,7 @@ import express from "express";
 import "express-async-errors";
 
 import { usersRouter } from "./routes/users.js";
+import { authRouter } from "./routes/auth.js";
 import { connectToDatabase } from "./database/database.js";
 
 const app = express();
@@ -21,7 +22,8 @@ const errorHandler = (err, req, res, next) => {
     res.status(500).json({ error: "Something went wrong!" });
 };
 
-app.use("/", usersRouter);
+app.use("/users", usersRouter);
+app.use("/tokens", authRouter);
 app.use(errorHandler);
 
 void (async () => {
