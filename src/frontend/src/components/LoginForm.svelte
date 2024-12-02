@@ -1,32 +1,23 @@
 <script>
     import {setToken} from "../stores/tokenStore.js";
-    import page from "page"
+    import page from "page";
+    import { loginRequest } from '../utils/requests';
+
 
     let email = "";
     let password = "";
 
+
     const login = async (event) => {
         event.preventDefault();
-        try{
-            const res = await fetch("http://localhost:3000/tokens", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({email, password})
-            });
-            if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.message || "Login failed");
-            }
-            const data = await res.json();
+        try {
+            const data = await loginRequest(email, password);
             setToken(data.token);
-
             page("/");
-        } catch(error) {
+        } catch (error) {
             console.error(error.message);
         }
-    }
+    };
 </script>
 
 <div class="flex items-center justify-center min-h-screen bg-white">
