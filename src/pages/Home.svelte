@@ -3,9 +3,6 @@ import Counter from "../lib/Counter.svelte";
 import {tokenStore, clearToken} from "../stores/tokenStore.js";
 import page from "page";
 
-const logoutTest = () => {
-    clearToken();
-};
 const loginTest = () => {
     page("/login");
 };
