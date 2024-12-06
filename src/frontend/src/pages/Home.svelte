@@ -1,5 +1,5 @@
 <script>
-import {tokenStore, clearToken} from "../stores/tokenStore.js";
+import { tokenStore, clearToken } from "../stores/tokenStore.js";
 import page from "page";
 
 const loginTest = () => {

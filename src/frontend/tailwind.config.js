@@ -7,5 +7,5 @@ export default {
     variants: {
         extend: {},
     },
-    darkMode: 'selector',
+    darkMode: "selector",
 };

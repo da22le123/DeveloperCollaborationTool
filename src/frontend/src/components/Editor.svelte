@@ -1,8 +1,8 @@
 <script>
-import { Background, SvelteFlow } from '@xyflow/svelte';
-import { writable } from 'svelte/store';
+import { Background, SvelteFlow } from "@xyflow/svelte";
+import { writable } from "svelte/store";
 
-import '@xyflow/svelte/dist/style.css';
+import "@xyflow/svelte/dist/style.css";
 
 export let initialNodes = [
     {

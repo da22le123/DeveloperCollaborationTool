@@ -1,9 +1,9 @@
 <script>
-import { SvelteFlowProvider } from '@xyflow/svelte';
+import { SvelteFlowProvider } from "@xyflow/svelte";
 
-import Editor from '../components/Editor.svelte';
-import ReplayHistory from '../components/editor/ReplayHistory.svelte';
-import ObjectList from '../components/editor/ObjectList.svelte';
+import Editor from "../components/Editor.svelte";
+import ReplayHistory from "../components/editor/ReplayHistory.svelte";
+import ObjectList from "../components/editor/ObjectList.svelte";
 
 export let params;
 
