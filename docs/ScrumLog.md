@@ -66,3 +66,19 @@ Topic: Discussion of the work done so far, and new issue assignments among membe
 - Nestoras works on the frontend part of login.
 - Yevheniia worked on the database setup and now waits for approval and fixes possible issues (Issue #47). Her next task is researching on webSocket (issue #21).
 - Fedor worked with Jan and Ilya on issue. 
+
+
+### 2.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Progress discussion
+
+- Rokas added business logic for creating new session, waiting for merge, and will now add business logic for adding users session.
+- Jan researches what kind of library we use for rendering editor data. Research is done he is waiting for a team discussion for final decision and assign a new task.
+- Ilya works backend session dashboard feature, work in progress
+- Fedor frontend session dashboard feature, work in progress
+- Nestoras finished login page, and login handling in frontend, waiting for merge approval and new issue to be assigned.
+- Yevheniia researches webSocket, work in progress.
+- Kirill waits for new task to be assigned, helped Denys with his task.
+- Denys finished the creation of new user feature, waiting for new issue.
