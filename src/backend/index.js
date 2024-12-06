@@ -19,6 +19,7 @@ const errorHandler = (err, req, res, next) => {
             errors: err.errors,
         });
     }
+    console.error(err);
     res.status(500).json({ error: "Something went wrong!" });
 };
 

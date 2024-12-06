@@ -17,3 +17,8 @@ export const registerSchema = yup.object({
         )
         .required("Role is required"),
 });
+
+export const modifyUser = yup.object({
+    email: yup.string().email("Email is invalid"),
+    isLead: yup.boolean(),
+});
