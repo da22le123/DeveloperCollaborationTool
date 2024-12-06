@@ -1,7 +1,7 @@
 <script>
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher } from "svelte";
 
-import HistoryEntry from './HistoryEntry.svelte';
+import HistoryEntry from "./HistoryEntry.svelte";
 
 const eventDispatcher = createEventDispatcher();
 
