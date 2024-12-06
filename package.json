@@ -7,8 +7,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "format": "biome format --write",
-        "lint": "biome lint --write",
+        "check:write": "biome check --write",
         "ci:check": "biome check"
     },
     "devDependencies": {

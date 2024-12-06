@@ -1,23 +1,21 @@
 <script>
-    import {setToken} from "../stores/tokenStore.js";
-    import page from "page";
-    import { loginRequest } from '../utils/requests';
+import { setToken } from "../stores/tokenStore.js";
+import page from "page";
+import { loginRequest } from "../utils/requests";
 
+const email = "";
+const password = "";
 
-    let email = "";
-    let password = "";
-
-
-    const login = async (event) => {
-        event.preventDefault();
-        try {
-            const data = await loginRequest(email, password);
-            setToken(data.token);
-            page("/");
-        } catch (error) {
-            console.error(error.message);
-        }
-    };
+const login = async (event) => {
+    event.preventDefault();
+    try {
+        const data = await loginRequest(email, password);
+        setToken(data.token);
+        page("/");
+    } catch (error) {
+        console.error(error.message);
+    }
+};
 </script>
 
 <div class="flex items-center justify-center min-h-screen bg-white">

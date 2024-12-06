@@ -1,5 +1,5 @@
-export function parseJwt(token){
-    if(!token){
+export function parseJwt(token) {
+    if (!token) {
         return;
     }
     const base64url = token.split(".")[1];
