@@ -13,15 +13,14 @@ router("/", (ctx) => {
     page = Home;
     currentRoute = ctx.pathname;
 });
-router('/login', (ctx) => {
+router("/login", (ctx) => {
     page = Login;
     currentRoute = ctx.pathname;
-})
+});
 router("*", (ctx) => {
     page = NotFound;
     currentRoute = ctx.pathname;
 });
-
 
 router.start();
 </script>
