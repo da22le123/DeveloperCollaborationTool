@@ -1,0 +1,23 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+default:
+  image: node:latest
+
+stages:
+  - lint
+
+lint-backend:
+  stage: lint
+  script:
+    - cd src/backend
+    - npm ci
+    - npm run ci:check
+
+lint-frontend:
+  stage: lint
+  script:
+    - cd src/frontend
+    - npm ci
+    - npm run ci:check

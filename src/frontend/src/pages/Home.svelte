@@ -1,12 +1,11 @@
 <script>
-    import Counter from "../lib/Counter.svelte";
-    import {tokenStore, clearToken} from "../stores/tokenStore.js";
-    import page from "page";
+import Counter from "../lib/Counter.svelte";
+import { tokenStore, clearToken } from "../stores/tokenStore.js";
+import page from "page";
 
-    const loginTest = () => {
-        page("/login");
-    };
-
+const loginTest = () => {
+    page("/login");
+};
 </script>
 
 <main>
