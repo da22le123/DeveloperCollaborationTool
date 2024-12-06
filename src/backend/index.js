@@ -2,7 +2,7 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import "express-async-errors";
-
+import { sessionsRouter } from "./routes/session.js";
 import { usersRouter } from "./routes/users.js";
 import { authRouter } from "./routes/auth.js";
 import { connectToDatabase } from "./database/database.js";
@@ -19,12 +19,12 @@ const errorHandler = (err, req, res, next) => {
             errors: err.errors,
         });
     }
-    console.error(err);
     res.status(500).json({ error: "Something went wrong!" });
 };
 
 app.use("/users", usersRouter);
 app.use("/tokens", authRouter);
+app.use("/sessions", sessionsRouter);
 app.use(errorHandler);
 
 void (async () => {
