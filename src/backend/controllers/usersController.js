@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { registerSchema, modifyUser } from "../schemas.js";
 import { User } from "../database/database.js";
+import { Sequelize } from "sequelize";
 import { Op } from "sequelize";
 
 export const handleNewUser = async (req, res, next) => {
@@ -36,6 +37,28 @@ export const handleNewUser = async (req, res, next) => {
     });
 
     res.status(201).json({ newUser });
+};
+
+export const getListOfAllUsers = async (req, res) => {
+    const users = await User.findAll({
+        attributes: [
+            "id",
+            "username",
+            "email",
+            [
+                Sequelize.literal(`
+                        CASE 
+                            WHEN is_admin = 1 THEN 'Admin'
+                            WHEN is_lead = 1 THEN 'Lead'
+                            ELSE 'Developer'
+                        END
+                    `),
+                "role",
+            ],
+        ],
+    });
+
+    res.status(200).json(users);
 };
 
 export const handleModifyUser = async (req, res, next) => {
