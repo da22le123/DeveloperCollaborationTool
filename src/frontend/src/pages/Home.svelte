@@ -8,7 +8,7 @@ const loginTest = () => {
 };
 </script>
 
-<main>
+<main class="pt-16 px-6">
     <div class="card">
         <Counter/>
     </div>
