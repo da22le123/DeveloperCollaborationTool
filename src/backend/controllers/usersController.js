@@ -94,3 +94,18 @@ export const handleModifyUser = async (req, res, next) => {
 
     res.status(200).json(await foundUser.save());
 };
+
+export const handleGetUser = async (req, res, next) => {
+    const { id } = req.params;
+
+    const foundUser = await User.findOne({ where: { id } });
+
+    if (!foundUser) return res.status(404).json({ message: "User not found" });
+
+    const strippedUser = {
+        id: foundUser.id,
+        username: foundUser.username,
+    };
+
+    return res.status(200).json(strippedUser);
+};
