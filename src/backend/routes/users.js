@@ -3,6 +3,7 @@ import {
     handleNewUser,
     getListOfAllUsers,
     handleModifyUser,
+    handleGetUser,
 } from "../controllers/usersController.js";
 import { verifyIfAdmin } from "../middlewares/verifyAdmin.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
@@ -12,5 +13,6 @@ const usersRouter = express.Router();
 usersRouter.post("/", verifyToken, verifyIfAdmin, handleNewUser);
 usersRouter.get("/", verifyToken, verifyIfAdmin, getListOfAllUsers);
 usersRouter.patch("/:id", verifyToken, verifyIfAdmin, handleModifyUser);
+usersRouter.get("/:id", verifyToken, verifyIfAdmin, handleGetUser);
 
 export { usersRouter };
