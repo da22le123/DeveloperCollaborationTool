@@ -14,30 +14,33 @@
 
 ## Software architecture (overview, libs, protocols, frameworks, components, api’s, etc)
 
-**Library for database**
+### [Svelte Flow](https://svelteflow.dev/)
 
-SQLite is used as the software library for database implementation in this project due to its lightweight and serverless nature,
-which eliminates the need for complex setup or administration as required by systems like PostgreSQL.
-It is easy to integrate and requires minimal configuration, making it an ideal choice for development environments.
-SQLite uses file-based storage, where the entire database is contained within a single file,
-simplifying deployment and ensuring portability across different environments.
-Furthermore,
-its suitability for local development eliminates the need for a cloud database during the development phase,
-offering a cost-effective and efficient solution.
-Despite its simplicity, SQLite ensures reliable and secure database transactions by being fully ACID-compliant
-(Atomicity, Consistency, Isolation, Durability).
+Svelte Flow is a library used for rendering nodes and edges and handling their input. It plays nicely with Svelte;
+therefore, nodes (and even edges) can be easily extended with custom components. By default, it provides an editor with
+zooming in and out, moving and connecting nodes, and deleting nodes, and edges. Adding nodes and modifying their content
+must be implemented by the user.
 
-**ORM library for querying/modifying database:**
+### Database Engine
 
-Sequelize, an Object-Relational Mapping (ORM) library for Node.js, was used for database management.
-It allows developers to define models representing database tables using JavaScript, manage relationships between them,
-and perform CRUD (Create, Read, Update, Delete) operations in an intuitive and readable way,
-improving code maintainability.
-Additionally, Sequelize supports multiple SQL dialects, such as SQLite, PostgresSQL, and MySQL.
-In this project, SQLite was chosen,
-but Sequelize's flexibility ensures scalability if the database dialect needs to be changed in the future.
-Its built-in features, such as migrations, validations, and associations,
-save development time and provide a structured, consistent approach to database management.
+SQLite is used as the software library for database implementation in this project due to its lightweight and serverless
+nature, which eliminates the need for complex setup or administration as required by systems like PostgreSQL. It is easy
+to integrate and requires minimal configuration, making it an ideal choice for development environments. SQLite uses
+file-based storage, where the entire database is contained within a single file, simplifying deployment and ensuring
+portability across different environments. Furthermore, its suitability for local development eliminates the need for a
+cloud database during the development phase, offering a cost-effective and efficient solution. Despite its simplicity,
+SQLite ensures reliable and secure database transactions by being fully ACID-compliant(Atomicity, Consistency,
+Isolation, Durability).
+
+### Sequelize
+
+Sequelize, an Object-Relational Mapping (ORM) library for Node.js, was used for database management. It allows
+developers to define models representing database tables using JavaScript, manage relationships between them, and
+perform CRUD (Create, Read, Update, Delete) operations in an intuitive and readable way, improving code maintainability.
+Additionally, Sequelize supports multiple SQL dialects, such as SQLite, PostgresSQL, and MySQL. In this project, SQLite
+was chosen, but Sequelize's flexibility ensures scalability if the database dialect needs to be changed in the future.
+Its built-in features, such as migrations, validations, and associations, save development time and provide a
+structured, consistent approach to database management.
 
 ## Information architecture (what data provided how, navigation)
 
@@ -66,7 +69,6 @@ If `is_admin` is set to true, the user is assigned the role of an Administrator.
 If `is_lead` is set to true and `is_admin` is false, the user is assigned the role of a Team Lead.
 If both `is_admin` and `is_lead` are set to false, the user is assigned the role of a Developer.
 
-
 **Session table:** This table stores information about brainstorming sessions.
 It includes a unique `id` field, which is an auto-incremented session ID used to identify each session.
 The table also contains a `name` field
@@ -76,7 +78,7 @@ Additionally, it includes a `last_state` field to store the latest state of the 
 representing the current state of the session in a JSON/SVG format,
 and a `creation_date` timestamp to record when the session was created.
 
-**SessionMember table:** This table serves as a junction table between the `User` and `Session` tables, 
+**SessionMember table:** This table serves as a junction table between the `User` and `Session` tables,
 representing the many-to-many relationship between users and sessions.
 It includes two foreign keys: `session_id`,
 which references the `id` field in the `Session` table to indicate the session a user is part of,
@@ -106,7 +108,6 @@ where a user can participate in multiple sessions, and each session can include 
 This many-to-many relationship is implemented using the `SessionMember` table as a junction table.
 The `SessionMember` table contains records representing the participation of specific users in specific sessions,
 linking the `User` and `Session` tables.
-
 
 **Action and Session relationship:**
 

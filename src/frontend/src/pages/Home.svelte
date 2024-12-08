@@ -1,5 +1,4 @@
 <script>
-import Counter from "../lib/Counter.svelte";
 import { tokenStore, clearToken } from "../stores/tokenStore.js";
 import page from "page";
 
@@ -9,9 +8,7 @@ const loginTest = () => {
 </script>
 
 <main class="pt-16 px-6">
-    <div class="card">
-        <Counter/>
-    </div>
+    <div class="card"></div>
     {#if $tokenStore}
         <strong>Hello user!!!</strong>
         <button on:click={clearToken}>Logout test</button>
@@ -19,6 +16,3 @@ const loginTest = () => {
         <button on:click={loginTest}>Login test</button>
     {/if}
 </main>
-
-<style>
-</style>
