@@ -13,10 +13,10 @@ const usersRouter = express.Router();
 
 usersRouter.post("/", verifyToken, verifyIfAdmin, handleNewUser);
 usersRouter.get("/", verifyToken, verifyIfAdmin, getListOfAllUsers);
+usersRouter.get("/sessions", verifyToken, getAvailableSessionsPerUser);
 usersRouter.patch("/:id", verifyToken, verifyIfAdmin, handleModifyUser);
 usersRouter.get("/:id", verifyToken, verifyIfAdmin, handleGetUser);
 
-usersRouter.get("/:userId/sessions", verifyToken, getAvailableSessionsPerUser);
 
 
 export { usersRouter };

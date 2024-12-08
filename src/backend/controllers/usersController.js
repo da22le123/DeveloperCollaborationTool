@@ -112,7 +112,7 @@ export const handleGetUser = async (req, res, next) => {
 
 export const getAvailableSessionsPerUser = async (req, res, next) => {
     const user_id = await userIdSchema.validate(
-        req.params.userId, {
+        req.user.id, {
             abortEarly: false,
         });
 

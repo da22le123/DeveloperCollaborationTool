@@ -21,7 +21,7 @@ export const loginRequest = async (email, password) => {
 };
 
 export const availableSessionsRequest = async () => {
-    const res = await fetch(`${API_BASE_URL}/users/${get(idStore)}/sessions`, {
+    const res = await fetch(`${API_BASE_URL}/users/sessions`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
