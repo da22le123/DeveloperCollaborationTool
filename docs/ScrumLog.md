@@ -100,3 +100,27 @@ Topic: Progress discussion
 - Rokas created logic for creating sessions, merged,now will create logic for adding users to a session.
 - Nestoras is working on frontend of adding new user. Almost done a bug related to the popup message that appears after the creation must be fixed.
 - Yevhennia finished research for websockets, now will work on backend logic for deleting users
+
+
+
+ ### 9.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Progress discussion
+
+- Yevheniia was supposed to work on "delete users" backend logic but switched to setting up a socket connection issue after talking with Jan, as it has higher priority.
+
+- Jan is working on an additional task for adding notes to the editor. This task isn’t finished yet, so he hasn’t picked up a new one.
+
+- Fedor finished the frontend part of the session dashboard. It’s done but not merged, and he hasn’t picked a new task.
+
+- Illya completed the backend part of the session dashboard and resolved Jan’s threads added to merge request. He’s waiting for it to be merged and is now working on adding a button for appointing and demoting leaders on the frontend.
+
+- Rokas finished the backend issue for adding users to a session. He hasn’t picked up a new task yet.
+
+- Nestoras completed the registration frontend page, but there are formatting issues, so the request was not merged. He hasn’t picked a new task yet.
+
+- Denys finished the backend logic for obtaining user data. The merge request for that was not approved yet, and he hasn’t picked a new task.
+
+- Kirill is working on automated testing issue.
