@@ -7,7 +7,7 @@ import {
 } from "../controllers/usersController.js";
 import { verifyIfAdmin } from "../middlewares/verifyAdmin.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
-import { getAvailableSessionsPerUser} from "../controllers/usersController.js";
+import { getAvailableSessionsPerUser } from "../controllers/usersController.js";
 
 const usersRouter = express.Router();
 
@@ -16,7 +16,5 @@ usersRouter.get("/", verifyToken, verifyIfAdmin, getListOfAllUsers);
 usersRouter.get("/sessions", verifyToken, getAvailableSessionsPerUser);
 usersRouter.patch("/:id", verifyToken, verifyIfAdmin, handleModifyUser);
 usersRouter.get("/:id", verifyToken, verifyIfAdmin, handleGetUser);
-
-
 
 export { usersRouter };

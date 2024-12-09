@@ -111,27 +111,25 @@ export const handleGetUser = async (req, res, next) => {
 };
 
 export const getAvailableSessionsPerUser = async (req, res, next) => {
-    const user_id = await userIdSchema.validate(
-        req.user.id, {
-            abortEarly: false,
-        });
+    const user_id = await userIdSchema.validate(req.user.id, {
+        abortEarly: false,
+    });
 
     const include = [];
 
     if (!req.user.isAdmin) {
         include.push({
-            model: SessionMember, // Join with the bridge table
-            required: true, // Ensures only matching rows are included (INNER JOIN)
-            where: {user_id}, // Filter by user_id
-            attributes: [], // Exclude SessionMember fields from the result
+            model: SessionMember,
+            required: true,
+            where: { user_id },
+            attributes: [],
         });
     }
 
     const availableSessions = await Session.findAll({
         include,
-        attributes: ['id', 'name', 'is_open', 'last_state', 'creation_date'], // Only include fields from Session
+        attributes: ["id", "name", "is_open", "last_state", "creation_date"], // Only include fields from Session
     });
 
-
     res.status(200).json(availableSessions);
-}
+};

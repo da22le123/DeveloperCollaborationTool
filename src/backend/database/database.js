@@ -36,7 +36,7 @@ User.belongsToMany(Session, { through: SessionMember, foreignKey: "user_id" });
 SessionMember.belongsTo(User, { foreignKey: "user_id" });
 SessionMember.belongsTo(Session, { foreignKey: "session_id" });
 
-Session.hasMany(SessionMember, { foreignKey: 'session_id' });
+Session.hasMany(SessionMember, { foreignKey: "session_id" });
 
 
 // method for creating the database file and syncing the schema
