@@ -7,6 +7,9 @@ import Login from "./pages/Login.svelte";
 import Header from "./components/Header.svelte";
 import ManageUsers from "./pages/ManageUsers.svelte";
 import Session from "./pages/Session.svelte";
+import NewUser from "./pages/RegisterNewUser.svelte";
+import { showPopup, popupMessage } from "./stores/popupStore.js";
+import PopupMessage from "./components/PopupMessage.svelte";
 
 let page;
 let params;
@@ -24,6 +27,8 @@ router("/login", (ctx) => render(Login, ctx));
 
 router("/sessions/:id", (ctx) => render(Session, ctx));
 
+router("/register", (ctx) => render(NewUser, ctx));
+
 router("/manage-users", (ctx) => render(ManageUsers, ctx));
 
 router("*", (ctx) => render(NotFound, ctx));
@@ -34,5 +39,9 @@ router.start();
 <Header/>
 
 <main>
-    <svelte:component this={page} {params} />
+    <svelte:component this={page} {params}/>
+
+    <PopupMessage message={$popupMessage.message}
+                  type={$popupMessage.type}
+                  isVisible={$showPopup}/>
 </main>
