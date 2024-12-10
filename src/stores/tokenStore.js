@@ -13,11 +13,17 @@ tokenStore.subscribe((token) => {
     }
 });
 
-export const userStore = derived(tokenStore, (token) => token ? parseJwt(token) : null);
+export const userStore = derived(tokenStore, (token) =>
+    token ? parseJwt(token) : null,
+);
 
-export const idStore = derived(tokenStore, (token) => token ? parseJwt(token).id : null);
+export const idStore = derived(tokenStore, (token) =>
+    token ? parseJwt(token).id : null,
+);
 
-export const usernameStore = derived(tokenStore, (token) => token ? parseJwt(token).username : null);
+export const usernameStore = derived(tokenStore, (token) =>
+    token ? parseJwt(token).username : null,
+);
 
 export const isAdminStore = derived(userStore, (user) => user?.isAdmin);
 
