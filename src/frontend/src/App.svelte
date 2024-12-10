@@ -7,6 +7,7 @@ import Login from "./pages/Login.svelte";
 import Header from "./components/Header.svelte";
 import ManageUsers from "./pages/ManageUsers.svelte";
 import Session from "./pages/Session.svelte";
+import SessionsDashboard from "./pages/SessionsDashboard.svelte";
 import NewUser from "./pages/RegisterNewUser.svelte";
 import { showPopup, popupMessage } from "./stores/popupStore.js";
 import PopupMessage from "./components/PopupMessage.svelte";
@@ -25,6 +26,7 @@ router("/", (ctx) => render(Home, ctx));
 
 router("/login", (ctx) => render(Login, ctx));
 
+router("/dashboard", (ctx) => render(SessionsDashboard, ctx));
 router("/sessions/:id", (ctx) => render(Session, ctx));
 
 router("/register", (ctx) => render(NewUser, ctx));

@@ -17,8 +17,12 @@ export const userStore = derived(tokenStore, (token) =>
     token ? parseJwt(token) : null,
 );
 
-export const userEmail = derived(tokenStore, (token) =>
-    token ? parseJwt(token).email : null,
+export const idStore = derived(tokenStore, (token) =>
+    token ? parseJwt(token).id : null,
+);
+
+export const usernameStore = derived(tokenStore, (token) =>
+    token ? parseJwt(token).username : null,
 );
 
 export const isAdminStore = derived(userStore, (user) => user?.isAdmin);

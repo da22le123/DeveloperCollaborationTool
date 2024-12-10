@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { registerSchema, modifyUser } from "../schemas.js";
-import { User } from "../database/database.js";
+import { registerSchema, modifyUser, userIdSchema } from "../schemas.js";
+import { Session, SessionMember, User } from "../database/database.js";
 import { Sequelize } from "sequelize";
 import { Op } from "sequelize";
 
@@ -108,4 +108,28 @@ export const handleGetUser = async (req, res, next) => {
     };
 
     return res.status(200).json(strippedUser);
+};
+
+export const getAvailableSessionsPerUser = async (req, res, next) => {
+    const user_id = await userIdSchema.validate(req.user.id, {
+        abortEarly: false,
+    });
+
+    const include = [];
+
+    if (!req.user.isAdmin) {
+        include.push({
+            model: SessionMember,
+            required: true,
+            where: { user_id },
+            attributes: [],
+        });
+    }
+
+    const availableSessions = await Session.findAll({
+        include,
+        attributes: ["id", "name", "is_open", "last_state", "creation_date"], // Only include fields from Session
+    });
+
+    res.status(200).json(availableSessions);
 };

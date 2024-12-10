@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 const errorHandler = (err, req, res, next) => {
+    console.error(err);
     if (err.name === "ValidationError") {
         return res.status(400).json({
             error: "Validation error",
