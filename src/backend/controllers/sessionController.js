@@ -1,6 +1,5 @@
 import { sessionSchema } from "../schemas.js";
-import { Session } from "../database/database.js";
-import SessionMemberModel from "../database/model/SessionMember.js";
+import { Session, SessionMember } from "../database/database.js";
 
 export const validateAndStartSession = async (req, res) => {
     const validatedData = await sessionSchema.validate(req.body, {
@@ -12,7 +11,7 @@ export const validateAndStartSession = async (req, res) => {
         last_state: "",
     });
 
-    await SessionMemberModel.create({
+    await SessionMember.create({
         session_id: session.id,
         user_id: req.user.id,
     });

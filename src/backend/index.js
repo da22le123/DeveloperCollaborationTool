@@ -5,6 +5,7 @@ import "express-async-errors";
 import { sessionsRouter } from "./routes/session.js";
 import { usersRouter } from "./routes/users.js";
 import { authRouter } from "./routes/auth.js";
+import { actionsRouter } from "./routes/actions.js";
 import { connectToDatabase } from "./database/database.js";
 
 const app = express();
@@ -26,6 +27,7 @@ const errorHandler = (err, req, res, next) => {
 app.use("/users", usersRouter);
 app.use("/tokens", authRouter);
 app.use("/sessions", sessionsRouter);
+app.use("/actions", actionsRouter);
 app.use(errorHandler);
 
 void (async () => {
