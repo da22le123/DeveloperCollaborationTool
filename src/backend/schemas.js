@@ -31,3 +31,8 @@ export const userIdSchema = yup
     .number()
     .positive("userId must be a positive number")
     .required("userId is required");
+
+export const actionSchema = yup.object({
+    session_id: yup.number().required("Session ID is required"),
+    action_data: yup.object().required("Action data is required"),
+});

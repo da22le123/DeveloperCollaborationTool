@@ -11,7 +11,7 @@ const ActionModel = (sequelize) => {
             },
             user_id: { type: DataTypes.INTEGER, allowNull: false },
             session_id: { type: DataTypes.INTEGER, allowNull: false },
-            action_data: { type: DataTypes.TEXT },
+            action_data: { type: DataTypes.JSON },
             creation_date: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,
