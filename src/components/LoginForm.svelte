@@ -1,7 +1,7 @@
 <script>
-import { setToken } from "../stores/tokenStore.js";
 import page from "page";
-import { loginRequest } from "../utils/requests";
+import { setToken } from "../stores/tokenStore.js";
+import { request } from "../utils/fetch.js";
 
 let email = "";
 let password = "";
@@ -9,7 +9,7 @@ let password = "";
 const login = async (event) => {
     event.preventDefault();
     try {
-        const data = await loginRequest(email, password);
+        const data = await request("/tokens", { email, password });
         setToken(data.token);
         page("/");
     } catch (error) {
