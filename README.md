@@ -9,3 +9,5 @@ Members:
 - Kirill
 - Ilya
 - Yevheniia
+- Fedor
+- Rokas
