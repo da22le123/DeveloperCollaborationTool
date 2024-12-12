@@ -3,8 +3,8 @@ import { SvelteFlowProvider } from "@xyflow/svelte";
 
 import Editor from "../components/Editor.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
-import ObjectList from "../components/editor/ObjectList.svelte";
-import EditorObjectProvider from "../providers/EditorObjectProvider.svelte";
+import NodeList from "../components/editor/NodeList.svelte";
+import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
 
 export let params;
 
@@ -16,7 +16,7 @@ const onToggleHistory = () => {
 </script>
 
 <SvelteFlowProvider>
-    <EditorObjectProvider>
+    <EditorNodeProvider>
         <div class="flex w-full">
             <div class="w-96 pr-10">
                 <h1 class="text-2xl font-semibold mb-6">Session Name</h1>
@@ -26,7 +26,7 @@ const onToggleHistory = () => {
                     <button class="btn-black px-9">Invite members</button>
                 </div>
 
-                <ObjectList />
+                <NodeList />
 
                 <div class="flex justify-between">
                     <button class="btn-red px-4">Explore Statistics</button>
@@ -40,7 +40,7 @@ const onToggleHistory = () => {
                 <Editor />
             </div>
         </div>
-    </EditorObjectProvider>
+    </EditorNodeProvider>
 </SvelteFlowProvider>
 
 <ReplayHistory open={activeHistory} on:closed={onToggleHistory} />
