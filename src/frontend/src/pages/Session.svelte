@@ -4,10 +4,33 @@ import { SvelteFlowProvider } from "@xyflow/svelte";
 import Editor from "../components/Editor.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import ObjectList from "../components/editor/ObjectList.svelte";
+import {onDestroy, onMount} from "svelte";
+import { get } from "svelte/store";
+import { socketStore } from "../stores/socketStore.js";
+
+
 
 export let params;
-
+ let socket = get(socketStore);
 let activeHistory = false;
+
+onMount(() => {
+
+    const sessionId = params.sessionId; // Use session ID or default
+
+    // Emit the `join` event when the session loads
+    socket.emit("join", { sessionId });
+    console.log(`Connected to WebSocket server. Joined session: ${sessionId}`);
+
+
+    // Clean up the listener on destroy
+    onDestroy(() => {
+        socket.disconnect();
+        console.log("Disconnected from WebSocket server.");
+    });
+});
+
+
 
 const onToggleHistory = () => {
     activeHistory = !activeHistory;
