@@ -48,16 +48,12 @@ io.on("connect", (socket) => {
     socket.on("join", ({ sessionId }) => {
         socket.join(sessionId);
         console.log(`User ${socket.id} joined session: ${sessionId}`);
-
-
     });
-
 
     socket.on("disconnect", () => {
         console.log(`User disconnected: ${socket.id}`);
     });
 });
-
 
 void (async () => {
     await connectToDatabase();
