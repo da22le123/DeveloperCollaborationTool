@@ -13,5 +13,4 @@ socket.on("disconnect", () => {
     console.log("Disconnected from WebSocket server");
 });
 
-
 export const socketStore = writable(socket);
