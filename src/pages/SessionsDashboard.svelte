@@ -1,8 +1,8 @@
 <script>
 import SessionCard from "../components/SessionCard.svelte";
-import { availableSessionsRequest } from "../utils/requests.js";
+import { get } from "../utils/fetch.js";
 
-const sessionsPromise = availableSessionsRequest();
+const sessionsPromise = get("/users/sessions");
 </script>
 
 <main>

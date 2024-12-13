@@ -1,8 +1,8 @@
 <script>
-import { registerRequest } from "../utils/requests.js";
+import page from "page";
 import { isAdminStore } from "../stores/tokenStore.js";
 import { popupMessage, showPopup } from "../stores/popupStore.js";
-import page from "page";
+import { request } from "../utils/fetch.js";
 
 let email = "";
 let username = "";
@@ -16,7 +16,7 @@ if (!$isAdminStore) {
 const register = async (event) => {
     event.preventDefault();
     try {
-        await registerRequest(email, username, password, role);
+        await request("/users", { email, username, password, role });
         popupMessage.set({
             message: "User successfully created",
             type: "success",
