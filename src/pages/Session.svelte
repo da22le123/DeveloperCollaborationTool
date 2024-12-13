@@ -3,7 +3,8 @@ import { SvelteFlowProvider } from "@xyflow/svelte";
 
 import Editor from "../components/Editor.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
-import ObjectList from "../components/editor/ObjectList.svelte";
+import NodeList from "../components/editor/NodeList.svelte";
+import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
 
 export let params;
 
@@ -15,29 +16,31 @@ const onToggleHistory = () => {
 </script>
 
 <SvelteFlowProvider>
-    <div class="flex w-full">
-        <div class="w-96 pr-10">
-            <h1 class="text-2xl font-semibold mb-6">Session Name</h1>
+    <EditorNodeProvider>
+        <div class="flex w-full">
+            <div class="w-96 pr-10">
+                <h1 class="text-2xl font-semibold mb-6">Session Name</h1>
 
-            <div class="flex justify-between mb-6">
-                <button class="btn-black px-7">Export</button>
-                <button class="btn-black px-9">Invite members</button>
+                <div class="flex justify-between mb-6">
+                    <button class="btn-black px-7">Export</button>
+                    <button class="btn-black px-9">Invite members</button>
+                </div>
+
+                <NodeList />
+
+                <div class="flex justify-between">
+                    <button class="btn-red px-4">Explore Statistics</button>
+                    <button class="btn-black px-7" on:click={onToggleHistory}>
+                        {activeHistory ? 'Close History' : 'View History'}
+                    </button>
+                </div>
             </div>
 
-            <ObjectList />
-
-            <div class="flex justify-between">
-                <button class="btn-red px-4">Explore Statistics</button>
-                <button class="btn-black px-7" on:click={onToggleHistory}>
-                    {activeHistory ? 'Close History' : 'View History'}
-                </button>
+            <div class="flex-auto border-black border-2">
+                <Editor />
             </div>
         </div>
-
-        <div class="flex-auto border-black border-2">
-            <Editor />
-        </div>
-    </div>
+    </EditorNodeProvider>
 </SvelteFlowProvider>
 
 <ReplayHistory open={activeHistory} on:closed={onToggleHistory} />
