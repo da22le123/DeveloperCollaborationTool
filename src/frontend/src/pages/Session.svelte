@@ -5,11 +5,10 @@ import Editor from "../components/Editor.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import ObjectList from "../components/editor/ObjectList.svelte";
 import { onDestroy, onMount } from "svelte";
-import { get } from "svelte/store";
-import { socketStore } from "../stores/socketStore.js";
+import socket from "../lib/socket.js";
 
 export let params;
-let socket = get(socketStore);
+
 let activeHistory = false;
 
 onMount(() => {
