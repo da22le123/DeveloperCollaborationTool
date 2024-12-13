@@ -1,4 +1,3 @@
-import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
 //WebSocket connection initialization
@@ -13,4 +12,4 @@ socket.on("disconnect", () => {
     console.log("Disconnected from WebSocket server");
 });
 
-export const socketStore = writable(socket);
+export default socket;
