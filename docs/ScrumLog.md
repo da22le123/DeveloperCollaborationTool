@@ -124,3 +124,23 @@ Topic: Progress discussion
 - Denys finished the backend logic for obtaining user data. The merge request for that was not approved yet, and he hasn’t picked a new task.
 
 - Kirill is working on automated testing issue.
+
+### 13.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Progress discussion
+
+- Ilya is still working on the frontend issue for promoting and demoting leaders. He had problems with branches, which caused him to lose added changes.
+  He will correct this and finish the task.
+- Yevheniia has finished her task of setting up the WebSocket connection and will pick up a new issue.
+- Nestor is currently working on a frontend task to implement the logic for the history bar.
+- Rokas resolved the threads added by Jan for adding members to a session. He is currently working on a documentation issue, which includes adding an introduction, problem,
+  problem analysis, and context research paragraphs in the functional design.
+- Jan finished the task of adding nodes to the editor and also refactored API requests on the frontend.
+  Additionally, he added clarifications in the team plan and has picked up a new issue for editing nodes.
+- Denys completed the issue for creating actions and also finished the task of retrieving all actions.
+  He has picked up an issue to retrieve a single action.
+- Kirill is still working on the issue regarding automated testing.
+- Fedor is still working on a frontend issue to implement the ability to upload a snapshot of the editor to a specified GitLab repository.
+  He will finish this soon and pick up a new issue.
