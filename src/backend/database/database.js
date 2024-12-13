@@ -12,6 +12,9 @@ const sequelize = new Sequelize({
     dialect: "sqlite",
     storage: dbFilePath, // File path for the SQLite database
     logging: false, // Disable Sequelize logs
+    dialectOptions: {
+        busyTimeout: 3000, // Wait up to 3 seconds for the lock to be released
+    },
 });
 
 // Import and initialize models
