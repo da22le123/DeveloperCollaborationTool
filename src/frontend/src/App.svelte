@@ -40,7 +40,7 @@ router.start();
 
 <Header/>
 
-<main>
+<main class="pt-16">
     <svelte:component this={page} {params}/>
 
     <PopupMessage message={$popupMessage.message}
