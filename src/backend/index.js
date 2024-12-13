@@ -9,7 +9,7 @@ import { usersRouter } from "./routes/users.js";
 import { authRouter } from "./routes/auth.js";
 import { actionsRouter } from "./routes/actions.js";
 import { connectToDatabase } from "./database/database.js";
-import {initializeSocket} from "./socket.js";
+import { initializeSocket } from "./socket.js";
 
 const app = express();
 
@@ -37,8 +37,6 @@ app.use(errorHandler);
 const server = http.createServer(app);
 
 initializeSocket(server);
-
-
 
 void (async () => {
     await connectToDatabase();

@@ -30,7 +30,9 @@ export const initializeSocket = (server) => {
 // Function to get the WebSocket instance
 export const getSocket = () => {
     if (!io) {
-        throw new Error("Socket.io is not initialized. Please call initializeSocket first.");
+        throw new Error(
+            "Socket.io is not initialized. Please call initializeSocket first.",
+        );
     }
     return io;
 };
