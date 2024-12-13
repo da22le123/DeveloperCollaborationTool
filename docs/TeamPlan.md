@@ -14,6 +14,7 @@
       with a weight of 5 and higher whose deadline is the weight + 1 day
     - If there are any problems with a task, they must be communicated with the team, so the task can be reassigned to
       someone else or redistributed to other team members
+    - Team members are responsible for having a task assigned to them between meetings
     - In the event of violation of the rules, the incident is reported to the teacher and punished with a strike
 
 # Definition of Done
