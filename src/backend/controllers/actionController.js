@@ -90,5 +90,7 @@ export const handleGetAction = async (req, res, next) => {
         },
     });
 
+    if (!action) return res.status(404).json({ message: "Action not found" });
+
     return res.status(200).json(action);
 };
