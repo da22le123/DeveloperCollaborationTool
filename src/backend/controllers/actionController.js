@@ -65,3 +65,30 @@ export const handleGetActions = async (req, res, next) => {
 
     return res.status(200).json(actions);
 };
+
+export const handleGetAction = async (req, res, next) => {
+    const { session_id } = req.body;
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const sessionExists = await Session.findOne({ where: { id: session_id } });
+
+    if (!sessionExists)
+        return res.status(404).json({ message: "Session not found" });
+
+    const userPartOfSession = await SessionMember.findOne({
+        where: { session_id, user_id: userId },
+    });
+
+    if (!userPartOfSession)
+        return res.status(403).json({ message: "Forbidden" });
+
+    const action = await Action.findOne({
+        where: {
+            id,
+            session_id,
+        },
+    });
+
+    return res.status(200).json(action);
+};
