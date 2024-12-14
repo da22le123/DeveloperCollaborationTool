@@ -3,7 +3,7 @@ import page from "page";
 import { isAdminStore } from "../stores/tokenStore.js";
 import { tokenStore } from "../stores/tokenStore";
 import { popupDuration, popupMessage, showPopup } from "../stores/popupStore";
-import {request} from "../utils/fetch.js";
+import { request } from "../utils/fetch.js";
 
 let users = [];
 let message = "";
