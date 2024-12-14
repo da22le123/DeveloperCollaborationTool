@@ -92,12 +92,7 @@ export const handleModifyUser = async (req, res, next) => {
         foundUser.is_lead = isLead;
     }
 
-    try {
-        await foundUser.save();
-        res.status(200).json(foundUser);
-    } catch (error) {
-        res.status(503).json({ error: error.message });
-    }
+    res.status(200).json(await foundUser.save());
 };
 
 export const handleGetUser = async (req, res, next) => {

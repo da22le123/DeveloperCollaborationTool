@@ -3,6 +3,7 @@ import page from "page";
 import { isAdminStore } from "../stores/tokenStore.js";
 import { tokenStore } from "../stores/tokenStore";
 import { popupDuration, popupMessage, showPopup } from "../stores/popupStore";
+import {request} from "../utils/fetch.js";
 
 let users = [];
 let message = "";
@@ -33,27 +34,6 @@ function handleCheckboxChange(event, user) {
     user.role = isChecked ? "Lead" : "Developer";
     changeUserIsLead(user.id, isChecked);
     users = [...users];
-}
-
-async function request(endpoint, body = {}, method = "GET") {
-    const baseUrl = "http://localhost:3000"; // Base URL for the API
-    const response = await fetch(`${baseUrl}${endpoint}`, {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${$tokenStore}`,
-        },
-        body: method !== "GET" ? JSON.stringify(body) : undefined,
-    });
-
-    // Check if the response is okay
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Error: ${response.status} - ${errorData.message}`);
-    }
-
-    // Parse and return the response data
-    return await response.json();
 }
 
 async function changeUserIsLead(userId, isLead) {
