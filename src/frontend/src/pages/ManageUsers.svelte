@@ -2,7 +2,7 @@
 import page from "page";
 import { isAdminStore } from "../stores/tokenStore.js";
 import { tokenStore } from "../stores/tokenStore";
-import PopupMessage from "../components/PopupMessage.svelte";
+import { popupDuration, popupMessage, showPopup } from "../stores/popupStore";
 
 let users = [];
 let message = "";
@@ -35,60 +35,44 @@ function handleCheckboxChange(event, user) {
     users = [...users];
 }
 
+async function request(endpoint, body = {}, method = "GET") {
+    const baseUrl = "http://localhost:3000"; // Base URL for the API
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+        method,
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${$tokenStore}`,
+        },
+        body: method !== "GET" ? JSON.stringify(body) : undefined,
+    });
+
+    // Check if the response is okay
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error: ${response.status} - ${errorData.message}`);
+    }
+
+    // Parse and return the response data
+    return await response.json();
+}
+
 async function changeUserIsLead(userId, isLead) {
     try {
-        const response = await fetch(`http://localhost:3000/users/${userId}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${$tokenStore}`,
-            },
-            body: JSON.stringify({ isLead }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Error: ${response.status} - ${errorData.message}`);
-        }
-
-        const data = await response.json();
-        // todo display that user was updated successfully
-
-        // Show success popup
-        message = "User updated successfully!";
-        type = "success";
-        isVisible = true;
-
-        // Auto-hide popup after 3 seconds
-        setTimeout(() => {
-            isVisible = false;
-        }, 3000);
-        return data;
+        const data = await request(`/users/${userId}`, { isLead }, "PATCH");
+        showPopupMessage("User updated successfully", "success", 3000);
     } catch (error) {
-        // todo display error message
-
-        // Show error popup
-        message = error.message || "Failed to update user.";
-        type = "error";
-        isVisible = true;
-
-        // Auto-hide popup after 3 seconds
-        setTimeout(() => {
-            isVisible = false;
-        }, 3000);
+        showPopupMessage("Failed to update user", "error", 3000);
     }
+}
+
+function showPopupMessage(message, type, timeout) {
+    popupMessage.set({ message, type });
+    showPopup.set(true);
+    popupDuration.set(timeout);
 }
 
 const userPromise = fetchUsers();
 </script>
-
-<PopupMessage
-        {message}
-        {type}
-        {isVisible}
-        on:close={() => (isVisible = false)}
-/>
-
 <div class="flex flex-col items-center  min-h-screen py-10">
     <div class="w-full max-w-5xl mb-6">
         <h1 class="text-2xl font-bold text-gray-800 mt-10 mb-10">Manage Users</h1>

@@ -96,8 +96,7 @@ export const handleModifyUser = async (req, res, next) => {
         await foundUser.save();
         res.status(200).json(foundUser);
     } catch (error) {
-        console.error("Error modifying user:", error);
-        res.status(500).json({ error: error.message });
+        res.status(503).json({ error: error.message });
     }
 };
 

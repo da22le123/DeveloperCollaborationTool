@@ -9,7 +9,7 @@ import ManageUsers from "./pages/ManageUsers.svelte";
 import Session from "./pages/Session.svelte";
 import SessionsDashboard from "./pages/SessionsDashboard.svelte";
 import NewUser from "./pages/RegisterNewUser.svelte";
-import { showPopup, popupMessage } from "./stores/popupStore.js";
+import { showPopup, popupMessage, popupDuration } from "./stores/popupStore.js";
 import PopupMessage from "./components/PopupMessage.svelte";
 
 let page;
@@ -45,5 +45,6 @@ router.start();
 
     <PopupMessage message={$popupMessage.message}
                   type={$popupMessage.type}
-                  isVisible={$showPopup}/>
+                  isVisible={$showPopup}
+                  duration={$popupDuration}/>
 </main>
