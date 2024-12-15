@@ -4,9 +4,11 @@ import { writable } from "svelte/store";
 import { getContext } from "svelte";
 import { createEventDispatcher } from "svelte";
 
+import NodeContextMenu from "./editor/NodeContextMenu.svelte";
+
 import "@xyflow/svelte/dist/style.css";
 
-const { screenToFlowPosition } = useSvelteFlow();
+const { screenToFlowPosition, viewport } = useSvelteFlow();
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
 
@@ -68,13 +70,62 @@ const onDrop = (event) => {
 
     dispatch("createAction", { state: $nodes }); //dispatch event to Session
 };
+
+let selectedNode;
+let clickedPosition = { x: 0, y: 0 };
+
+const cancelContextMenus = () => {
+    selectedNode = null;
+};
+
+const onNodeContextMenu = ({ detail: { event, node } }) => {
+    event.preventDefault();
+
+    selectedNode = node;
+
+    clickedPosition = {
+        x: event.clientX,
+        y: event.clientY + 10,
+    };
+};
+
+const onPaneClick = () => cancelContextMenus();
+const onNodeDrag = () => cancelContextMenus();
+
+let lastZoom = $viewport.zoom;
+
+// Cancel context menus when the zoom level changes.
+$: {
+    if ($viewport.zoom !== lastZoom) {
+        cancelContextMenus();
+        lastZoom = $viewport.zoom;
+    }
+}
+
+const onKeyDown = (event) => {
+    if (event.key === "Escape") {
+        cancelContextMenus();
+    }
+};
 </script>
 
 <div class="w-full h-full editor-wrapper">
-    <SvelteFlow {nodes} {edges} snapGrid={[25, 25]} fitView proOptions={{ hideAttribution: true }} on:dragover={onDragOver} on:drop={onDrop}>
+    <SvelteFlow {nodes} {edges} fitView
+                snapGrid={[25, 25]}
+                proOptions={{ hideAttribution: true }}
+                on:dragover={onDragOver}
+                on:drop={onDrop}
+                on:nodecontextmenu={onNodeContextMenu}
+                on:paneclick={onPaneClick}
+                on:nodedrag={onNodeDrag}
+    >
         <Background />
+
+        <NodeContextMenu position={clickedPosition} node={selectedNode} />
     </SvelteFlow>
 </div>
+
+<svelte:window on:keydown={onKeyDown} />
 
 <style>
     .editor-wrapper {
