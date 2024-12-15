@@ -4,11 +4,13 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 import {
     handleCreateAction,
     handleGetActions,
+    handleGetAction,
 } from "../controllers/actionController.js";
 
 const actionsRouter = express.Router();
 
 actionsRouter.post("/", verifyToken, handleCreateAction);
 actionsRouter.get("/", verifyToken, handleGetActions);
+actionsRouter.get("/:id", verifyToken, handleGetAction);
 
 export { actionsRouter };
