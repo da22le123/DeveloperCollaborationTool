@@ -2,11 +2,14 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import "express-async-errors";
+
+import http from "node:http";
 import { sessionsRouter } from "./routes/session.js";
 import { usersRouter } from "./routes/users.js";
 import { authRouter } from "./routes/auth.js";
 import { actionsRouter } from "./routes/actions.js";
 import { connectToDatabase } from "./database/database.js";
+import { initializeSocket } from "./socket.js";
 
 const app = express();
 
@@ -30,10 +33,15 @@ app.use("/sessions", sessionsRouter);
 app.use("/actions", actionsRouter);
 app.use(errorHandler);
 
+// HTTP server creation
+const server = http.createServer(app);
+
+initializeSocket(server);
+
 void (async () => {
     await connectToDatabase();
     const port = process.env.PORT || 3000;
-    app.listen(port, () => {
+    server.listen(port, () => {
         console.log(`App listening at http://localhost:${port}`);
     });
 })();
