@@ -1,7 +1,45 @@
 import { sessionSchema } from "../schemas.js";
-import { Session, SessionMember } from "../database/database.js";
+import { Session, SessionMember, User } from "../database/database.js";
 
-export const validateAndStartSession = async (req, res) => {
+export const addUserToSession = async (req, res) => {
+    const { session_id } = req.params;
+    const { user_id } = req.body;
+
+    if (!user_id || !session_id) {
+        return res
+            .status(400)
+            .json({ error: "Session ID and User ID are required" });
+    }
+
+    const session = await Session.findOne({ where: { id: session_id } });
+
+    if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+    }
+
+    const user = await User.findOne({ where: { id: user_id } });
+    if (!user) {
+        return res.status(404).json({ error: "User not found" });
+    }
+
+    const existingSessionMember = await SessionMember.findOne({
+        where: { session_id, user_id },
+    });
+
+    if (existingSessionMember) {
+        return res
+            .status(409)
+            .json({ error: "User is already a member of the session" });
+    }
+    const sessionMember = await SessionMember.create({
+        session_id,
+        user_id,
+    });
+
+    res.status(201).json(sessionMember);
+};
+
+export const startSession = async (req, res) => {
     const validatedData = await sessionSchema.validate(req.body, {
         abortEarly: false,
     });
