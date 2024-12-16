@@ -1,11 +1,11 @@
 <script>
 import { SvelteFlowProvider } from "@xyflow/svelte";
+import { onDestroy, onMount } from "svelte";
+
+import socket from "../lib/socket.js";
 
 import Editor from "../components/Editor.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
-import ObjectList from "../components/editor/ObjectList.svelte";
-import { onDestroy, onMount } from "svelte";
-import socket from "../lib/socket.js";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
 import { request } from "../utils/fetch.js";
