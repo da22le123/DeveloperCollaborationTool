@@ -2,11 +2,13 @@
 import { Background, SvelteFlow, useSvelteFlow } from "@xyflow/svelte";
 import { writable } from "svelte/store";
 import { getContext } from "svelte";
+import { createEventDispatcher } from "svelte";
 
 import "@xyflow/svelte/dist/style.css";
 
 const { screenToFlowPosition } = useSvelteFlow();
 const newNode = getContext("newNode");
+const dispatch = createEventDispatcher();
 
 export let initialNodes = [
     {
@@ -63,6 +65,8 @@ const onDrop = (event) => {
 
     $nodes.push(node);
     $nodes = [...$nodes];
+
+    dispatch("createAction", { state: $nodes }); //dispatch event to Session
 };
 </script>
 
