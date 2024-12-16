@@ -56,3 +56,32 @@ export const startSession = async (req, res) => {
 
     res.status(201).json(session);
 };
+
+export const changeSessionStatus = async (req, res) => {
+    const { session_id } = req.params;
+    const user_id = req.user.id;
+
+    if (!session_id) {
+        return res.status(400).json({ error: "Session ID is required." });
+    }
+
+    const session = await Session.findOne({ where: { id: session_id } });
+    if (!session) {
+        return res.status(404).json({ error: "Session not found." });
+    }
+
+    const sessionMember = await SessionMember.findOne({
+        where: { session_id, user_id },
+    });
+    if (!sessionMember) {
+        return res
+            .status(403)
+            .json({ error: "User is not a member of this session." });
+    }
+
+    session.is_open = !session.is_open;
+
+    await session.save();
+
+    res.status(200).json(session);
+};

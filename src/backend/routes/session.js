@@ -2,6 +2,7 @@ import express from "express";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import {
     addUserToSession,
+    changeSessionStatus,
     startSession,
 } from "../controllers/sessionController.js";
 import { verifyLeader } from "../middlewares/verifyLeader.js";
@@ -14,6 +15,13 @@ sessionsRouter.post(
     verifyToken,
     verifyLeader,
     addUserToSession,
+);
+
+sessionsRouter.patch(
+    "/:session_id/status",
+    verifyToken,
+    verifyLeader,
+    changeSessionStatus,
 );
 
 export { sessionsRouter };
