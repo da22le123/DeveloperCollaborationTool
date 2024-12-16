@@ -4,6 +4,7 @@ import { createEventDispatcher } from "svelte";
 export let message;
 export let type;
 export let isVisible;
+export let duration;
 import { showPopup } from "../stores/popupStore.js";
 
 const dispatch = createEventDispatcher();
@@ -12,6 +13,12 @@ const closePopup = () => {
     showPopup.set(false);
     dispatch("close");
 };
+
+$: if (isVisible) {
+    setTimeout(() => {
+        closePopup();
+    }, duration || 3000);
+}
 </script>
 
 {#if isVisible}
