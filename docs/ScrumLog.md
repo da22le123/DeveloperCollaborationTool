@@ -144,3 +144,24 @@ Topic: Progress discussion
 - Kirill is still working on the issue regarding automated testing.
 - Fedor is still working on a frontend issue to implement the ability to upload a snapshot of the editor to a specified GitLab repository.
   He will finish this soon and pick up a new issue.
+
+### 16.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Progress discussion
+
+- Jan finished the issue for editing nodes and helped others by reviewing their merge requests. He picked up a new task for editing edges.
+- Ilya completed the issue about demoting appointed leaders and will pick a new task.
+- Yevheniia finished the issue for setting up the room for web sockets. Will address comments left on the merge request review, and after fixing, will pick a new task.
+- Fedor resolved issues and is still working on tasks. Will pick a new task once the current work is completed.
+- Rokas created the context research for functional design document, which was insufficient. The issue of adding users to sessions still has major problems, and he will focus on fixing that. He also completed the issue of changing the session status. Rokas will continue working on his two previous issues and must ensure his previous merge requests are corrected to meet the sufficient level for merging.
+- Kirill: Still working on automatic testing. 
+- Denys: Completed the API request for getting a single action on the backend. Will pick a new task.
+- Nestor: Finished work on the frontend issue history bar which sends requests for saving actions to the database. He picked up an issue for  fetching the list of actions for the frontend.
+
+
+**Additional information:**
+
+- Kirill received a verbal warning for the lack of progress on his issue, as per the rules in the team plan.
+- Rokas is expected to fix the problems with his previous merge requests to ensure they meet the sufficient level required for merging.
