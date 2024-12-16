@@ -8,9 +8,9 @@ import { onDestroy, onMount } from "svelte";
 import socket from "../lib/socket.js";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
+import { request } from "../utils/fetch.js";
 
 export let params;
-
 let activeHistory = false;
 
 onMount(() => {
@@ -29,6 +29,12 @@ onMount(() => {
 
 const onToggleHistory = () => {
     activeHistory = !activeHistory;
+};
+
+//saves the action on the history database
+const createAction = async (action_data) => {
+    const session_id = params.params.id;
+    await request("/actions", { session_id, action_data });
 };
 </script>
 
@@ -50,11 +56,11 @@ const onToggleHistory = () => {
                     <button class="btn-black px-7" on:click={onToggleHistory}>
                         {activeHistory ? 'Close History' : 'View History'}
                     </button>
-                </div>
+                    </div>
             </div>
 
             <div class="flex-auto border-black border-2">
-                <Editor />
+                <Editor on:createAction={(event) => createAction(event.detail)} />
             </div>
         </div>
     </EditorNodeProvider>
