@@ -2,7 +2,7 @@
 import page from "page";
 import { isAdminStore } from "../stores/tokenStore.js";
 import { tokenStore } from "../stores/tokenStore";
-import { popupDuration, popupMessage, showPopup } from "../stores/popupStore";
+import { showPopupMessage } from "../stores/popupStore";
 import { request } from "../utils/fetch.js";
 
 let users = [];
@@ -43,12 +43,6 @@ async function changeUserIsLead(userId, isLead) {
     } catch (error) {
         showPopupMessage("Failed to update user", "error", 3000);
     }
-}
-
-function showPopupMessage(message, type, timeout) {
-    popupMessage.set({ message, type });
-    showPopup.set(true);
-    popupDuration.set(timeout);
 }
 
 const userPromise = fetchUsers();
