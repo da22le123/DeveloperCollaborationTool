@@ -5,6 +5,29 @@ const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 
 /**
+ * Parse the response from a request or throw an error on failure.
+ * @param {Response} response Response to parse.
+ * @param {string} defaultError Default error message on an error when the response body is empty.
+ * @returns {Promise<any>} Parsed response body.
+ */
+async function parseResponse(response, defaultError) {
+    if (!response.ok) {
+        let message = defaultError;
+
+        if (
+            response.headers.get("Content-Type").startsWith("application/json")
+        ) {
+            const body = await response.json();
+            message = body.message || body.error;
+        }
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+/**
  * Fetch data from the backend by sending a GET request.
  * @param {string} inputPath Path to request to (must be prefixed by a slash).
  * @param {Object|[string, string][]} queryParams Query parameters. Can be an object or a nested arrays of keys and values
@@ -41,17 +64,7 @@ export async function get(inputPath, queryParams = []) {
         },
     });
 
-    if (!response.ok) {
-        const message =
-            response.bodyUsed &&
-            response.getHeader("Content-Type") === "application/json"
-                ? (await response.json()).message
-                : "Failed to fetch resources.";
-
-        throw new Error(message);
-    }
-
-    return response.json();
+    return parseResponse(response, "Failed to fetch resources.");
 }
 
 /**
@@ -75,17 +88,7 @@ export async function request(path, body, method = "POST") {
         },
     });
 
-    if (!response.ok) {
-        const message =
-            response.bodyUsed &&
-            response.getHeader("Content-Type") === "application/json"
-                ? (await response.json()).message
-                : "Failed to modify resources.";
-
-        throw new Error(message);
-    }
-
-    return response.json();
+    return parseResponse(response, "Failed to modify resources.");
 }
 
 /**
