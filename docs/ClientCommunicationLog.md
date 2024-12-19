@@ -85,23 +85,46 @@ them. The client missed following information in the document:
 The client stated that even though the document is not complete, they are happy with the progress and this version of
 the document will do for the Sprint 1.
 
-## Email to the client with questions regarding system implementation (27.11.2024) 
+## Email to the client with questions regarding system implementation (27.11.2024)
 
 ### Email content
 
 During the backlog planning, a few questions arose regarding the system implementation. The email was sent to the client
 to clarify these questions.
 
-Questions that were asked in the email: 
+Questions that were asked in the email:
 
 1. What devices must application be accessible from? Is desktop the only priority now?
 2. Do you want to restrict access to view closed sessions to only leader role?
 3. What statistics should be gathered and displayed per user?
 4. We decided to implement the replay history in the following way:
 5. What clicking on the item of the "Replay History" should do? Is there any desired functionality?
-6. What user roles are allowed to view replay history? Ou suggestion is that everyone could do that.
-7. Is functionality to manage users restricts to only adding users? 
+6. What user roles are allowed to view replay history? Our suggestion is that everyone could do that.
+7. Is functionality to manage users restricts to only adding users?
 
 ### Response from the client
 
-To be added.
+The client responded to the email with the following answers:
+
+1. The application should be accessible from desktop and tablet devices ("Eventually a 10" tablet"). Mobile devices
+   are not supposed to be supported.
+2. The application should allow users that had access to the session to view closed sessions. "Any member can playback
+   closed sessions that he/she was involved in".
+3. Client does not have any specific requirements for statistics gathering except for "contributions per user". But
+   other data would not hurt as well. "As many as possible, we have yet to find out what is useful."
+4. Unclear question. The client did not provide an answer.
+5. Unclear question. The client did not provide an answer.
+6. All users should be able to view the replay history. 
+7. "The leader should be able to remove again. But mind if removed after a session, the removed member is still alowed to replay."
+
+Note: Quoted text is the exact wording of the client's response.
+
+## Invitation to the meeting with the client (13.12.2024)
+
+The client was invited to the meeting to discuss the progress of the project and to show the current state of the
+application. The date and time were proposed, and the client was asked to confirm the meeting.
+
+Client did not respond to the invitation on time. And we had to agree on another date and time for the meeting.
+
+The meeting was rescheduled to be held on 20.12.2024.
+
