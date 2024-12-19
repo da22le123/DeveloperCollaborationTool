@@ -1,10 +1,10 @@
 <script>
 import { Background, SvelteFlow, useSvelteFlow } from "@xyflow/svelte";
 import { writable } from "svelte/store";
-import { getContext } from "svelte";
-import { createEventDispatcher } from "svelte";
+import { createEventDispatcher, getContext } from "svelte";
 
 import NodeContextMenu from "./editor/NodeContextMenu.svelte";
+import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
 
 import "@xyflow/svelte/dist/style.css";
 
@@ -68,20 +68,35 @@ const onDrop = (event) => {
     $nodes.push(node);
     $nodes = [...$nodes];
 
-    dispatch("createAction", { state: $nodes }); //dispatch event to Session
+    dispatch("createAction", { state: $nodes });
 };
 
 let selectedNode;
+let selectedEdge;
 let clickedPosition = { x: 0, y: 0 };
 
 const cancelContextMenus = () => {
     selectedNode = null;
+    selectedEdge = null;
 };
 
 const onNodeContextMenu = ({ detail: { event, node } }) => {
     event.preventDefault();
 
     selectedNode = node;
+    selectedEdge = null;
+
+    clickedPosition = {
+        x: event.clientX,
+        y: event.clientY + 10,
+    };
+};
+
+const onEdgeContextMenu = ({ detail: { event, edge } }) => {
+    event.preventDefault();
+
+    selectedNode = null;
+    selectedEdge = edge;
 
     clickedPosition = {
         x: event.clientX,
@@ -116,12 +131,14 @@ const onKeyDown = (event) => {
                 on:dragover={onDragOver}
                 on:drop={onDrop}
                 on:nodecontextmenu={onNodeContextMenu}
+                on:edgecontextmenu={onEdgeContextMenu}
                 on:paneclick={onPaneClick}
                 on:nodedrag={onNodeDrag}
     >
         <Background />
 
         <NodeContextMenu position={clickedPosition} node={selectedNode} />
+        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} />
     </SvelteFlow>
 </div>
 
