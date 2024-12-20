@@ -1,29 +1,12 @@
 <script>
-import { useNodes } from "@xyflow/svelte";
+import { createEventDispatcher } from "svelte";
 
 import ContextMenu from "./ContextMenu.svelte";
 
-const nodes = useNodes();
+const dispatch = createEventDispatcher();
 
 export let node;
 export let position;
-
-const updateNode = ({ label, backgroundColor }) => {
-    if (!node) {
-        return;
-    }
-
-    for (const entry of $nodes) {
-        if (entry.id === node.id) {
-            // Important: the data object has to be reassigned, otherwise, the node will not be updated!
-            entry.data = { ...entry.data, label, backgroundColor };
-
-            entry.style = [`background-color: ${backgroundColor}`].join(";");
-        }
-    }
-
-    $nodes = [...$nodes];
-};
 
 // There are various problems with handling the data variables:
 // 1. Turning the local variables into states with two-way binding on them breaks editing.
@@ -46,13 +29,17 @@ $: {
     color = node?.data?.backgroundColor || "#FFFFFF";
 }
 
-$: updateNode({ label, backgroundColor: color });
+$: {
+    if (node) {
+        dispatch("update", { label, color });
+    }
+}
 </script>
 
 <ContextMenu position={position} hide={!node}>
     {#if node && "label" in node.data}
         <input type="text"
-               class="block mb-2"
+               class="block mb-2 w-full"
                value={node.data.label}
                on:input={(event) => label = event.target.value} />
     {/if}
