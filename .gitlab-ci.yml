@@ -7,6 +7,7 @@ default:
 
 stages:
   - lint
+  - test
 
 lint-backend:
   stage: lint
@@ -21,3 +22,10 @@ lint-frontend:
     - cd src/frontend
     - npm ci
     - npm run ci:check
+
+test-backend:
+  stage: test
+  script:
+    - cd src/backend
+    - npm ci
+    - npm run test

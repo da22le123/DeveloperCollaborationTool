@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "DB_PATH=:memory: vitest",
         "start": "node index.js",
         "check:write": "biome check --write",
         "ci:check": "biome check"
@@ -24,7 +24,9 @@
         "yup": "^1.4.0"
     },
     "devDependencies": {
-        "@biomejs/biome": "^1.9.4"
+        "@biomejs/biome": "^1.9.4",
+        "supertest": "^7.0.0",
+        "vitest": "^2.1.8"
     },
     "type": "module"
 }

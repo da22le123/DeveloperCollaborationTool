@@ -45,3 +45,5 @@ void (async () => {
         console.log(`App listening at http://localhost:${port}`);
     });
 })();
+
+export { app };
