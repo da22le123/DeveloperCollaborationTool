@@ -5,7 +5,7 @@ import SessionMemberModel from "./model/SessionMember.js";
 import ActionModel from "./model/Action.js";
 import * as path from "node:path";
 
-const dbFilePath = path.resolve("./database.sqlite");
+const dbFilePath = process.env.DB_PATH ?? "database.sqlite";
 
 // Database configuration
 const sequelize = new Sequelize({
