@@ -146,7 +146,7 @@ $: {
 }
 
 const onKeyDown = (event) => {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" || event.key === "Enter") {
         cancelContextMenus();
     }
 };
