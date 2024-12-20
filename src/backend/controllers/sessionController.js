@@ -70,13 +70,15 @@ export const changeSessionStatus = async (req, res) => {
         return res.status(404).json({ error: "Session not found." });
     }
 
-    const sessionMember = await SessionMember.findOne({
-        where: { session_id, user_id },
-    });
-    if (!sessionMember) {
-        return res
-            .status(403)
-            .json({ error: "User is not a member of this session." });
+    if (!req.user.isAdmin) {
+        const sessionMember = await SessionMember.findOne({
+            where: { session_id, user_id },
+        });
+        if (!sessionMember) {
+            return res
+                .status(403)
+                .json({ error: "User is not a member of this session." });
+        }
     }
 
     session.is_open = !session.is_open;
