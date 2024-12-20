@@ -1,6 +1,13 @@
 <script>
+import router from "page";
 import { SvelteFlowProvider } from "@xyflow/svelte";
 import { onDestroy, onMount } from "svelte";
+import { request } from "../utils/fetch.js";
+import {
+    popupMessage,
+    showPopup,
+    showPopupMessage,
+} from "../stores/popupStore.js";
 
 import socket from "../lib/socket.js";
 
@@ -9,23 +16,38 @@ import ExportButton from "../components/editor/ExportButton.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
-import { request } from "../utils/fetch.js";
 
 export let params;
 let activeHistory = false;
 
 onMount(() => {
-    const sessionId = params.sessionId; // Use session ID or default
+    const sessionId = params?.params?.id;
 
     // Emit the `join` event when the session loads
     socket.emit("join", { sessionId });
-    console.log(`Connected to WebSocket server. Joined session: ${sessionId}`);
+    console.log(`Connected via WebSocket. Joined session: ${sessionId}`);
 
-    // Clean up the listener on destroy
-    onDestroy(() => {
-        socket.disconnect();
-        console.log("Disconnected from WebSocket server.");
+    // Listen for messages from the server
+    socket.on("message", (data) => {
+        console.log("Message from server:", data.message);
     });
+
+    socket.on("access_error", (data) => {
+        const { message } = data;
+
+        showPopupMessage(message || "Access error", "error", 15000);
+
+        console.error("Access error:", message);
+        router("/");
+    });
+});
+
+// Clean up listeners and disconnect the socket
+onDestroy(() => {
+    socket.off("access_error");
+    socket.off("message");
+    socket.disconnect();
+    console.log("Disconnected from WebSocket server.");
 });
 
 const onToggleHistory = () => {
@@ -71,7 +93,7 @@ const createAction = async (action_data) => {
 
 <style>
     .btn-black {
-        @apply bg-black text-white py-1.5 hover:border-black;
+        @apply bg-black text-white py-1.5  hover:border-black;
     }
 
     .btn-red {
