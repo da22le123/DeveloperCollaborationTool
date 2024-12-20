@@ -1,6 +1,9 @@
 import { Server } from "socket.io";
+import { socketAuthMiddleware } from "./middlewares/socketAuthMiddleware.js";
+import { Session, SessionMember } from "./database/database.js";
 
 let io; // WebSocket instance
+const socketsList = []; // List of connected sockets
 
 // Function to initialize WebSocket server
 export const initializeSocket = (server) => {
@@ -11,15 +14,61 @@ export const initializeSocket = (server) => {
         },
     });
 
-    io.on("connect", (socket) => {
-        console.log(`Client connected: ${socket.id}`);
+    io.use(socketAuthMiddleware);
 
-        socket.on("join", ({ sessionId }) => {
-            socket.join(sessionId);
-            console.log(`User ${socket.id} joined session: ${sessionId}`);
+    io.on("connection", (socket) => {
+        console.log(`User connected: ${socket.id}`);
+        socketsList.push(socket); // Add socket to the list
+
+        // Handling of session joining
+
+        socket.on("join", async ({ sessionId }) => {
+            try {
+                const session = await Session.findOne({
+                    where: { id: sessionId },
+                });
+                if (!session) {
+                    return socket.emit("access_error", {
+                        message: "Session not found",
+                    });
+                }
+
+                const isMember = await SessionMember.findOne({
+                    where: { session_id: sessionId, user_id: socket.user.id },
+                });
+                if (!isMember) {
+                    return socket.emit("access_error", {
+                        message: "Access denied",
+                    });
+                }
+
+                socket.join(sessionId);
+
+                console.log(
+                    `User ${socket.user.username} joined room: ${sessionId}`,
+                );
+
+                // use of utility function to notify other members that the user joined a session
+                sendMessageToSession(
+                    sessionId,
+                    "message",
+                    {
+                        message: `User ${socket.user.username} joined the session.`,
+                    },
+                    socket,
+                );
+            } catch (error) {
+                console.error("Error joining room:", error);
+                socket.emit("error", { message: "Failed to join room" });
+            }
         });
 
         socket.on("disconnect", () => {
+            const index = socketsList.indexOf(socket);
+            if (index !== -1) {
+                socketsList.splice(index, 1); // Remove from the list
+            }
+
             console.log(`User disconnected: ${socket.id}`);
         });
     });
@@ -35,4 +84,39 @@ export const getSocket = () => {
         );
     }
     return io;
+};
+
+/**
+ * Find a socket by user ID.
+ * @param {string} userId - The ID of the user to find.
+ * @returns {object|null} The socket object or null if not found.
+ */
+export const findSocketByUserId = (userId) => {
+    for (const socket of socketsList) {
+        if (socket.user?.id === userId) {
+            return socket;
+        }
+    }
+    return null; // Return null if no matching socket is found
+};
+
+/**
+ * Utility function to broadcast messages.
+ * @param {string} sessionId - ID of the session(room).
+ * @param {string} messageType - Type of the message to handle it on frontend.
+ * @param {object} message - The message payload, use of an object for this parameter for future scalability
+ * @param {object|null} exceptSocket - The socket to exclude (optional).
+ */
+export const sendMessageToSession = (
+    sessionId,
+    messageType,
+    message,
+    exceptSocket = null,
+) => {
+    for (const socket of socketsList) {
+        // Check if the socket is in the room and is not the excluded socket
+        if (socket.rooms?.has(sessionId) && socket !== exceptSocket) {
+            socket.emit(messageType, message);
+        }
+    }
 };
