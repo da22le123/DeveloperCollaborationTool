@@ -1,9 +1,9 @@
 <script>
-import { useSvelteFlow } from "@xyflow/svelte";
+import { createEventDispatcher } from "svelte";
 
 import ContextMenu from "./ContextMenu.svelte";
 
-const { updateNode, updateNodeData } = useSvelteFlow();
+const dispatch = createEventDispatcher();
 
 export let node;
 export let position;
@@ -31,8 +31,7 @@ $: {
 
 $: {
     if (node) {
-        updateNodeData(node.id, { label, backgroundColor: color });
-        updateNode(node.id, { style: `background-color: ${color}` });
+        dispatch("update", { label, color });
     }
 }
 </script>
