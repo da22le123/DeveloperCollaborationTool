@@ -5,6 +5,7 @@ import { onDestroy, onMount } from "svelte";
 import socket from "../lib/socket.js";
 
 import Editor from "../components/Editor.svelte";
+import ExportButton from "../components/editor/ExportButton.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
@@ -45,7 +46,7 @@ const createAction = async (action_data) => {
                 <h1 class="text-2xl font-semibold mb-6">Session Name</h1>
 
                 <div class="flex justify-between mb-6">
-                    <button class="btn-black px-7">Export</button>
+                    <ExportButton sessionId={params.params.id}></ExportButton>
                     <button class="btn-black px-9">Invite members</button>
                 </div>
 
