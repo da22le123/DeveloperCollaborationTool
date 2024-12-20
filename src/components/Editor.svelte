@@ -8,7 +8,8 @@ import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
 
 import "@xyflow/svelte/dist/style.css";
 
-const { screenToFlowPosition, viewport } = useSvelteFlow();
+const { screenToFlowPosition, viewport, updateNode, updateNodeData } =
+    useSvelteFlow();
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
 
@@ -75,6 +76,33 @@ let selectedNode;
 let selectedEdge;
 let clickedPosition = { x: 0, y: 0 };
 
+const onUpdateNode = ({ detail: { label, color } }) => {
+    updateNodeData(selectedNode.id, { label, backgroundColor: color });
+    updateNode(selectedNode.id, { style: `background-color: ${color}` });
+};
+
+const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
+    // To update the edge object, the entire collection has to be re-assigned.
+    $edges = $edges.map((entry) => {
+        // Retain the edge's properties if we are not modifying this edge.
+        if (entry.id !== selectedEdge.id) {
+            return entry;
+        }
+
+        let newEdge = { ...entry, label, type };
+
+        if (markerStart !== -1) {
+            newEdge.markerStart = { type: markerStart };
+        }
+
+        if (markerEnd !== -1) {
+            newEdge.markerEnd = { type: markerEnd };
+        }
+
+        return newEdge;
+    });
+};
+
 const cancelContextMenus = () => {
     selectedNode = null;
     selectedEdge = null;
@@ -137,8 +165,8 @@ const onKeyDown = (event) => {
     >
         <Background />
 
-        <NodeContextMenu position={clickedPosition} node={selectedNode} />
-        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} />
+        <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode} />
+        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge} />
     </SvelteFlow>
 </div>
 
