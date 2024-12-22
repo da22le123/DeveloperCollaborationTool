@@ -18,6 +18,7 @@ import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
 
 export let params;
+const session_id = params.params.id;
 let activeHistory = false;
 
 onMount(() => {
@@ -56,7 +57,6 @@ const onToggleHistory = () => {
 
 //saves the action on the history database
 const createAction = async (action_data) => {
-    const session_id = params.params.id;
     await request("/actions", { session_id, action_data });
 };
 </script>
@@ -89,7 +89,7 @@ const createAction = async (action_data) => {
     </EditorNodeProvider>
 </SvelteFlowProvider>
 
-<ReplayHistory open={activeHistory} on:closed={onToggleHistory} />
+<ReplayHistory session_id={params.params.id} open={activeHistory} on:closed={onToggleHistory} />
 
 <style>
     .btn-black {
