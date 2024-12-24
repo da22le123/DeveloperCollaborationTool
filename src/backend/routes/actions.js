@@ -10,7 +10,7 @@ import {
 const actionsRouter = express.Router();
 
 actionsRouter.post("/", verifyToken, handleCreateAction);
-actionsRouter.get("/", verifyToken, handleGetActions);
-actionsRouter.get("/:id", verifyToken, handleGetAction);
+actionsRouter.get("/:session_id", verifyToken, handleGetActions);
+actionsRouter.get("/:session_id/:id", verifyToken, handleGetAction);
 
 export { actionsRouter };

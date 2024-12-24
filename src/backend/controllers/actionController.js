@@ -36,7 +36,7 @@ export const handleCreateAction = async (req, res, next) => {
 };
 
 export const handleGetActions = async (req, res, next) => {
-    const { session_id } = req.body;
+    const { session_id } = req.query;
     const userId = req.user.id;
 
     const sessionExists = await Session.findOne({ where: { id: session_id } });
@@ -67,7 +67,7 @@ export const handleGetActions = async (req, res, next) => {
 };
 
 export const handleGetAction = async (req, res, next) => {
-    const { session_id } = req.body;
+    const { session_id } = req.query;
     const { id } = req.params;
     const userId = req.user.id;
 
