@@ -21,6 +21,9 @@ const socket = io("http://localhost:3000", {
 // Listen for connection events
 socket.on("connect", () => {
     console.log("Connected to WebSocket server:", socket.id);
+
+    // const sessionId = 4;
+    // socket.emit("join", { sessionId });
 });
 
 // Handle regular messages (info notifications)
