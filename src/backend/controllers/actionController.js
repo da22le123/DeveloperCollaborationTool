@@ -35,7 +35,7 @@ export const handleCreateAction = async (req, res, next) => {
     );
 
     if (socket) {
-        socket.emit("new_action", {
+        socket.to(session_id).emit("new_action", {
             id: newAction.id,
             user_id: newAction.user_id,
             session_id: newAction.session_id,
