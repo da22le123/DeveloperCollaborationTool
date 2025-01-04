@@ -18,7 +18,6 @@ $: if (session_id) {
 
 onMount(() => {
     socket.on("new_action", async (action) => {
-        console.log("New action", action);
         if (action.session_id === Number(session_id)) {
             historyPromise = get(`/actions/${session_id}`, { session_id });
         }

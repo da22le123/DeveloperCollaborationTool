@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "./middlewares/socketAuthMiddleware.js";
-import { Session, SessionMember } from "./database/database.js";
+import { Action, Session, SessionMember } from "./database/database.js";
 
 let io; // WebSocket instance
 const socketsList = []; // List of connected sockets
@@ -21,7 +21,6 @@ export const initializeSocket = (server) => {
         socketsList.push(socket); // Add socket to the list
 
         // Handling of session joining
-
         socket.on("join", async ({ sessionId }) => {
             try {
                 const session = await Session.findOne({
@@ -61,6 +60,47 @@ export const initializeSocket = (server) => {
                 console.error("Error joining room:", error);
                 socket.emit("error", { message: "Failed to join room" });
             }
+        });
+
+        // Handling of action creation
+        socket.on("new_action", async (data) => {
+            const { session_id, action_data } = data;
+            const userId = socket.user.id;
+
+            const sessionExists = await Session.findOne({
+                where: { id: session_id },
+            });
+
+            if (!sessionExists) {
+                return socket.emit("error", { message: "Session not found" });
+            }
+
+            const userPartOfSession = await SessionMember.findOne({
+                where: { session_id, user_id: userId },
+            });
+
+            if (!userPartOfSession) {
+                return socket.emit("error", { message: "Forbidden" });
+            }
+
+            const newAction = await Action.create({
+                user_id: userId,
+                session_id,
+                action_data,
+            });
+
+            await Session.update(
+                { last_state: action_data },
+                { where: { id: session_id } },
+            );
+
+            socket.to(session_id.toString()).emit("new_action", {
+                id: newAction.id,
+                user_id: newAction.user_id,
+                session_id: newAction.session_id,
+                action_data: newAction.action_data,
+                creation_date: newAction.creation_date,
+            });
         });
 
         socket.on("disconnect", () => {
