@@ -62,47 +62,6 @@ export const initializeSocket = (server) => {
             }
         });
 
-        // Handling of action creation
-        socket.on("new_action", async (data) => {
-            const { session_id, action_data } = data;
-            const userId = socket.user.id;
-
-            const sessionExists = await Session.findOne({
-                where: { id: session_id },
-            });
-
-            if (!sessionExists) {
-                return socket.emit("error", { message: "Session not found" });
-            }
-
-            const userPartOfSession = await SessionMember.findOne({
-                where: { session_id, user_id: userId },
-            });
-
-            if (!userPartOfSession) {
-                return socket.emit("error", { message: "Forbidden" });
-            }
-
-            const newAction = await Action.create({
-                user_id: userId,
-                session_id,
-                action_data,
-            });
-
-            await Session.update(
-                { last_state: action_data },
-                { where: { id: session_id } },
-            );
-
-            socket.to(session_id.toString()).emit("new_action", {
-                id: newAction.id,
-                user_id: newAction.user_id,
-                session_id: newAction.session_id,
-                action_data: newAction.action_data,
-                creation_date: newAction.creation_date,
-            });
-        });
-
         socket.on("disconnect", () => {
             const index = socketsList.indexOf(socket);
             if (index !== -1) {
@@ -153,9 +112,15 @@ export const sendMessageToSession = (
     message,
     exceptSocket = null,
 ) => {
+    let session = sessionId;
+
+    if (typeof sessionId === "number") {
+        session = sessionId.toString();
+    }
+
     for (const socket of socketsList) {
         // Check if the socket is in the room and is not the excluded socket
-        if (socket.rooms?.has(sessionId) && socket !== exceptSocket) {
+        if (socket.rooms?.has(session) && socket !== exceptSocket) {
             socket.emit(messageType, message);
         }
     }

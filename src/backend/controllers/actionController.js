@@ -1,6 +1,6 @@
 import { actionSchema } from "../schemas.js";
 import { Action, Session, SessionMember, User } from "../database/database.js";
-import { getSocket } from "../socket.js";
+import { getSocket, sendMessageToSession } from "../socket.js";
 
 export const handleCreateAction = async (req, res, next) => {
     const socket = getSocket();
@@ -11,13 +11,30 @@ export const handleCreateAction = async (req, res, next) => {
     const { session_id, action_data } = validatedData;
     const userId = req.user.id;
 
+    const sessionExists = await Session.findOne({ where: { id: session_id } });
+
+    if (!sessionExists)
+        return res.status(404).json({ message: "Session not found" });
+
+    const userPartOfSession = await SessionMember.findOne({
+        where: { session_id, user_id: userId },
+    });
+
+    if (!userPartOfSession)
+        return res.status(403).json({ message: "Forbidden" });
+
     const newAction = await Action.create({
         user_id: userId,
         session_id,
         action_data,
     });
 
-    socket.to(session_id.toString()).emit("new_action", newAction);
+    await Session.update(
+        { last_state: action_data },
+        { where: { id: session_id } },
+    );
+
+    sendMessageToSession(session_id, "new_action", newAction, socket);
 
     return res.status(201).json(newAction);
 };
@@ -48,6 +65,7 @@ export const handleGetActions = async (req, res, next) => {
                 attributes: ["id", "username"],
             },
         ],
+        order: [["creation_date", "ASC"]],
     });
 
     return res.status(200).json(actions);
