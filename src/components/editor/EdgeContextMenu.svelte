@@ -44,9 +44,11 @@ $: {
         dispatch("update", { label, type, markerStart, markerEnd });
     }
 }
+
+const onDelete = () => dispatch("delete");
 </script>
 
-<ContextMenu position={position} hide={!edge}>
+<ContextMenu position={position} hide={!edge} on:delete={onDelete}>
     {#if edge}
         <input type="text"
                class="block mb-2 w-full"

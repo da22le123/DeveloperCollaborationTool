@@ -34,9 +34,11 @@ $: {
         dispatch("update", { label, color });
     }
 }
+
+const onDelete = () => dispatch("delete");
 </script>
 
-<ContextMenu position={position} hide={!node}>
+<ContextMenu position={position} hide={!node} on:delete={onDelete}>
     {#if node && "label" in node.data}
         <input type="text"
                class="block mb-2 w-full"

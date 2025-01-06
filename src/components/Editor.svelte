@@ -8,8 +8,13 @@ import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
 
 import "@xyflow/svelte/dist/style.css";
 
-const { screenToFlowPosition, viewport, updateNode, updateNodeData } =
-    useSvelteFlow();
+const {
+    screenToFlowPosition,
+    viewport,
+    updateNode,
+    updateNodeData,
+    deleteElements,
+} = useSvelteFlow();
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
 
@@ -81,6 +86,11 @@ const onUpdateNode = ({ detail: { label, color } }) => {
     updateNode(selectedNode.id, { style: `background-color: ${color}` });
 };
 
+const onDeleteNode = () => {
+    deleteElements({ nodes: [selectedNode] });
+    cancelContextMenus();
+};
+
 const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
     // To update the edge object, the entire collection has to be re-assigned.
     $edges = $edges.map((entry) => {
@@ -101,6 +111,11 @@ const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
 
         return newEdge;
     });
+};
+
+const onDeleteEdge = () => {
+    deleteElements({ edges: [selectedEdge] });
+    cancelContextMenus();
 };
 
 const cancelContextMenus = () => {
@@ -156,6 +171,7 @@ const onKeyDown = (event) => {
     <SvelteFlow {nodes} {edges} fitView
                 snapGrid={[25, 25]}
                 proOptions={{ hideAttribution: true }}
+                deleteKey={["Backspace", "Delete"]}
                 on:dragover={onDragOver}
                 on:drop={onDrop}
                 on:nodecontextmenu={onNodeContextMenu}
@@ -165,8 +181,8 @@ const onKeyDown = (event) => {
     >
         <Background />
 
-        <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode} />
-        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge} />
+        <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode} on:delete={onDeleteNode} />
+        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge} on:delete={onDeleteEdge} />
     </SvelteFlow>
 </div>
 
