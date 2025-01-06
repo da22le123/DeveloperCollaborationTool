@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "./middlewares/socketAuthMiddleware.js";
-import { Session, SessionMember } from "./database/database.js";
+import { Action, Session, SessionMember } from "./database/database.js";
 
 let io; // WebSocket instance
 const socketsList = []; // List of connected sockets
@@ -21,7 +21,6 @@ export const initializeSocket = (server) => {
         socketsList.push(socket); // Add socket to the list
 
         // Handling of session joining
-
         socket.on("join", async ({ sessionId }) => {
             try {
                 const session = await Session.findOne({
@@ -113,9 +112,15 @@ export const sendMessageToSession = (
     message,
     exceptSocket = null,
 ) => {
+    let session = sessionId;
+
+    if (typeof sessionId === "number") {
+        session = sessionId.toString();
+    }
+
     for (const socket of socketsList) {
         // Check if the socket is in the room and is not the excluded socket
-        if (socket.rooms?.has(sessionId) && socket !== exceptSocket) {
+        if (socket.rooms?.has(session) && socket !== exceptSocket) {
             socket.emit(messageType, message);
         }
     }

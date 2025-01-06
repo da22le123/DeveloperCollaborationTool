@@ -1,7 +1,8 @@
 <script>
 import HistoryEntry from "./HistoryEntry.svelte";
-import { createEventDispatcher } from "svelte";
-import { get } from "../../utils/fetch.js"; // Named import
+import { createEventDispatcher, onMount } from "svelte";
+import { get } from "../../utils/fetch.js";
+import socket from "../../lib/socket.js"; // Named import
 
 const eventDispatcher = createEventDispatcher();
 
@@ -15,10 +16,22 @@ $: if (session_id) {
     historyPromise = get(`/actions/${session_id}`, { session_id }); // Fetch the history
 }
 
+onMount(() => {
+    socket.on("new_action", async (action) => {
+        if (action.session_id === Number(session_id)) {
+            historyPromise = get(`/actions/${session_id}`, { session_id });
+        }
+    });
+
+    return () => {
+        socket.off("new_action");
+    };
+});
+
 const onCloseClick = () => eventDispatcher("closed");
 </script>
 
-<div class="replay-history fixed right-0 top-0 w-80 h-full py-7 bg-gray-100 transition-all z-10" class:closed={!open}>
+<div class="replay-history fixed right-0 top-0 w-80 h-full py-7 bg-gray-100 transition-all z-10 overflow-y-auto no-scrollbar" class:closed={!open}>
     <div class="absolute top-2 right-1 px-5 text-xl font-bold cursor-pointer" on:click={onCloseClick}>&#x2715;</div>
 
     <h2 class="text-2xl px-5 font-medium mb-9">Replay History</h2>

@@ -93,7 +93,7 @@ const createAction = async (action_data) => {
 
 <style>
     .btn-black {
-        @apply bg-black text-white py-1.5  hover:border-black;
+        @apply bg-black text-white py-1.5 hover:border-black;
     }
 
     .btn-red {

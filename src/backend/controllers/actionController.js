@@ -1,7 +1,9 @@
 import { actionSchema } from "../schemas.js";
 import { Action, Session, SessionMember, User } from "../database/database.js";
+import { getSocket, sendMessageToSession } from "../socket.js";
 
 export const handleCreateAction = async (req, res, next) => {
+    const socket = getSocket();
     const validatedData = await actionSchema.validate(req.body, {
         abortEarly: false,
     });
@@ -32,6 +34,8 @@ export const handleCreateAction = async (req, res, next) => {
         { where: { id: session_id } },
     );
 
+    sendMessageToSession(session_id, "new_action", newAction, socket);
+
     return res.status(201).json(newAction);
 };
 
@@ -61,6 +65,7 @@ export const handleGetActions = async (req, res, next) => {
                 attributes: ["id", "username"],
             },
         ],
+        order: [["creation_date", "ASC"]],
     });
 
     return res.status(200).json(actions);
