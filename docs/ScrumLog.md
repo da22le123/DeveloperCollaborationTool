@@ -165,3 +165,24 @@ Topic: Progress discussion
 
 - Kirill received a verbal warning for the lack of progress on his issue, as per the rules in the team plan.
 - Rokas is expected to fix the problems with his previous merge requests to ensure they meet the sufficient level required for merging.
+
+
+
+### 20.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Rokas, Yevheniia, Kirill, Fedor
+
+Topic: Progress discussion
+
+- Jan fixed the functionality for parsing error responses from fetch calls. He also completed the frontend issue for editing edges and already has picked up a new task for deleting nodes and edges.
+- Yevheniia finished the issue of setting up rooms for sockets. She encountered issues with the branch, so fixing it took some time before it could be merged. She has not yet picked up a new task.
+- Fedor finished the task of implementing the ability to upload a snapshot of the editor to a specified GitLab repository and picked up a new task of tracking the cursor position and streaming it to all other users.
+- Kirill finished the automated testing. He hasn't picked a new task yet.
+- Rokas was working on fixing the context research. He hasn't picked up a new task yet.
+- Denys was reviewing merge requests from other team members and was waiting for Yevheniia to merge her issue because his issue depends on web sockets. Now that it has been merged, he will work on implementing the retrieval of past actions in real-time.
+- Illya finished working on the frontend issue for changing the session status. He will pick a new issue.
+- Nestor is working on the frontend issue for retrieving all past actions and has reviewed the work of other team members.
+
+**Additional information:**
+
+- After changes to the context research by Rokas, the context research is still insufficient. The task of performing context research will be taken over by another team member.
