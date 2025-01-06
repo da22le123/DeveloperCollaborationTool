@@ -134,7 +134,7 @@ Topic: Progress discussion
 - Ilya is still working on the frontend issue for promoting and demoting leaders. He had problems with branches, which caused him to lose added changes.
   He will correct this and finish the task.
 - Yevheniia has finished her task of setting up the WebSocket connection and will pick up a new issue.
-- Nestor is currently working on a frontend task to implement the logic for the history bar.
+- Nestoras is currently working on a frontend task to implement the logic for the history bar.
 - Rokas resolved the threads added by Jan for adding members to a session. He is currently working on a documentation issue, which includes adding an introduction, problem,
   problem analysis, and context research paragraphs in the functional design.
 - Jan finished the task of adding nodes to the editor and also refactored API requests on the frontend.
@@ -158,7 +158,7 @@ Topic: Progress discussion
 - Rokas created the context research for functional design document, which was insufficient. The issue of adding users to sessions still has major problems, and he will focus on fixing that. He also completed the issue of changing the session status. Rokas will continue working on his two previous issues and must ensure his previous merge requests are corrected to meet the sufficient level for merging.
 - Kirill: Still working on automatic testing. 
 - Denys: Completed the API request for getting a single action on the backend. Will pick a new task.
-- Nestor: Finished work on the frontend issue history bar which sends requests for saving actions to the database. He picked up an issue for  fetching the list of actions for the frontend.
+- Nestoras: Finished work on the frontend issue history bar which sends requests for saving actions to the database. He picked up an issue for  fetching the list of actions for the frontend.
 
 
 **Additional information:**
@@ -181,8 +181,25 @@ Topic: Progress discussion
 - Rokas was working on fixing the context research. He hasn't picked up a new task yet.
 - Denys was reviewing merge requests from other team members and was waiting for Yevheniia to merge her issue because his issue depends on web sockets. Now that it has been merged, he will work on implementing the retrieval of past actions in real-time.
 - Illya finished working on the frontend issue for changing the session status. He will pick a new issue.
-- Nestor is working on the frontend issue for retrieving all past actions and has reviewed the work of other team members.
+- Nestoras is working on the frontend issue for retrieving all past actions and has reviewed the work of other team members.
 
 **Additional information:**
 
 - After changes to the context research by Rokas, the context research is still insufficient. The task of performing context research will be taken over by another team member.
+
+
+
+### 20.12.2024
+
+Attendees: Jan, Denys, Ilya, Nestoras, Yevheniia, Fedor
+
+Topic: Progress discussion
+
+- Jan finished working on issue #42 "Add functionality to delete nodes and edges" and merged it. Will pick a new task for himself.
+- Yevheniia was working on issue #28 "Create frontend functionality for starting new sessions" without any sufficient progress made.
+- Fedor was working on issue #22 "Create the functionality of tracking cursor position and streaming it to all other users" without any sufficient progress made.
+- Kirill helped Denys with his task. Will pick a new task for himself.
+- Rokas will pick a task for himself.
+- Denys finished working on issue #86 "Display past actions in history bar in real time" and merged it. Will pick a new task related to history bar for himself.
+- Illya picked an issue #39 "Add an API endpoint for retrieving users that can be invited to a session" to work on.
+- Nestoras finished working on issue #52 "Create frontend business logic for retrieving list of past actions" and merged it. Will pick a new task related to history bar for himself.
