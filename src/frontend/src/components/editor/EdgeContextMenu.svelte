@@ -51,7 +51,7 @@ const onDelete = () => dispatch("delete");
 <ContextMenu position={position} hide={!edge} on:delete={onDelete}>
     {#if edge}
         <input type="text"
-               class="block mb-2 w-full"
+               class="block mb-2 w-full border border-gray-400"
                value={edge.label || ""}
                on:input={event => label = event.target.value}
                maxlength="32" />
