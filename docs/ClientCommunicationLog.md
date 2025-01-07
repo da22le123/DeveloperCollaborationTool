@@ -64,9 +64,8 @@ An extra functionality (nice to have) is having guests adding comments to existi
 ### Email content
 
 The email was sent to the client to propose a solution based on the requirements gathered during the first Interview,
-and
-the written assignment description and to ask for approval of the current version of Functional Design document as well
-as the wireframes.
+and the written assignment description and to ask for approval of the current version of Functional Design document as
+well as the wireframes.
 
 P.S. You can see the current version of the Functional Design document and wireframes in the `docs` folder.
 
@@ -114,8 +113,9 @@ The client responded to the email with the following answers:
    other data would not hurt as well. "As many as possible, we have yet to find out what is useful."
 4. Unclear question. The client did not provide an answer.
 5. Unclear question. The client did not provide an answer.
-6. All users should be able to view the replay history. 
-7. "The leader should be able to remove again. But mind if removed after a session, the removed member is still alowed to replay."
+6. All users should be able to view the replay history.
+7. "The leader should be able to remove again. But mind if removed after a session, the removed member is still allowed
+   to replay."
 
 Note: Quoted text is the exact wording of the client's response.
 
@@ -126,5 +126,67 @@ application. The date and time were proposed, and the client was asked to confir
 
 Client did not respond to the invitation on time. And we had to agree on another date and time for the meeting.
 
-The meeting was rescheduled to be held on 20.12.2024.
+The meeting was rescheduled to be held on 6.1.2025.
 
+## Interview 2 (6.1.2025)
+
+The second meeting with the client involved presenting the current progress and discussing the next steps or feedback
+the client had. The notes are not in chronological order.
+
+### Feedback
+
+The client is overall happy with the current development state. However, the application is clearly still in active
+development, as the pages are not linked together.
+
+The way the user management is done is fine. However, it is **not clear what role** the current user has. The client
+suggested showing this in the page header. Furthermore, the client was confused about setting up the password for a new
+user. Two proposed solutions were to email the new user a link to configure their password or send them the configured
+password (by the administrator) and let them change it later. One way or another, the client mentioned that the account
+management should be focused on, too.
+
+The editor is okay with a few wishes from the client (mentioned below). The only serious complaint was about
+**accessibility due to node colors**, i.e., there is no contrast between a dark background and text. Nevertheless, it is
+crucial to focus on the "multiplayer", i.e., real-time collaboration, which is the most important feature to the client.
+
+Together with the editor, the action history was presented. The client disliked how simple the history bar is; it should
+show what actions were taken (e.g., "added a node") at each point.
+
+Lastly, the Git export feature was showcased. Initially, the client disliked being stuck only with GitLab; they only
+wanted to export the result (e.g., as an image) to use it somewhere else (e.g., in a Markdown file). However, after
+reasoning this with the client and explaining how it works, they are okay with the implementation of this feature.
+
+### Wishlist
+
+The client has a "wishlist" for the following changes or additions:
+
+- If one node has more edges, it should be highlighted, as the node is more important.
+- A node with no edges should stand out to make it clear that it is not part of any (sub)graph. A different border color
+  was suggested as a solution.
+- Preferably, nodes can be connected from any point to any point; for example, two nodes can be connected by their top
+  connection points.
+- A node should have multiple connection points, not just top and bottom.
+
+The client recommended to discuss this wishlist within the team and see what is possible.
+
+### Planning
+
+The following planning was presented to the client:
+
+- Real-time collaboration ("multiplayer")
+- Displaying a history action state
+- Statistics (there is no progress on it yet)
+
+The client agrees with these plans but noted that there is still much work to do, considering this is the last sprint.
+
+### Discussion
+
+One of the main discussion points was the statistics. Even after previous answers, the team was unsure what statistics
+should be collected. The client talked about visualizing "lines" per member with different weights per activity; for
+example, adding a node should be more important than correcting a typo in a text. This activity should be visualized in
+a line graph, in a pie chart, or any other graph type grouped by a time frame (minutes, hours, ... whatever is suitable
+for the given case).
+
+The statistics are supposed to optimize the process of mind mapping. To quote the client:
+
+> Maybe the session is too long, or there is a spike in activity. Why did it happen? Do they need more time? How can a
+> session like this be organized to keep everyone involved? The lead can find out how to get more people involved.
