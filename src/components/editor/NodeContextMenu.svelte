@@ -41,7 +41,7 @@ const onDelete = () => dispatch("delete");
 <ContextMenu position={position} hide={!node} on:delete={onDelete}>
     {#if node && "label" in node.data}
         <input type="text"
-               class="block mb-2 w-full"
+               class="block mb-2 w-full border border-gray-400"
                value={node.data.label}
                on:input={(event) => label = event.target.value} />
     {/if}
