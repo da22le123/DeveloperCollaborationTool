@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import { test, beforeAll, expect } from "vitest";
 import { connectToDatabase, User } from "../database/database.js";
-import { app } from "../index.js";
 import request from "supertest";
+import { createServerApp } from "../server.js";
+
+const app = createServerApp();
 
 const createUser = async (email, username, password, isAdmin, isLead) => {
     const hashedPassword = await bcrypt.hash(password, 10);
