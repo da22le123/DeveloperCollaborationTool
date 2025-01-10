@@ -6,6 +6,7 @@ import {
     handleGetUser,
 } from "../controllers/usersController.js";
 import { verifyIfAdmin } from "../middlewares/verifyAdmin.js";
+import { verifyLeader } from "../middlewares/verifyLeader.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { getAvailableSessionsPerUser } from "../controllers/usersController.js";
 

@@ -87,3 +87,35 @@ export const changeSessionStatus = async (req, res) => {
 
     res.status(200).json(session);
 };
+
+export const getListOfUsersAndInviteStatuses = async (req, res) => {
+    const { session_id } = req.params;
+
+    const session = await Session.findOne({ where: { id: session_id } });
+    if (!session) {
+        return res.status(404).json({ error: "Session not found." });
+    }
+
+    const sessionMembers = await SessionMember.findAll({
+        where: { session_id },
+    });
+
+    const allUsers = await User.findAll();
+
+    const users = [];
+
+    for (const user of allUsers) {
+        const isMember = sessionMembers.find(
+            (member) => member.user_id === user.id,
+        );
+        users.push({
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            role: user.is_admin ? "Admin" : user.is_lead ? "Lead" : "Developer",
+            isMember: !!isMember,
+        });
+    }
+
+    res.status(200).json(users);
+};
