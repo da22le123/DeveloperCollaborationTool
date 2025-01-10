@@ -3,6 +3,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 import {
     addUserToSession,
     changeSessionStatus,
+    getListOfUsersAndInviteStatuses,
     startSession,
 } from "../controllers/sessionController.js";
 import { verifyLeader } from "../middlewares/verifyLeader.js";
@@ -22,6 +23,12 @@ sessionsRouter.patch(
     verifyToken,
     verifyLeader,
     changeSessionStatus,
+);
+sessionsRouter.get(
+    "/:session_id/users",
+    verifyToken,
+    verifyLeader,
+    getListOfUsersAndInviteStatuses,
 );
 
 export { sessionsRouter };
