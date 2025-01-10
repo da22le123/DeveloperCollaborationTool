@@ -1,5 +1,6 @@
 <script>
 import { isAdminStore } from "../stores/tokenStore.js";
+import { isLeadStore } from "../stores/tokenStore.js";
 import page from "page";
 </script>
 
@@ -13,6 +14,16 @@ import page from "page";
         Manage Users
         </button>
     {/if}
+    {#if $isAdminStore || $isLeadStore}
+        <button
+                class="header-action-button"
+                on:click={() => page("/sessions/create")}
+        >
+            Create Session
+        </button>
+    {/if}
+
+
 </div>
 <style>
     .header-action-button {
