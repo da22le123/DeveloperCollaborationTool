@@ -1,33 +1,37 @@
 # Functional Design
 
-# Introduction
+## Introduction
 
 This document provides a functional design for the collaborative editing tool. The tool is designed to streamline the
-brainstorming process for teams by providing real-time collaboration features with enhanced functionality and seamless
-integration. The tool will offer features like real-time collaboration, session management, Git integration, and
-role-based permissions, ensuring an efficient and user-friendly solution for team brainstorming ideas.
+brainstorming process for teams by providing real-time collaboration features with enhanced functionality, such as
+session management, Git integration, and role-based permissions, ensuring an efficient and user-friendly solution.
 
-# Solution overview
+### Problem Analysis
 
-### The Problem
+From the assignment description and after the first interview, it became apparent that the client is looking for a
+real-time collaboration tool. However, there is a slight deviation from the assignment description; the client wants to
+brainstorm ideas by creating diagrams, not a Markdown editor. Furthermore, according to the client, analyzing this
+process is very important to keep everyone equally involved and to iterate further and improve it. This can be done
+either via "replays" (viewing past actions of members), charts, and/or heatmaps.
 
-The client needed a real-time collaboration tool to brainstorm ideas and display them visually in real time.
-The lack of real-time interaction, advanced features like action replays, and role-based access control makes it
-difficult for teams to collaborate efficiently and stay organized.
-Our task is to provide the client with a reliable editing tool that combines visual diagramming. This tool will offer
-features like real-time collaboration,
-session management, Git integration, and role-based permissions, ensuring an efficient and user-friendly solution for
-team brainstorming ideas.
+The tool must restrict unauthorized users from accessing the system and brainstorming sessions. Moreover, each user is
+assigned a role that determines their level of access. In short, **developers** participate in sessions, **leaders**
+manage and analyze sessions, and the **administrator** manages all users and appoints leaders.
 
-### The Envisioned Solution
+The client wishes to export a session's result, which can then be used in a Markdown file or easily viewed in any other
+way. The result should be stored in a GitLab repository based on the assignment description.
 
-Our proposed solution is an innovative collaborative editing tool that combines the flexibility of visual diagramming (
-like draw.io).
-This tool is designed to streamline the brainstorming for teams by providing real-time collaboration features with
-enhanced functionality
-and seamless integration.
+### Alternatives
 
-#### The features our solution proposes
+draw.io is the first alternative for creating diagrams. Despite not being known for this, it also offers
+[real-time collaboration][1], [version history][2], and access control (with roles) in case the file is stored in an
+external cloud service supporting this (e.g., Google Drive). The result can be exported as a file (SVG, PNG, ...) or
+directly to an [external service, including GitLab][3].
+
+There are many other platforms that fit clients' needs, such as [Lucidchart][4] or [Miro][5]; however, these solutions
+are commercial and can often be very expensive. Furthermore, they are not tailored to the customer's needs.
+
+## Solution Overview
 
 1. Authentication and User Management:
     * User access with login credentials and the ability for administrators to manage new and/or existing users.
@@ -152,7 +156,7 @@ Feature 9: User management
 | S9.2.2 | The system has a button to delete an existing user account (which is not an administrator).                    | SHOULD   | U9.2                 |
 | S9.2.3 | The system has a form for editing the email address of an existing user account.                               | COULD    | U9.2                 |
 
-### User Roles
+## User Roles
 
 - **Administrator**
     - Only one user has this role. The user account is preconfigured with a fixed email address and password.
@@ -255,3 +259,14 @@ Administrator can create a new user by providing an email, name, password and ro
 
 Users can see the names of contributors along with the number of changes they have made, allowing for easy
 identification of the most active participants in the project.
+
+
+[1]: https://www.drawio.com/blog/real-time-collaboration-diagrams
+
+[2]: https://www.drawio.com/doc/faq/confluence-cloud-restore-version
+
+[3]: https://www.drawio.com/blog/gitlab-wiki-integration
+
+[4]: https://www.lucidchart.com/pages/examples/diagram-maker
+
+[5]: https://miro.com/
