@@ -7,8 +7,10 @@ import {
     SessionMember,
     User,
 } from "../database/database.js";
-import { app } from "../index.js";
 import request from "supertest";
+import { createServerApp } from "../server.js";
+
+const app = createServerApp();
 
 beforeEach(async () => {
     await connectToDatabase();
