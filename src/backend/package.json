@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "DB_PATH=:memory: vitest",
+        "test": "cross-env DB_PATH=:memory: vitest",
         "start": "node index.js",
         "check:write": "biome check --write",
         "ci:check": "biome check"
@@ -25,6 +25,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",
+        "cross-env": "^7.0.3",
         "supertest": "^7.0.0",
         "vitest": "^2.1.8"
     },
