@@ -12,7 +12,11 @@ const sessionsPromise = get("/users/sessions");
     {:then sessions}
         <div class="grid grid-cols-3">
         {#each sessions as session}
-            <SessionCard title = {session.name} state = {session.is_open ? 'Open' : 'Closed'} id = {session.id}/>
+            <SessionCard
+                    title={session.name}
+                    state={session.is_open ? 'Open' : 'Closed'}
+                    id={session.id}
+            />
         {/each}
         </div>
     {:catch error}

@@ -5,7 +5,8 @@ import page from "page";
 </script>
 
 <div class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-white shadow-md z-10">
-    <h1 class="text-xl font-bold text-gray-800">Purple Alligator</h1>
+    <h1 class="text-xl font-bold text-gray-800"><a href="/">Purple Alligator</a></h1>
+    <a href="/dashboard">Dashboard</a>
     {#if $isAdminStore}
         <button
                 class="header-action-button"
