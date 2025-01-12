@@ -19,16 +19,22 @@ async function toggleSessionStatus() {
 }
 </script>
 
-<div class="m-10 p-10 rounded-md bg-gray-300 flex flex-col justify-between items-center text-center">
-    <h1 class="mb-5 text-3xl truncate">{title}</h1>
-    <p class="text-base mb-5">State: {state}</p>
+<div class="m-4 p-4 rounded-md bg-gray-300 flex flex-col justify-between items-center text-center gap-2">
+    <h1 class="text-3xl truncate">{title} [{id}]</h1>
+    <p class="text-base">State: {state}</p>
     <button
             on:click={toggleSessionStatus}
-            class="p-3 w-40 rounded text-white text-center transition duration-300 ease-in-out
+            class="py-3 px-6 rounded text-white text-center transition self-stretch
         {state === 'Closed'
             ? 'bg-green-400 hover:bg-green-500'
             : 'bg-red-400 hover:bg-red-500'}"
     >
         {state === "Open" ? "Close" : "Open"}
     </button>
+    <a
+            href={`/sessions/${id}`}
+            class="py-3 px-6 rounded text-white text-center transition bg-slate-800 self-stretch"
+    >
+        View
+    </a>
 </div>
