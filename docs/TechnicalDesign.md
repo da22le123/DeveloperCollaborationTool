@@ -6,6 +6,46 @@
 
 # Design considerations
 
+**Considerations for Real-Time Update Technology**
+
+As the requested application requires real-time updates for session members, including session action updates,
+live cursor tracking, and synchronized session state management, the team considered using WebSocket-based technology.
+Detailed research was made to identify the most suitable technology for the application's needs,
+ensuring compatibility with Svelte for the frontend and Node.js for the backend.
+
+During this research, two options were evaluated: bare WebSockets and the Socket.IO library,
+which is built on top of WebSockets.
+
+
+**Research results:**
+
+
+- Bare WebSockets are lightweight and efficient for real-time updates but lack features such as automatic reconnection, fallback mechanisms, and tools for shared state management. These limitations require additional development effort to handle connection drops and synchronize updates.
+
+- Socket.IO built on top of WebSocket functionality, offering features like automatic reconnection, fallback mechanisms, event-driven communication, and tools such as rooms for session-specific updates and namespaces for better communication organization.
+
+
+
+**Selected technology:**
+
+The team decided to choose the Socket.IO library over bare WebSockets due to several key advantages.
+
+Unlike raw WebSockets, Socket.IO provides built-in support for automatic reconnection,
+eliminating the need to develop additional custom code for this functionality.
+
+Additionally, Socket.IO offers fallback mechanisms for environments that do not support WebSockets,
+a feature that bare WebSockets lack,
+requiring developers to implement custom solutions to handle such scenarios.
+
+Furthermore, Socket.IO includes built-in feature like rooms,
+which allow efficient organization of communication channels,
+enabling messages to be sent directly to specific groups
+(e.g., members of a particular session) without iterating through all connections.
+This feature is particularly valuable for this project as it requires targeted communication within sessions.
+
+These capabilities significantly reduce development complexity,
+ensure consistent connectivity, and streamline the implementation of synchronized updates.
+
 # System Architecture
 
 ## Logical view (functional components)
@@ -41,6 +81,23 @@ Additionally, Sequelize supports multiple SQL dialects, such as SQLite, Postgres
 was chosen, but Sequelize's flexibility ensures scalability if the database dialect needs to be changed in the future.
 Its built-in features, such as migrations, validations, and associations, save development time and provide a
 structured, consistent approach to database management.
+
+
+### Socket.IO 
+
+Socket.IO is a library built on top of the WebSocket protocol,
+designed for real-time, bidirectional communication between clients and servers.
+It provides features such as automatic reconnection and fallback mechanisms for environments
+where WebSocket connections are unavailable,
+eliminating the need for custom code to handle such scenarios.
+Additionally, it offers an event-driven communication model for streamlined interaction between the client and server.
+Advanced tools, presented in a library, like rooms, allow grouping WebSocket connections,
+enabling efficient messaging to specific groups without manually iterating through each connection.
+Furthermore, multiplexing feature enables a single WebSocket connection to be divided into multiple logical channels,
+called namespaces,
+each acting as an independent communication channel
+to better organize and manage the application's real-time update needs.
+
 
 ## Information architecture (what data provided how, navigation)
 
