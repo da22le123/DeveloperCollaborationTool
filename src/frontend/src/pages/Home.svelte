@@ -1,18 +1,30 @@
 <script>
-import { tokenStore, clearToken } from "../stores/tokenStore.js";
-import page from "page";
+import SessionCard from "../components/SessionCard.svelte";
+import { get } from "../utils/fetch.js";
 
-const loginTest = () => {
-    page("/login");
-};
+const sessionsPromise = get("/users/sessions");
 </script>
 
-<main class="pt-16 px-6">
-    <div class="card"></div>
-    {#if $tokenStore}
-        <strong>Hello user!!!</strong>
-        <button on:click={clearToken}>Logout test</button>
-    {:else}
-        <button on:click={loginTest}>Login test</button>
-    {/if}
+<main>
+    <h1>Available sessions</h1>
+    {#await sessionsPromise}
+        <h2>Loading sessions...</h2>
+    {:then sessions}
+        <div class="grid gap-4 mt-4 main-grid">
+        {#each sessions as session}
+            <SessionCard
+                    title={session.name}
+                    state={session.is_open ? 'Open' : 'Closed'}
+                    id={session.id}
+            />
+        {/each}
+        </div>
+    {:catch error}
+        <p> An error occurred: {error.message}</p>
+    {/await}
 </main>
+<style>
+    .main-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+</style>
