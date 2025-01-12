@@ -19,7 +19,7 @@ async function toggleSessionStatus() {
 }
 </script>
 
-<div class="m-4 p-4 rounded-md bg-gray-300 flex flex-col justify-between items-center text-center gap-2">
+<div class="p-4 rounded-md border border-gray-300 shadow-lg flex flex-col justify-between items-center text-center gap-2">
     <h1 class="text-3xl truncate">{title} [{id}]</h1>
     <p class="text-base">State: {state}</p>
     <button
