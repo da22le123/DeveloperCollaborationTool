@@ -71,7 +71,7 @@ const showAction = (data) => {
 const closeModal = () => {
     showModal = false;
     snapshot = null;
-}
+};
 </script>
 
 <SvelteFlowProvider>
