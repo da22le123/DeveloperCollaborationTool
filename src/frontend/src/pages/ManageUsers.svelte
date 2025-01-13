@@ -62,7 +62,11 @@ async function saveEmailChange() {
         users = [...users];
         closeModal();
     } catch (error) {
-        showPopupMessage(`Failed to update email: ${error.message}`, "error", 3000);
+        showPopupMessage(
+            `Failed to update email: ${error.message}`,
+            "error",
+            3000,
+        );
     }
 }
 
