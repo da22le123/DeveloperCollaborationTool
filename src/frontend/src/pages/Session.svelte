@@ -12,10 +12,13 @@ import ExportButton from "../components/editor/ExportButton.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
+import FlowDataModal from "../components/FlowDataModal.svelte";
 
 export let params;
 const session_id = params.params.id;
 let activeHistory = false;
+let snapshot;
+let showModal = false;
 
 onMount(() => {
     const sessionId = params?.params?.id;
@@ -59,6 +62,16 @@ const onToggleHistory = () => {
 const createAction = async (action_data) => {
     await request("/actions", { session_id, action_data });
 };
+
+const showAction = (data) => {
+    snapshot = data;
+    showModal = true;
+};
+
+const closeModal = () => {
+    showModal = false;
+    snapshot = null;
+};
 </script>
 
 <SvelteFlowProvider>
@@ -89,7 +102,14 @@ const createAction = async (action_data) => {
     </EditorNodeProvider>
 </SvelteFlowProvider>
 
-<ReplayHistory session_id={params.params.id} open={activeHistory} on:closed={onToggleHistory} />
+{#if showModal}
+    <FlowDataModal
+            {snapshot}
+            onClose={closeModal}
+    />
+{/if}
+
+<ReplayHistory session_id={params.params.id} open={activeHistory} on:closed={onToggleHistory} on:showAction = {(event) => showAction(event.detail)} />
 
 <style>
     .btn-black {
