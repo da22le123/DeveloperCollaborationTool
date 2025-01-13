@@ -44,7 +44,6 @@ const loadData = () => {
         nodes.set([]);
         edges.set([]);
     }
-    console.log($nodes);
 };
 
 // Parse and transform snapshot data when it changes
@@ -65,9 +64,8 @@ $: if (snapshot) {
 
         <h2 class="text-lg font-bold mb-3">Snapshot</h2>
 
-        <div class="border rounded-lg p-4 w-full flex">
-            <SvelteFlow {nodes} {edges} nodesDraggable={false} proOptions={{ hideAttribution: true }}
-                        fitView style="min-height: 400px;">
+        <div class="border rounded-lg w-full flex">
+            <SvelteFlow {nodes} {edges} nodesDraggable={false} proOptions={{ hideAttribution: true }} fitView class="h-full min-h-[400px]">
                 <Background />
             </SvelteFlow>
         </div>
