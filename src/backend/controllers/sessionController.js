@@ -1,5 +1,6 @@
 import { sessionSchema } from "../schemas.js";
 import { Session, SessionMember, User } from "../database/database.js";
+import { sendMessageToSession } from "../socket.js";
 
 export const addUserToSession = async (req, res) => {
     const { session_id } = req.params;
@@ -84,6 +85,10 @@ export const changeSessionStatus = async (req, res) => {
     session.is_open = !session.is_open;
 
     await session.save();
+
+    if (!session.is_open) {
+        sendMessageToSession(session_id, "session_was_closed", null, null);
+    }
 
     res.status(200).json(session);
 };

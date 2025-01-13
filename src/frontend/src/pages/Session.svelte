@@ -3,11 +3,7 @@ import router from "page";
 import { SvelteFlowProvider } from "@xyflow/svelte";
 import { onDestroy, onMount } from "svelte";
 import { request } from "../utils/fetch.js";
-import {
-    popupMessage,
-    showPopup,
-    showPopupMessage,
-} from "../stores/popupStore.js";
+import { showPopupMessage } from "../stores/popupStore.js";
 
 import socket from "../lib/socket.js";
 
@@ -41,12 +37,16 @@ onMount(() => {
         console.error("Access error:", message);
         router("/");
     });
+
+    socket.on("session_was_closed", () => {
+        const message =
+            "The session has been closed. No further changes are allowed.";
+        showPopupMessage(message, "info", 15000);
+    });
 });
 
-// Clean up listeners and disconnect the socket
+// disconnect the socket
 onDestroy(() => {
-    socket.off("access_error");
-    socket.off("message");
     socket.disconnect();
     console.log("Disconnected from WebSocket server.");
 });
