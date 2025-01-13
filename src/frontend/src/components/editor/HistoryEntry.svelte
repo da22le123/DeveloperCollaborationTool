@@ -1,15 +1,15 @@
 <script>
-    import { createEventDispatcher } from "svelte";
+import { createEventDispatcher } from "svelte";
 
-    export let active = false;
-    export let date;
-    export let username;
-    export let data;
+export let active = false;
+export let date;
+export let username;
+export let data;
 
-    const eventDispatcher = createEventDispatcher();
+const eventDispatcher = createEventDispatcher();
 
-    //dispatch the single action to parent
-    const onClick = () => eventDispatcher("showAction", data);
+//dispatch the single action to parent
+const onClick = () => eventDispatcher("showAction", data);
 </script>
 
 <div
