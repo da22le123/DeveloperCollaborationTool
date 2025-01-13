@@ -189,7 +189,7 @@ Topic: Progress discussion
 
 
 
-### 20.12.2024
+### 6.1.2025
 
 Attendees: Jan, Denys, Ilya, Nestoras, Yevheniia, Fedor
 
@@ -203,3 +203,20 @@ Topic: Progress discussion
 - Denys finished working on issue #86 "Display past actions in history bar in real time" and merged it. Will pick a new task related to history bar for himself.
 - Illya picked an issue #39 "Add an API endpoint for retrieving users that can be invited to a session" to work on.
 - Nestoras finished working on issue #52 "Create frontend business logic for retrieving list of past actions" and merged it. Will pick a new task related to history bar for himself.
+
+
+
+### 10.1.2025
+
+Attendees: Jan, Denys, Ilya, Nestoras, Yevheniia, Fedor, Rokas, Kirill
+
+Topic: Progress discussion
+
+- Jan finished working on issue #76 "Write introduction for the functional design" and merged it. Also fixed problems that arose with tests. Will pick a new task for himself.
+- Yevheniia finished working on issue #28 "Create frontend functionality for starting new sessions" and merged it. Also added Socket.IO description and real-time update technology considerations to functional design. Assigned a new task for herself.
+- Fedor was working on issue #22 "Create the functionality of tracking cursor position and streaming it to all other users".
+- Kirill was working on issue #87 "Render the editor latest state" with Denys.
+- Rokas was working on issue #67 "Add business logic for deleting user accounts" and waits for it to be reviewed.
+- Denys was working on issue #87 "Render the editor latest state" with Kirill.
+- Illya finished working on issue #39 "Add an API endpoint for retrieving users that can be invited to a session" and merged it. Assigned a new task for himself.
+- Nestoras was working on issue #82 "Render a specific action by clicking on it".
