@@ -3,11 +3,7 @@ import router from "page";
 import { SvelteFlowProvider } from "@xyflow/svelte";
 import { onDestroy, onMount } from "svelte";
 import { request } from "../utils/fetch.js";
-import {
-    popupMessage,
-    showPopup,
-    showPopupMessage,
-} from "../stores/popupStore.js";
+import { showPopupMessage } from "../stores/popupStore.js";
 
 import socket from "../lib/socket.js";
 
@@ -16,10 +12,13 @@ import ExportButton from "../components/editor/ExportButton.svelte";
 import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
+import FlowDataModal from "../components/FlowDataModal.svelte";
 
 export let params;
 const session_id = params.params.id;
 let activeHistory = false;
+let snapshot;
+let showModal = false;
 
 onMount(() => {
     const sessionId = params?.params?.id;
@@ -41,12 +40,16 @@ onMount(() => {
         console.error("Access error:", message);
         router("/");
     });
+
+    socket.on("session_was_closed", () => {
+        const message =
+            "The session has been closed. No further changes are allowed.";
+        showPopupMessage(message, "info", 15000);
+    });
 });
 
-// Clean up listeners and disconnect the socket
+// disconnect the socket
 onDestroy(() => {
-    socket.off("access_error");
-    socket.off("message");
     socket.disconnect();
     console.log("Disconnected from WebSocket server.");
 });
@@ -62,6 +65,16 @@ const createAction = async (action_data) => {
 
 const redirectToInviteUsers = () => {
     router(`/sessions/${session_id}/invitations`);
+};
+
+const showAction = (data) => {
+    snapshot = data;
+    showModal = true;
+};
+
+const closeModal = () => {
+    showModal = false;
+    snapshot = null;
 };
 </script>
 
@@ -97,7 +110,14 @@ const redirectToInviteUsers = () => {
     </EditorNodeProvider>
 </SvelteFlowProvider>
 
-<ReplayHistory session_id={params.params.id} open={activeHistory} on:closed={onToggleHistory} />
+{#if showModal}
+    <FlowDataModal
+            {snapshot}
+            onClose={closeModal}
+    />
+{/if}
+
+<ReplayHistory session_id={params.params.id} open={activeHistory} on:closed={onToggleHistory} on:showAction = {(event) => showAction(event.detail)} />
 
 <style>
     .btn-black {
