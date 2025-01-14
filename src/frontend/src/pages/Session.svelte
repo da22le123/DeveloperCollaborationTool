@@ -59,6 +59,10 @@ const onToggleHistory = () => {
 const createAction = async (action_data) => {
     await request("/actions", { session_id, action_data });
 };
+
+const redirectToInviteUsers = () => {
+    router(`/sessions/${session_id}/invitations`);
+};
 </script>
 
 <SvelteFlowProvider>
@@ -69,7 +73,11 @@ const createAction = async (action_data) => {
 
                 <div class="flex justify-between mb-6">
                     <ExportButton sessionId={params.params.id}></ExportButton>
-                    <button class="btn-black px-9">Invite members</button>
+                    <button class="btn-black px-9"
+                            on:click={() => redirectToInviteUsers()}
+                    >
+                        Invite members
+                    </button>
                 </div>
 
                 <NodeList />
@@ -79,7 +87,7 @@ const createAction = async (action_data) => {
                     <button class="btn-black px-7" on:click={onToggleHistory}>
                         {activeHistory ? 'Close History' : 'View History'}
                     </button>
-                    </div>
+                </div>
             </div>
 
             <div class="flex-auto border-black border-2">
