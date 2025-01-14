@@ -9,6 +9,9 @@ let users = [];
 let message = "";
 let type = "";
 let isVisible = false;
+let isModalOpen = false;
+let editingUser = null;
+let newEmail = "";
 
 if (!$tokenStore || !$isAdminStore) {
     page("/login");
@@ -45,6 +48,34 @@ async function changeUserIsLead(userId, isLead) {
     }
 }
 
+function openEditEmailModal(user) {
+    editingUser = user;
+    newEmail = user.email;
+    isModalOpen = true;
+}
+
+async function saveEmailChange() {
+    try {
+        await request(`/users/${editingUser.id}`, { email: newEmail }, "PATCH");
+        showPopupMessage("Email updated successfully", "success", 3000);
+        editingUser.email = newEmail;
+        users = [...users];
+        closeModal();
+    } catch (error) {
+        showPopupMessage(
+            `Failed to update email: ${error.message}`,
+            "error",
+            3000,
+        );
+    }
+}
+
+function closeModal() {
+    isModalOpen = false;
+    editingUser = null;
+    newEmail = "";
+}
+
 const userPromise = fetchUsers();
 </script>
 <div class="flex flex-col items-center  min-h-screen py-10">
@@ -64,6 +95,7 @@ const userPromise = fetchUsers();
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Role</th>
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Is Lead</th>
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Delete User</th>
+                        <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Change Email</th>
                     </tr>
                     </thead>
 
@@ -82,6 +114,13 @@ const userPromise = fetchUsers();
                                         disabled={user.role === "Admin"}
                                 />
                             </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"> Delete </button>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                        on:click={() => openEditEmailModal(user)}> Change Email </button>
+                            </td>
                         </tr>
                     {/each}
                     <tr>
@@ -93,5 +132,35 @@ const userPromise = fetchUsers();
                 <div class="text-center text-neutral-400 font-bold py-10">No users found.</div>
             {/if}
     </div>
+
+    {#if isModalOpen}
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div class="bg-white p-6 rounded shadow-lg w-1/3">
+                <h2 class="text-xl font-bold mb-4">Edit Email</h2>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">New Email:</label>
+                    <input
+                            type="email"
+                            bind:value={newEmail}
+                            class="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button
+                            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                            on:click={closeModal}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                            on:click={saveEmailChange}
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    {/if}
 </div>
 

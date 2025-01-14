@@ -29,6 +29,7 @@ onMount(() => {
 });
 
 const onCloseClick = () => eventDispatcher("closed");
+const handleAction = (data) => eventDispatcher("showAction", data);
 </script>
 
 <div class="replay-history fixed right-0 top-0 w-80 h-full py-7 bg-gray-100 transition-all z-10 overflow-y-auto no-scrollbar" class:closed={!open}>
@@ -46,7 +47,7 @@ const onCloseClick = () => eventDispatcher("closed");
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                })}  username={entry.User.username} active={false}/>
+                })}  username={entry.User.username} active={false} data={entry.action_data} on:showAction={(event) => handleAction(event.detail)}/>
         {/each}
     {:catch error}
         <p>An error occurred</p>
