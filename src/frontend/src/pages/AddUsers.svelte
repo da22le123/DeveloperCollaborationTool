@@ -53,15 +53,19 @@ async function inviteUser(userId) {
                         <td class="px-6 py-4 text-gray-800 text-center">{user.username}</td>
                         <td class="px-6 py-4 text-gray-800 text-center">{user.role}</td>
                         <td class="px-6 py-4 text-center">
-                            {#if user.isMember}
-                                <span class="text-black-500 font-semibold">Invited</span>
+                            {#if user.role === "Admin"}
+                                <span class="text-black-500 font-semibold">Admin access</span>
                             {:else}
-                                <button
-                                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                                        on:click={() => inviteUser(user.id)}
-                                >
-                                    Invite
-                                </button>
+                                {#if user.isMember}
+                                    <span class="text-black-500 font-semibold">Invited</span>
+                                {:else}
+                                    <button
+                                            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                            on:click={() => inviteUser(user.id)}
+                                    >
+                                        Invite
+                                    </button>
+                                {/if}
                             {/if}
                         </td>
                     </tr>

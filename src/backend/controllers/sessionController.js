@@ -23,6 +23,12 @@ export const addUserToSession = async (req, res) => {
         return res.status(404).json({ error: "User not found" });
     }
 
+    if (user.is_admin === 1) {
+        return res.status(403).json({
+            error: "Admins cannot be added to the session, they have permanent access.",
+        });
+    }
+
     const existingSessionMember = await SessionMember.findOne({
         where: { session_id, user_id },
     });

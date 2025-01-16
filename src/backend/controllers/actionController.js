@@ -27,7 +27,8 @@ export const handleCreateAction = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!sessionMember) return res.status(403).json({ message: "Forbidden" });
+    if (!sessionMember && !req.user.isAdmin)
+        return res.status(403).json({ message: "Forbidden" });
 
     const newAction = await sequelize.transaction(async (transaction) => {
         const session = await Session.findOne({
@@ -76,7 +77,7 @@ export const handleGetActions = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!userPartOfSession && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
     const actions = await Action.findAll({
@@ -109,7 +110,7 @@ export const handleGetAction = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!userPartOfSession && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
     const action = await Action.findOne({
@@ -137,7 +138,7 @@ export const handleGetSessionLastState = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!userPartOfSession && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
     const session = await Session.findOne({
