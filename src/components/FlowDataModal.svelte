@@ -2,44 +2,17 @@
 import { writable } from "svelte/store";
 import { Background, SvelteFlow } from "@xyflow/svelte";
 
-export let snapshot = null; // The snapshot is a string
+/** @type {{nodes: any[], edges: any[]} | null} */
+export let snapshot = null;
 export let onClose;
 
 let nodes = writable([]); // Use writable store for nodes
 let edges = writable([]); // Use writable store for edges
 
 const loadData = () => {
-    let parsedData;
-    try {
-        parsedData = JSON.parse(snapshot); // Parse the JSON string
-    } catch (error) {
-        console.error("Failed to parse snapshot:", error);
-        parsedData = null;
-    }
-
-    if (parsedData) {
-        // Transform `state` into `nodes`
-        nodes.set(
-            parsedData.state
-                ?.filter((item) => !item.source && !item.target) // Filter for nodes only
-                .map((node) => ({
-                    id: node.id,
-                    type: node.type || "default",
-                    data: { label: node.data?.label || `Node ${node.id}` },
-                    position: node.position,
-                })) || [],
-        );
-
-        edges.set(
-            parsedData.state
-                ?.filter((item) => item.source && item.target)
-                .map((edge) => ({
-                    id: `${edge.source}-${edge.target}`,
-                    source: edge.source,
-                    target: edge.target,
-                    type: "straight",
-                })) || [],
-        );
+    if (snapshot) {
+        nodes.set(snapshot.nodes);
+        edges.set(snapshot.edges);
     } else {
         nodes.set([]);
         edges.set([]);
