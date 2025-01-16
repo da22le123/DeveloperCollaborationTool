@@ -11,7 +11,13 @@ const SessionModel = (sequelize) => {
             },
             name: { type: DataTypes.STRING(100), allowNull: false },
             is_open: { type: DataTypes.BOOLEAN, defaultValue: true },
-            last_state: { type: DataTypes.JSON },
+            last_state: {
+                type: DataTypes.JSON,
+                defaultValue: {
+                    nodes: [],
+                    edges: [],
+                },
+            },
             creation_date: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,

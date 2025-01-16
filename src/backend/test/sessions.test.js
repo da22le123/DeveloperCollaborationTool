@@ -37,9 +37,6 @@ const createUser = async (email, username, password, isAdmin, isLead) => {
 const createSession = async (name) => {
     const session = await Session.create({
         name,
-        is_open: true,
-        last_state: null,
-        creation_date: new Date(),
     });
 
     return session.id;
@@ -135,4 +132,27 @@ test("Getting users & invite statuses while logged in and session does not exist
         .get("/sessions/10/users")
         .set("Authorization", `Bearer ${token}`)
         .expect(404);
+});
+
+test("Creating a session while logged in as admin returns correct session state", async () => {
+    const userId = await createUser(
+        "test@gmail.com",
+        "test",
+        "testpwd1",
+        true,
+        false,
+    );
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, userId);
+    const token = await loginUser("test@gmail.com", "testpwd1");
+    await request(app)
+        .get("/sessions/1/state")
+        .set("Authorization", `Bearer ${token}`)
+        .expect(200)
+        .then(({ body }) => {
+            expect(body).toEqual({
+                nodes: [],
+                edges: [],
+            });
+        });
 });
