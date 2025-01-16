@@ -63,6 +63,10 @@ const createAction = async (action_data) => {
     await request("/actions", { session_id, action_data });
 };
 
+const redirectToInviteUsers = () => {
+    router(`/sessions/${session_id}/invitations`);
+};
+
 const showAction = (data) => {
     snapshot = data;
     showModal = true;
@@ -82,7 +86,9 @@ const closeModal = () => {
 
                 <div class="flex justify-between mb-6">
                     <ExportButton sessionId={params.params.id}></ExportButton>
-                    <button class="btn-black px-9">Invite members</button>
+                    <a href={`/sessions/${session_id}/invitations`} class="btn-black px-9 rounded-md">
+                        Invite Users
+                    </a>
                 </div>
 
                 <NodeList />
@@ -92,7 +98,7 @@ const closeModal = () => {
                     <button class="btn-black px-7" on:click={onToggleHistory}>
                         {activeHistory ? 'Close History' : 'View History'}
                     </button>
-                    </div>
+                </div>
             </div>
 
             <div class="flex-auto border-black border-2">
