@@ -86,11 +86,9 @@ const closeModal = () => {
 
                 <div class="flex justify-between mb-6">
                     <ExportButton sessionId={params.params.id}></ExportButton>
-                    <button class="btn-black px-9"
-                            on:click={() => redirectToInviteUsers()}
-                    >
-                        Invite members
-                    </button>
+                    <a href={`/sessions/${session_id}/invitations`} class="btn-black px-9 rounded-md">
+                        Invite Users
+                    </a>
                 </div>
 
                 <NodeList />
