@@ -47,7 +47,6 @@ export const startSession = async (req, res) => {
 
     const session = await Session.create({
         name: validatedData.name,
-        last_state: "",
     });
 
     await SessionMember.create({

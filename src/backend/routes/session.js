@@ -7,6 +7,7 @@ import {
     startSession,
 } from "../controllers/sessionController.js";
 import { verifyLeader } from "../middlewares/verifyLeader.js";
+import { handleGetSessionLastState } from "../controllers/actionController.js";
 
 const sessionsRouter = express.Router();
 
@@ -29,6 +30,12 @@ sessionsRouter.get(
     verifyToken,
     verifyLeader,
     getListOfUsersAndInviteStatuses,
+);
+
+sessionsRouter.get(
+    "/:session_id/state",
+    verifyToken,
+    handleGetSessionLastState,
 );
 
 export { sessionsRouter };
