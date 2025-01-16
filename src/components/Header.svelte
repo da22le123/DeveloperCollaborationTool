@@ -1,49 +1,24 @@
 <script>
-import { isAdminStore } from "../stores/tokenStore.js";
+import { clearToken, isAdminStore } from "../stores/tokenStore.js";
 import { isLeadStore } from "../stores/tokenStore.js";
-import page from "page";
+import { tokenStore, usernameStore } from "../stores/tokenStore.js";
 </script>
 
-<div class="fixed top-0 left-0 w-full flex justify-between items-center px-6 py-4 bg-white shadow-md z-10">
-    <h1 class="text-xl font-bold text-gray-800">Purple Alligator</h1>
+<div class="fixed top-0 left-0 w-full flex justify-start items-center px-6 py-4 bg-white shadow-md z-10 gap-12">
+    <h1 class="text-xl font-bold"><a href="/">Purple Alligator</a></h1>
     {#if $isAdminStore}
-        <button
-                class="header-action-button"
-                on:click={() => page("/manage-users")}
-        >
-        Manage Users
-        </button>
+        <a href="/manage-users">Manage Users</a>
     {/if}
     {#if $isAdminStore || $isLeadStore}
-        <button
-                class="header-action-button"
-                on:click={() => page("/sessions/create")}
-        >
-            Create Session
-        </button>
+        <a href="/sessions/create">Create Session</a>
     {/if}
-
-
+    <div class="flex-grow"/>
+    <div class="flex gap-4 items-center">
+        {#if $tokenStore}
+            <strong>Logged in as {$usernameStore}</strong>
+            <button on:click={clearToken} class="px-4 py-2 -my-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Log out</button>
+        {:else}
+            <a href="/login">Log in</a>
+        {/if}
+    </div>
 </div>
-<style>
-    .header-action-button {
-        border-radius: 8px;
-        background-color: #000000;
-        color: #ffffff;
-        padding: 0.6em 1.2em;
-        border: none;
-        font-family: inherit;
-        font-size: 1em;
-        font-weight: 400;
-        cursor: pointer;
-        transition: background-color 0.25s ease;
-    }
-
-    .header-action-button:hover {
-        background-color: #333333;
-    }
-
-    .header-action-button:focus {
-        outline: none;
-    }
-</style>
