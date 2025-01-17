@@ -1,12 +1,15 @@
 <script>
 import { Background, SvelteFlow, useSvelteFlow } from "@xyflow/svelte";
-import { writable } from "svelte/store";
 import { createEventDispatcher, getContext } from "svelte";
+import { createDebounceWithMap } from "../lib/debounce.js";
 
 import NodeContextMenu from "./editor/NodeContextMenu.svelte";
 import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
 
 import "@xyflow/svelte/dist/style.css";
+
+export let nodes;
+export let edges;
 
 const {
     screenToFlowPosition,
@@ -14,35 +17,64 @@ const {
     updateNode,
     updateNodeData,
     deleteElements,
+    getNode,
 } = useSvelteFlow();
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
 
-export let initialNodes = [
-    {
-        id: "1",
-        data: { label: "Node 1" },
-        position: { x: 0, y: 0 },
-    },
-    {
-        id: "2",
-        data: { label: "Node 2" },
-        position: { x: 0, y: 100 },
-    },
-];
+const dispatchAction = (action) => {
+    dispatch("createAction", { action_data: action });
+};
 
-export let initialEdges = [
-    {
-        id: "1-2",
-        type: "default",
-        source: "1",
-        target: "2",
-        label: "Edge",
-    },
-];
+const nodesDebounce = createDebounceWithMap();
+const edgesDebounce = createDebounceWithMap();
 
-const nodes = writable(initialNodes);
-const edges = writable(initialEdges);
+const debounceNodeUpdate = (id, data) => {
+    nodesDebounce(
+        id,
+        (nodeData) => {
+            dispatchAction({
+                type: "NODE_UPDATE",
+                data: nodeData,
+            });
+        },
+        data,
+        1000,
+    );
+};
+
+const debounceEdgeUpdate = (id, data) => {
+    edgesDebounce(
+        id,
+        (edgeData) => {
+            dispatchAction({
+                type: "EDGE_UPDATE",
+                data: edgeData,
+            });
+        },
+        data,
+        1000,
+    );
+};
+
+const onDelete = ({ nodes, edges }) => {
+    if (nodes.length > 0) {
+        for (const node of nodes) {
+            dispatchAction({
+                type: "NODE_DELETE",
+                data: node,
+            });
+        }
+    }
+    if (edges.length > 0) {
+        for (const edge of edges) {
+            dispatchAction({
+                type: "EDGE_DELETE",
+                data: edge,
+            });
+        }
+    }
+};
 
 const onDragOver = (event) => {
     event.preventDefault();
@@ -74,7 +106,10 @@ const onDrop = (event) => {
     $nodes.push(node);
     $nodes = [...$nodes];
 
-    dispatch("createAction", { state: $nodes });
+    dispatchAction({
+        type: "NODE_ADD",
+        data: node,
+    });
 };
 
 let selectedNode;
@@ -84,10 +119,18 @@ let clickedPosition = { x: 0, y: 0 };
 const onUpdateNode = ({ detail: { label, color } }) => {
     updateNodeData(selectedNode.id, { label, backgroundColor: color });
     updateNode(selectedNode.id, { style: `background-color: ${color}` });
+
+    debounceNodeUpdate(selectedNode.id, getNode(selectedNode.id));
 };
 
 const onDeleteNode = () => {
     deleteElements({ nodes: [selectedNode] });
+    $nodes = $nodes.filter((node) => node.id !== selectedNode.id);
+
+    dispatchAction({
+        type: "NODE_DELETE",
+        data: selectedNode,
+    });
     cancelContextMenus();
 };
 
@@ -99,7 +142,7 @@ const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
             return entry;
         }
 
-        let newEdge = { ...entry, label, type };
+        const newEdge = { ...entry, label, type };
 
         if (markerStart !== -1) {
             newEdge.markerStart = { type: markerStart };
@@ -109,12 +152,18 @@ const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
             newEdge.markerEnd = { type: markerEnd };
         }
 
+        debounceEdgeUpdate(newEdge.id, newEdge);
+
         return newEdge;
     });
 };
 
 const onDeleteEdge = () => {
     deleteElements({ edges: [selectedEdge] });
+    dispatchAction({
+        type: "EDGE_DELETE",
+        data: selectedEdge,
+    });
     cancelContextMenus();
 };
 
@@ -148,7 +197,26 @@ const onEdgeContextMenu = ({ detail: { event, edge } }) => {
 };
 
 const onPaneClick = () => cancelContextMenus();
-const onNodeDrag = () => cancelContextMenus();
+const onNodeDragStop = ({ detail: { targetNode } }) => {
+    dispatchAction({
+        type: "NODE_UPDATE",
+        data: getNode(targetNode.id),
+    });
+};
+
+const onEdgeCreate = (connection) => {
+    const edge = {
+        id: `${connection.source}-${connection.target}`,
+        source: connection.source,
+        target: connection.target,
+        type: "bezier",
+    };
+    dispatchAction({
+        type: "EDGE_ADD",
+        data: edge,
+    });
+    return edge;
+};
 
 let lastZoom = $viewport.zoom;
 
@@ -168,25 +236,31 @@ const onKeyDown = (event) => {
 </script>
 
 <div class="w-full h-full editor-wrapper">
-    <SvelteFlow {nodes} {edges} fitView
-                snapGrid={[25, 25]}
-                proOptions={{ hideAttribution: true }}
-                deleteKey={["Backspace", "Delete"]}
-                on:dragover={onDragOver}
-                on:drop={onDrop}
-                on:nodecontextmenu={onNodeContextMenu}
-                on:edgecontextmenu={onEdgeContextMenu}
-                on:paneclick={onPaneClick}
-                on:nodedrag={onNodeDrag}
-    >
-        <Background />
+    {#if edges && nodes}
+        <SvelteFlow {nodes} {edges} fitView
+                    snapGrid={[25, 25]}
+                    proOptions={{ hideAttribution: true }}
+                    deleteKey={["Backspace", "Delete"]}
+                    on:dragover={onDragOver}
+                    on:drop={onDrop}
+                    on:nodecontextmenu={onNodeContextMenu}
+                    on:edgecontextmenu={onEdgeContextMenu}
+                    on:paneclick={onPaneClick}
+                    on:nodedragstop={onNodeDragStop}
+                    ondelete={onDelete}
+                    onedgecreate={onEdgeCreate}
+        >
+            <Background/>
 
-        <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode} on:delete={onDeleteNode} />
-        <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge} on:delete={onDeleteEdge} />
-    </SvelteFlow>
+            <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode}
+                             on:delete={onDeleteNode}/>
+            <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge}
+                             on:delete={onDeleteEdge}/>
+        </SvelteFlow>
+    {/if}
 </div>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window on:keydown={onKeyDown}/>
 
 <style>
     .editor-wrapper {

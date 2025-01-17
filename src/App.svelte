@@ -11,6 +11,7 @@ import NewUser from "./pages/RegisterNewUser.svelte";
 import { showPopup, popupMessage, popupDuration } from "./stores/popupStore.js";
 import PopupMessage from "./components/PopupMessage.svelte";
 import CreateSession from "./pages/CreateSession.svelte";
+import AddUsers from "./pages/AddUsers.svelte";
 import Statistics from "./pages/Statistics.svelte";
 
 let page;
@@ -34,6 +35,8 @@ router("/register", (ctx) => render(NewUser, ctx));
 
 router("/manage-users", (ctx) => render(ManageUsers, ctx));
 router("/statistics/", (ctx) => render(Statistics, ctx));
+
+router("/sessions/:id/invitations", (ctx) => render(AddUsers, ctx));
 
 router("*", (ctx) => render(NotFound, ctx));
 
