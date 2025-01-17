@@ -16,11 +16,11 @@ ensuring compatibility with Svelte for the frontend and Node.js for the backend.
 During this research, two options were evaluated: bare WebSockets and the Socket.IO library,
 which is built on top of WebSockets.
 
+
 **Research results:**
 
 - Bare WebSockets are lightweight and efficient for real-time updates but lack features such as automatic reconnection,
-  fallback mechanisms, and tools for shared state management.
-  These limitations require additional development effort to
+  fallback mechanisms, and tools for shared state management. These limitations require additional development effort to
   handle connection drops and synchronize updates.
 
 - Socket.IO built on top of WebSocket functionality, offering features like automatic reconnection, fallback mechanisms,
@@ -83,7 +83,8 @@ was chosen, but Sequelize's flexibility ensures scalability if the database dial
 Its built-in features, such as migrations, validations, and associations, save development time and provide a
 structured, consistent approach to database management.
 
-### Socket.IO
+
+### Socket.IO 
 
 Socket.IO is a library built on top of the WebSocket protocol,
 designed for real-time, bidirectional communication between clients and servers.
@@ -97,6 +98,7 @@ Furthermore, multiplexing feature enables a single WebSocket connection to be di
 called namespaces,
 each acting as an independent communication channel
 to better organize and manage the application's real-time update needs.
+
 
 ## Information architecture (what data provided how, navigation)
 
@@ -231,6 +233,28 @@ The relationship between `User` and `Action` is one-to-many, with each user capa
 and each record in the `Action` table linked to a specific user who performed the action.
 
 ## User interface design
+
+### Tailwind
+
+In our project, we used Tailwind CSS, CSS framework, to streamline the styling process. 
+Unlike traditional frameworks such as Bootstrap, which come with pre-built components, Tailwind focuses on providing utility classes that allow to take control over styling directly in your HTML.
+
+This approach has several benefits:
+
+- No Need for Class Naming: Tailwind eliminates the need to create custom class names and write separate CSS rules for each.
+- Built-In Responsiveness: Tailwind provides an intuitive system for responsive design using prefixes.
+- Productivity Boost: By using utility classes, we avoided jumping between HTML and CSS files, which significantly sped up the development process.
+
+### Chart.js for statistics page
+
+The statistics page of our application is designed to provide users with a clear, intuitive, and visually engaging way
+to view and analyze data. Chart.js is a popular JavaScript library for creating responsive and interactive charts.
+We have implemented the feature to keep track of the amount of contributions, together with a date.
+
+#### Design Objectives
+
+Data is present in a way that is easy to understand, even for non-technical users. It allows users to interact with the
+charts to explore data in greater depth.
 
 ## Hardware design
 
