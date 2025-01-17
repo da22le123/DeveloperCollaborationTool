@@ -65,7 +65,7 @@ export const handleCreateAction = async (req, res, next) => {
 };
 
 export const handleGetActions = async (req, res, next) => {
-    const { session_id } = req.query;
+    const { session_id } = req.params;
     const userId = req.user.id;
 
     const sessionExists = await Session.findOne({ where: { id: session_id } });
@@ -90,7 +90,7 @@ export const handleGetActions = async (req, res, next) => {
                 attributes: ["id", "username"],
             },
         ],
-        order: [["creation_date", "DESC"]],
+        order: [["creation_date", "ASC"]],
     });
 
     return res.status(200).json(actions);

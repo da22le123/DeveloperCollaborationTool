@@ -42,7 +42,7 @@ const handleAction = (data) => eventDispatcher("showAction", data);
     {#await historyPromise}
         <h2>Loading History</h2>
     {:then historyEntry}
-        {#each historyEntry as entry}
+        {#each historyEntry.reverse() as entry}
             <HistoryEntry date={new Date(entry.creation_date).toLocaleString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
