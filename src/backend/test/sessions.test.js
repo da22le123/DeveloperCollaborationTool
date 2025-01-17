@@ -9,6 +9,7 @@ import {
 } from "../database/database.js";
 import request from "supertest";
 import { createServerApp } from "../server.js";
+import { removeUserFromSession } from "../controllers/sessionController.js";
 
 const app = createServerApp();
 
@@ -132,6 +133,171 @@ test("Getting users & invite statuses while logged in and session does not exist
         .get("/sessions/10/users")
         .set("Authorization", `Bearer ${token}`)
         .expect(404);
+});
+
+test("Removing user from the session while logged in as lead and both session and user exist when removing not yourself and not an admin returns success", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const developerUserId = await createUser(
+        "testEmail1@gmail.com",
+        "testUsername1",
+        "testPassword1",
+        false,
+        false,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, leadUserId);
+    await addUserToSession(sessionId, developerUserId);
+
+    await request(app)
+        .delete(`/sessions/${sessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .send({ user_id: developerUserId })
+        .expect(204);
+});
+
+test("Removing user from the session while logged in as lead and both session and user exist, but remover is not a member of the session returns 403", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const developerUserId = await createUser(
+        "testEmail1@gmail.com",
+        "testUsername1",
+        "testPassword1",
+        false,
+        false,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, developerUserId);
+
+    await request(app)
+        .delete(`/sessions/${sessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .send({ user_id: developerUserId })
+        .expect(403);
+});
+
+test("Removing user from the session while logged in as lead and session or removed user do not exist returns 404", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const developerUserId = await createUser(
+        "testEmail1@gmail.com",
+        "testUsername1",
+        "testPassword1",
+        false,
+        false,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, leadUserId);
+    await addUserToSession(sessionId, developerUserId);
+
+    const unExistentSessionId = 10;
+    await request(app)
+        .delete(`/sessions/${unExistentSessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .send({ user_id: developerUserId })
+        .expect(404);
+});
+
+test("Removing user from the session while logged in as lead and not including user_id in the body returns 400", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const developerUserId = await createUser(
+        "testEmail1@gmail.com",
+        "testUsername1",
+        "testPassword1",
+        false,
+        false,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, leadUserId);
+    await addUserToSession(sessionId, developerUserId);
+
+    const unExistentSessionId = 10;
+    await request(app)
+        .delete(`/sessions/${unExistentSessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .expect(400);
+});
+
+test("Removing user from the session while logged in as lead and removing yourself returns 403", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, leadUserId);
+
+    await request(app)
+        .delete(`/sessions/${sessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .send({ user_id: leadUserId })
+        .expect(403);
+});
+
+test("Removing user from the session while logged in as lead and removing admin returns 403", async () => {
+    const leadUserId = await createUser(
+        "testEmail@gmail.com",
+        "testUsername",
+        "testPassword",
+        false,
+        true,
+    );
+
+    const adminUserId = await createUser(
+        "testEmail1@gmail.com",
+        "testUsername1",
+        "testPassword1",
+        true,
+        true,
+    );
+
+    const leadToken = await loginUser("testEmail@gmail.com", "testPassword");
+    const sessionId = await createSession("testSession");
+    await addUserToSession(sessionId, leadUserId);
+    await addUserToSession(sessionId, adminUserId);
+
+    await request(app)
+        .delete(`/sessions/${sessionId}/members`)
+        .set("Authorization", `Bearer ${leadToken}`)
+        .send({ user_id: adminUserId })
+        .expect(403);
 });
 
 test("Creating a session while logged in as admin returns correct session state", async () => {

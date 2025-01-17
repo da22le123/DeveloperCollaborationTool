@@ -24,6 +24,21 @@ async function inviteUser(userId) {
         showPopupMessage("Failed to invite user", "error", 3000);
     }
 }
+
+async function kickOutUser(userId) {
+    try {
+        await request(
+            `/sessions/${sessionId}/members`,
+            { user_id: userId },
+            "DELETE",
+        );
+        // Update the local `users` array to reflect the new state
+        usersPromise = fetchUsersAndInviteStatuses();
+        showPopupMessage("User kicked out successfully", "success", 3000);
+    } catch (error) {
+        showPopupMessage(`Failed to kick out user: ${error}`, "error", 3000);
+    }
+}
 </script>
 <div class="flex flex-col items-center  min-h-screen py-10">
     <div class="w-full max-w-5xl mb-6 text-center">
@@ -57,7 +72,12 @@ async function inviteUser(userId) {
                                 <span class="text-black-500 font-semibold">Admin access</span>
                             {:else}
                                 {#if user.isMember}
-                                    <span class="text-black-500 font-semibold">Invited</span>
+                                    <button
+                                            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                            on:click={() => kickOutUser(user.id)}
+                                    >
+                                        Kick out
+                                    </button>
                                 {:else}
                                     <button
                                             class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
