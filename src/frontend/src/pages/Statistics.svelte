@@ -41,7 +41,7 @@ const calculateActionsTimeline = (actions) => {
         dates.push(new Date(action.creation_date));
         values.push(lastValue);
     }
-    return [dates, values]
+    return [dates, values];
 };
 
 const generateDateRange = (startDate, endDate) => {
