@@ -48,8 +48,6 @@ const generateDateRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const dateArray = [];
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
     while (start <= end) {
         dateArray.push(new Date(start).toISOString().split("T")[0]);
         start.setDate(start.getDate() + 1);
