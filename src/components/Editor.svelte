@@ -2,6 +2,7 @@
 import { Background, SvelteFlow, useSvelteFlow } from "@xyflow/svelte";
 import { createEventDispatcher, getContext } from "svelte";
 import { createDebounceWithMap } from "../lib/debounce.js";
+import { getBrightness } from "../lib/colors.js";
 
 import NodeContextMenu from "./editor/NodeContextMenu.svelte";
 import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
@@ -118,7 +119,13 @@ let clickedPosition = { x: 0, y: 0 };
 
 const onUpdateNode = ({ detail: { label, color } }) => {
     updateNodeData(selectedNode.id, { label, backgroundColor: color });
-    updateNode(selectedNode.id, { style: `background-color: ${color}` });
+
+    const brightness = getBrightness(color);
+    const textColor = brightness > 160 ? "#000" : "#fff";
+
+    updateNode(selectedNode.id, {
+        style: `background-color: ${color}; color: ${textColor}`,
+    });
 
     debounceNodeUpdate(selectedNode.id, getNode(selectedNode.id));
 };
