@@ -35,7 +35,7 @@ export const initializeSocket = (server) => {
                 const isMember = await SessionMember.findOne({
                     where: { session_id: sessionId, user_id: socket.user.id },
                 });
-                if (!isMember) {
+                if (!isMember && !socket.user.isAdmin) {
                     return socket.emit("access_error", {
                         message: "Access denied",
                     });

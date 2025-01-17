@@ -1,6 +1,13 @@
 import { actionSchema } from "../schemas.js";
-import { Action, Session, SessionMember, User } from "../database/database.js";
+import {
+    Action,
+    sequelize,
+    Session,
+    SessionMember,
+    User,
+} from "../database/database.js";
 import { getSocket, sendMessageToSession } from "../socket.js";
+import { applyAction } from "../lib/applyAction.js";
 
 export const handleCreateAction = async (req, res, next) => {
     const socket = getSocket();
@@ -16,23 +23,41 @@ export const handleCreateAction = async (req, res, next) => {
     if (!sessionExists)
         return res.status(404).json({ message: "Session not found" });
 
-    const userPartOfSession = await SessionMember.findOne({
+    const sessionMember = await SessionMember.findOne({
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!sessionMember && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
-    const newAction = await Action.create({
-        user_id: userId,
-        session_id,
-        action_data,
-    });
+    const newAction = await sequelize.transaction(async (transaction) => {
+        const session = await Session.findOne({
+            where: { id: session_id },
+            transaction,
+        });
 
-    await Session.update(
-        { last_state: action_data },
-        { where: { id: session_id } },
-    );
+        const newState = applyAction(session.last_state, action_data);
+
+        await Session.update(
+            { last_state: newState },
+            {
+                where: { id: session_id },
+                transaction,
+            },
+        );
+
+        const newAction = await Action.create(
+            {
+                user_id: userId,
+                session_id,
+                action_data,
+                state: newState,
+            },
+            { transaction },
+        );
+
+        return newAction;
+    });
 
     sendMessageToSession(session_id, "new_action", newAction, socket);
 
@@ -52,7 +77,7 @@ export const handleGetActions = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!userPartOfSession && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
     const actions = await Action.findAll({
@@ -65,7 +90,7 @@ export const handleGetActions = async (req, res, next) => {
                 attributes: ["id", "username"],
             },
         ],
-        order: [["creation_date", "ASC"]],
+        order: [["creation_date", "DESC"]],
     });
 
     return res.status(200).json(actions);
@@ -85,7 +110,7 @@ export const handleGetAction = async (req, res, next) => {
         where: { session_id, user_id: userId },
     });
 
-    if (!userPartOfSession)
+    if (!userPartOfSession && !req.user.isAdmin)
         return res.status(403).json({ message: "Forbidden" });
 
     const action = await Action.findOne({
@@ -98,4 +123,29 @@ export const handleGetAction = async (req, res, next) => {
     if (!action) return res.status(404).json({ message: "Action not found" });
 
     return res.status(200).json(action);
+};
+
+export const handleGetSessionLastState = async (req, res, next) => {
+    const { session_id } = req.params;
+    const userId = req.user.id;
+
+    const sessionExists = await Session.findOne({ where: { id: session_id } });
+
+    if (!sessionExists)
+        return res.status(404).json({ message: "Session not found" });
+
+    const userPartOfSession = await SessionMember.findOne({
+        where: { session_id, user_id: userId },
+    });
+
+    if (!userPartOfSession && !req.user.isAdmin)
+        return res.status(403).json({ message: "Forbidden" });
+
+    const session = await Session.findOne({
+        where: {
+            id: session_id,
+        },
+    });
+
+    return res.status(200).json(session.last_state);
 };
