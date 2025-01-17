@@ -132,7 +132,9 @@ const closeModal = () => {
                 <NodeList />
 
                 <div class="flex justify-between">
-                    <button class="btn-red px-4">Explore Statistics</button>
+                    <a href={`/sessions/${sessionId}/statistics`} class="btn-black px-9 rounded-md">
+                        Explore Statistics
+                    </a>
                     <button class="btn-black px-7" on:click={onToggleHistory}>
                         {activeHistory ? 'Close History' : 'View History'}
                     </button>

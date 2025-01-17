@@ -30,11 +30,11 @@ router("/login", (ctx) => render(Login, ctx));
 
 router("/sessions/create", (ctx) => render(CreateSession, ctx));
 router("/sessions/:id", (ctx) => render(Session, ctx));
+router("/sessions/:id/statistics", (ctx) => render(Statistics, ctx));
 
 router("/register", (ctx) => render(NewUser, ctx));
 
 router("/manage-users", (ctx) => render(ManageUsers, ctx));
-router("/statistics/", (ctx) => render(Statistics, ctx));
 
 router("/sessions/:id/invitations", (ctx) => render(AddUsers, ctx));
 
