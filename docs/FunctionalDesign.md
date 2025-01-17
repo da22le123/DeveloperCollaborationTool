@@ -194,15 +194,15 @@ Feature 9: User management
 
 ## Mockups and wireframes (Low-Fidelity)
 
-## 1. Authentication
+### 1. Authentication
 
 ![wireframe1](./wireframes/wireframe1-login.png)
 
 Login page allows users that are part of the system to login to the system by providing email and password.
 
-## 2. Dashboard and navigation
+### 2. Dashboard and navigation
 
-### Home page
+#### Home page
 
 ![wireframe2](./wireframes/wireframe2-home.png)
 
@@ -212,28 +212,28 @@ On top, there are 5 buttons : manage users (only for admin), create a new sessio
 only for administrator), circled first letter username (leads to change user's current password) and logout button to
 leave an account.
 
-## 3. Session management
+### 3. Session management
 
-### Create a new session
+#### Create a new session
 
 ![wireframe3](./wireframes/wireframe3-create-session.png)
 
 Leader or administrator can create a new session by providing a name.
 
-### Manage users
+#### Manage users
 
 ![wireframe4](./wireframes/wireframe4-manage-users.png)
 
 Admin can manage users by assigning and unassigning leader. "Delete" button to delete an existing user.
 
-### Edit user
+#### Edit user
 
 ![wireframe5](./wireframes/wireframe5-edit-user.png)
 
 Admin can edit user's email by clicking on user in 'Manage Users' page. Additionally, admin can search for the user by
 an email.
 
-## 4. User settings
+### 4. User settings
 
 ![wireframe6](./wireframes/wireframe6-home-to-change-password.png)
 
@@ -242,15 +242,15 @@ This can be done from any page by clicking on the first letter of their name, di
 
 ![wireframe7](./wireframes/wireframe7-change-password.png)
 
-## 5. Collaboration and diagram editor
+### 5. Collaboration and diagram editor
 
-### Accessing the editor
+#### Accessing the editor
 
 ![wirefram8](./wireframes/wireframe8-home-to-editor.png)
 
 By clicking on session card, user can access the editor.
 
-### History and replay
+#### History and replay
 
 ![wireframe9](./wireframes/wireframe9-editor.png)
 
@@ -260,7 +260,7 @@ The "View History" button provides a list of all changes made by project members
 
 When clicking on a replay entry in the history, the saved state as a diagram will be visible.
 
-### Real-time collaboration
+#### Real-time collaboration
 
 ![wireframe11](./wireframes/wireframe11-real-time.png)
 
@@ -269,7 +269,7 @@ time. Objects can easily be deleted by clicking on it and press "delete" keyboar
 he/she just presses a label and can immediately change it. When someone is making a change, their cursor, along with their name, will be visible. 
 If the users decide to change the object or label, they can simply select the object, and a blue radius will appear.
 
-### Invite members and export
+#### Invite members and export
 
 ![wireframe12](./wireframes/wireframe12-editor-invite-members.png)
 
@@ -279,13 +279,13 @@ The project leader can invite new members to the project by clicking the "Invite
 
 ![wireframe13](./wireframes/wireframe13-invite-members.png)
 
-### Create new users
+#### Create new users
 
 ![wireframe14](./wireframes/wireframe14-add-users.png)
 
 Administrator can create a new user by providing an email, name, password and role.
 
-## 6. Statistics
+### 6. Statistics
 
 ![wireframe15](./wireframes/wireframe15-editor-to-statistics.png)
 ![wireframe16](./wireframes/wireframe16-statistics.png)
