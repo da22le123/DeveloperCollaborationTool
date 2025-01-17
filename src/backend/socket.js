@@ -46,6 +46,7 @@ export const initializeSocket = (server) => {
                 console.log(
                     `User ${socket.user.username} joined room: ${sessionId}`,
                 );
+                socket.emit("session_status", { is_open: session.is_open });
 
                 // use of utility function to notify other members that the user joined a session
                 sendMessageToSession(
