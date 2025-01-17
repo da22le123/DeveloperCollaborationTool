@@ -16,6 +16,7 @@ ensuring compatibility with Svelte for the frontend and Node.js for the backend.
 During this research, two options were evaluated: bare WebSockets and the Socket.IO library,
 which is built on top of WebSockets.
 
+
 **Research results:**
 
 - Bare WebSockets are lightweight and efficient for real-time updates but lack features such as automatic reconnection,
@@ -82,7 +83,8 @@ was chosen, but Sequelize's flexibility ensures scalability if the database dial
 Its built-in features, such as migrations, validations, and associations, save development time and provide a
 structured, consistent approach to database management.
 
-### Socket.IO
+
+### Socket.IO 
 
 Socket.IO is a library built on top of the WebSocket protocol,
 designed for real-time, bidirectional communication between clients and servers.
@@ -97,9 +99,64 @@ called namespaces,
 each acting as an independent communication channel
 to better organize and manage the application's real-time update needs.
 
+
 ## Information architecture (what data provided how, navigation)
 
 ## Security architecture
+
+The developed system architecture is designed to ensure robust security for users,
+protecting their data and preventing unauthorized access to restricted parts of the system.
+
+The two key components of the security architecture are the **JSON Web Token (JWT)** and the **bcrypt library**.
+
+**JSON Web Tokens (JWT)** are used to handle both authentication and authorization. JWT enables the secure transmission of user data between the frontend and backend and implements role-based access control, ensuring that only users with the appropriate permissions can access specific resources or perform certain actions.
+
+**Backend:**
+
+The backend uses **JWT** for authenticating and authorizing users across API routes and real-time WebSocket connections.
+Upon login, the server generates a JWT containing user-specific data,
+which is signed with a secure secret key and sent to the client.
+This token,
+included in the `Authorization` header for subsequent requests,
+enables the backend to validate user identity and permissions.
+Validation is performed using middlewares such as `verifyToken`,
+`verifyIfAdmin`, and `verifyLeader`, which are applied to API routes.
+These middlewares validate the JWT provided by the client
+and restrict access to specific actions based on the user's role,
+such as managing users or sessions.
+Additionally, further validation is performed within controller functions to ensure data integrity—for example,
+verifying if a user is part of a session
+or if a session exists—returning appropriate error responses to prevent undesirable changes to the database.
+
+
+**Bcrypt** is used to securely hash user passwords before storing them in the database. During login, bcrypt compares the entered password with the stored hash, ensuring robust protection against brute-force attacks and safeguarding user credentials.
+
+
+The real-time communication functionality,
+implemented using the **Socket.IO** library, also incorporates JWT for validation.
+Custom middleware as `socketAuthMiddleware` validates JWTs sent from the frontend during the handshake process.
+And further use it  
+to ensure the user has the required permissions to perform specific actions within a session.
+If a user attempts to perform unauthorized actions, appropriate error notifications are sent via the WebSocket,
+ensuring real-time feedback and preventing unauthorized activities.
+
+
+**Frontend:**
+
+The frontend manages the JWT token using a `tokenStore`,
+which stores the token in `localStorage` after login and clears it upon logout.
+The `tokenStore` includes derived stores like `isAdminStore` and `isLeadStore`,
+which are used to restrict access to UI elements and frontend pages based on user roles.
+For example, UI components such as the "Manage Users" button (admin-only) and "Create Session"
+button (leader-specific) are dynamically displayed by verifying the user role from the token.
+
+Additionally,
+access to restricted pages is controlled
+to prevent unauthorized users or users without the necessary roles from accessing them directly via the browser.
+These pages include role and authentication checks,
+redirecting users to the login page if an unauthorized access attempt is detected.
+
+API requests on the frontend are managed using utility functions get and request, which include the Authorization header with the JWT (Bearer <token>) when sending requests. These functions ensure secure authentication and authorization for all backend interactions.
 
 ## Performance
 
