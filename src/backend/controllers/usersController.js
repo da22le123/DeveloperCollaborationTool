@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
-import { registerSchema, modifyUser, userIdSchema } from "../schemas.js";
+import { modifyUser, registerSchema, userIdSchema } from "../schemas.js";
 import { Session, SessionMember, User } from "../database/database.js";
-import { Sequelize } from "sequelize";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 
 export const handleNewUser = async (req, res, next) => {
     const validatedData = await registerSchema.validate(req.body, {
@@ -132,4 +131,28 @@ export const getAvailableSessionsPerUser = async (req, res, next) => {
     });
 
     res.status(200).json(availableSessions);
+};
+
+export const deleteUser = async (req, res) => {
+    const userId = await userIdSchema.validate(req.params.id, {
+        abortEarly: false,
+    });
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    await User.update(
+        {
+            username: `deleted (${user.id})`,
+            email: null,
+            password: null,
+            is_admin: null,
+            is_lead: null,
+        },
+        {
+            where: { id: userId },
+        },
+    );
+
+    res.status(204).send();
 };
