@@ -194,11 +194,11 @@ Feature 9: User management
 
 ## Mockups and wireframes (Low-Fidelity)
 
-![wireframe1](./wireframes/wireframe1.png)
+![wireframe1](./wireframes/wireframe1-login.png)
 
 Login page allows users that are part of the system to login to the system by providing email and password.
 
-![wireframe2](./wireframes/wireframe2.png)
+![wireframe2](./wireframes/wireframe2-home.png)
 
 Once logged in, user will be able to join possible sessions that he/she has been added to or depending on the role,
 user’s own created sessions. Session has two buttons to keep track of current session status: open (to open) and close (
@@ -207,66 +207,58 @@ On top, there are 5 buttons : manage users (only for admin), create a new sessio
 only for administrator), circled first letter username (leads to change user's current password) and logout button to
 leave an account.
 
-![wireframe3](./wireframes/wireframe3.png)
+![wireframe3](./wireframes/wireframe3-create-session.png)
 
 Leader or administrator can create a new session by providing a name.
 
-![wireframe4](./wireframes/wireframe4.png)
+![wireframe4](./wireframes/wireframe4-manage-users.png)
 
 Admin can manage users by assigning and unassigning leader. "Delete" button to delete an existing user.
 
-![wireframe5](./wireframes/wireframe5.png)
-
-After successfully logging in, the user can change their current password. This page is accessible by clicking on the
-first letter of their name (displayed in a circle) next to the logout button.
-
-![wireframe6](./wireframes/wireframe6.png)
+![wireframe5](./wireframes/wireframe5-edit-user.png)
 
 Admin can edit user's email by clicking on user in 'Manage Users' page. Additionally, admin can search for the user by
 an email.
 
-![wireframe7](./wireframes/wireframe7.png)
+![wireframe6](./wireframes/wireframe6-home-to-change-password.png)
 
-On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub. The
-project leader can invite new members to the project by clicking the "Invite Members" button.
-Below these options, movable objects and arrows are available for creating and editing diagrams. The "Explore
-Statistics" button displays the number of contributions made by project members.
-The "View History" button provides a list of all changes made by project members.
+After successfully logging in, the user can change their current password. This page is accessible by clicking on the
+first letter of their name (displayed in a circle) next to the logout button.
+
+![wireframe7](./wireframes/wireframe7-change-password.png)
+
+![wirefram8](./wireframes/wireframe8-home-to-editor.png)
+
+By licking on session card, user can access the editor.
+
+![wireframe9](./wireframes/wireframe9-editor.png)
 
 On the right-hand side, a collaboration space is provided. Users can create different diagrams and view changes in real
 time. Objects can easily be deleted by clicking on it and press "delete" keyboard. If user wants to change a label,
-he/she just presses a label and can immediately change it. Moreover, when someone is making a change, their cursor,
-along with their name, will be visible.
+he/she just presses a label and can immediately change it.
+The "View History" button provides a list of all changes made by project members.
 
-![wireframe12](./wireframes/wireframe12.png)
-
-If the users decide to change the object or label, they can simply select the object, and a blue radius will appear. For
-changing the label, an editing cursor will be displayed.
-
-![wireframe8](./wireframes/wireframe8.png)
+![wireframe10](./wireframes/wireframe10-editor-history.png)
 
 When clicking on a replay entry in the history, the saved state as a diagram will be visible.
 
-![wireframe9](./wireframes/wireframe9.png)
+![wireframe11](./wireframes/wireframe11-real-time.png)
 
-Project admin can invite users to existing project. Additionally, he/she can search for the user by email.
+When someone is making a change, their cursor, along with their name, will be visible. If the users decide to change the object or label, 
+they can simply select the object, and a blue radius will appear. For changing the label, an editing cursor will be displayed.
 
-![wireframe10](./wireframes/wireframe10.png)
+![wireframe12](./wireframes/wireframe12-editor-invite-members.png)
+
+On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub. 
+The project leader can invite new members to the project by clicking the "Invite Members" button.
+
+![wireframe13](./wireframes/wireframe13-invite-members.png)
+![wireframe14](./wireframes/wireframe14-add-users.png)
 
 Administrator can create a new user by providing an email, name, password and role.
 
-![wireframe11](./wireframes/wireframe11.png)
+![wireframe15](./wireframes/wireframe15-editor-to-statistics.png)
+![wireframe16](./wireframes/wireframe16-statistics.png)
 
-Users can see the names of contributors along with the number of changes they have made, allowing for easy
-identification of the most active participants in the project.
-
-
-[1]: https://www.drawio.com/blog/real-time-collaboration-diagrams
-
-[2]: https://www.drawio.com/doc/faq/confluence-cloud-restore-version
-
-[3]: https://www.drawio.com/blog/gitlab-wiki-integration
-
-[4]: https://www.lucidchart.com/pages/examples/diagram-maker
-
-[5]: https://miro.com/
+The "Explore Statistics" button displays the number of contributions made by project members.
+Users can see the names of contributors along with the number of changes they have made, allowing for easy identification of the most active participants in the project.

@@ -179,6 +179,20 @@ and each record in the `Action` table linked to a specific user who performed th
 
 ## User interface design
 
+### Tailwind
+
+To style my project, I have used css framework - Tailwind that made my life much easier. 
+The benefit of using it - is that you do not have to name classes and style each separately. 
+Basically, you can do everything in one line, saving a lot of time. The same applies to responsiveness. Tailwind has super convenient naming for these purposes.
+
+### Chart.js for statistics page
+
+The statistics page of our application is designed to provide users with a clear, intuitive, and visually engaging way to view and analyze data. Chart.js is a popular JavaScript library for creating responsive and interactive charts.
+We have implemented the feature to keep track of the amount of contributions, together with a date.
+
+#### Design Objectives
+Data is present in a way that is easy to understand, even for non-technical users. It allows users to interact with the charts to explore data in greater depth.
+
 ## Hardware design
 
 ## Software Design
