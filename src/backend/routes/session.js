@@ -4,6 +4,7 @@ import {
     addUserToSession,
     changeSessionStatus,
     getListOfUsersAndInviteStatuses,
+    removeUserFromSession,
     startSession,
 } from "../controllers/sessionController.js";
 import { verifyLeader } from "../middlewares/verifyLeader.js";
@@ -17,6 +18,13 @@ sessionsRouter.post(
     verifyToken,
     verifyLeader,
     addUserToSession,
+);
+
+sessionsRouter.delete(
+    "/:session_id/members",
+    verifyToken,
+    verifyLeader,
+    removeUserFromSession,
 );
 
 sessionsRouter.patch(
