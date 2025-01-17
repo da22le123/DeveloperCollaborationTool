@@ -4,7 +4,6 @@ import http from "node:http";
 import { createServerApp } from "./server.js";
 import { connectToDatabase } from "./database/database.js";
 import { initializeSocket } from "./socket.js";
-import bcrypt from "bcrypt";
 
 const app = createServerApp();
 
