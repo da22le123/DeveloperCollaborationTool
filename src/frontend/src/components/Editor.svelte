@@ -23,6 +23,8 @@ const {
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
 
+export let isSessionOpened = true; // property to control the interactivity of editor
+
 const dispatchAction = (action) => {
     dispatch("createAction", { action_data: action });
 };
@@ -78,6 +80,7 @@ const onDelete = ({ nodes, edges }) => {
 };
 
 const onDragOver = (event) => {
+    if (!isSessionOpened) return;
     event.preventDefault();
 
     if (event.dataTransfer) {
@@ -86,6 +89,7 @@ const onDragOver = (event) => {
 };
 
 const onDrop = (event) => {
+    if (!isSessionOpened) return;
     event.preventDefault();
 
     if (!$newNode) {
@@ -118,6 +122,8 @@ let selectedEdge;
 let clickedPosition = { x: 0, y: 0 };
 
 const onUpdateNode = ({ detail: { label, color } }) => {
+    if (!isSessionOpened) return;
+
     updateNodeData(selectedNode.id, { label, backgroundColor: color });
 
     const brightness = getBrightness(color);
@@ -131,6 +137,7 @@ const onUpdateNode = ({ detail: { label, color } }) => {
 };
 
 const onDeleteNode = () => {
+    if (!isSessionOpened) return;
     deleteElements({ nodes: [selectedNode] });
     $nodes = $nodes.filter((node) => node.id !== selectedNode.id);
 
@@ -142,6 +149,7 @@ const onDeleteNode = () => {
 };
 
 const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
+    if (!isSessionOpened) return;
     // To update the edge object, the entire collection has to be re-assigned.
     $edges = $edges.map((entry) => {
         // Retain the edge's properties if we are not modifying this edge.
@@ -166,6 +174,7 @@ const onUpdateEdge = ({ detail: { label, type, markerStart, markerEnd } }) => {
 };
 
 const onDeleteEdge = () => {
+    if (!isSessionOpened) return;
     deleteElements({ edges: [selectedEdge] });
     dispatchAction({
         type: "EDGE_DELETE",
@@ -180,6 +189,7 @@ const cancelContextMenus = () => {
 };
 
 const onNodeContextMenu = ({ detail: { event, node } }) => {
+    if (!isSessionOpened) return;
     event.preventDefault();
 
     selectedNode = node;
@@ -192,6 +202,7 @@ const onNodeContextMenu = ({ detail: { event, node } }) => {
 };
 
 const onEdgeContextMenu = ({ detail: { event, edge } }) => {
+    if (!isSessionOpened) return;
     event.preventDefault();
 
     selectedNode = null;
@@ -205,6 +216,7 @@ const onEdgeContextMenu = ({ detail: { event, edge } }) => {
 
 const onPaneClick = () => cancelContextMenus();
 const onNodeDragStop = ({ detail: { targetNode } }) => {
+    if (!isSessionOpened) return;
     dispatchAction({
         type: "NODE_UPDATE",
         data: getNode(targetNode.id),
@@ -212,6 +224,7 @@ const onNodeDragStop = ({ detail: { targetNode } }) => {
 };
 
 const onEdgeCreate = (connection) => {
+    if (!isSessionOpened) return;
     const edge = {
         id: `${connection.source}-${connection.target}`,
         source: connection.source,
@@ -247,7 +260,11 @@ const onKeyDown = (event) => {
         <SvelteFlow {nodes} {edges} fitView
                     snapGrid={[25, 25]}
                     proOptions={{ hideAttribution: true }}
-                    deleteKey={["Backspace", "Delete"]}
+                    nodesDraggable={isSessionOpened}
+                    nodesConnectable={isSessionOpened}
+                    elementsSelectable={isSessionOpened}
+                    panOnDrag={isSessionOpened}
+                    deleteKey={isSessionOpened ? ["Backspace", "Delete"] : []}
                     on:dragover={onDragOver}
                     on:drop={onDrop}
                     on:nodecontextmenu={onNodeContextMenu}
@@ -259,15 +276,25 @@ const onKeyDown = (event) => {
         >
             <Background/>
 
-            <NodeContextMenu position={clickedPosition} node={selectedNode} on:update={onUpdateNode}
-                             on:delete={onDeleteNode}/>
-            <EdgeContextMenu position={clickedPosition} edge={selectedEdge} on:update={onUpdateEdge}
-                             on:delete={onDeleteEdge}/>
+            {#if isSessionOpened}
+                <NodeContextMenu
+                        position={clickedPosition}
+                        node={selectedNode}
+                        on:update={onUpdateNode}
+                        on:delete={onDeleteNode}
+                />
+                <EdgeContextMenu
+                        position={clickedPosition}
+                        edge={selectedEdge}
+                        on:update={onUpdateEdge}
+                        on:delete={onDeleteEdge}
+                />
+            {/if}
         </SvelteFlow>
     {/if}
 </div>
 
-<svelte:window on:keydown={onKeyDown}/>
+<svelte:window on:keydown={onKeyDown} />
 
 <style>
     .editor-wrapper {

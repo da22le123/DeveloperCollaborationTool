@@ -30,6 +30,9 @@ const edges = writable([]);
 
 const socket = createSocket();
 
+// track session status to disable actions or able it
+let isSessionOpened = true;
+
 onMount(() => {
     // Listen for connection events
     socket.on("connect", () => {
@@ -59,9 +62,28 @@ onMount(() => {
     });
 
     socket.on("session_was_closed", () => {
+        isSessionOpened = false;
         const message =
             "The session has been closed. No further changes are allowed.";
         showPopupMessage(message, "info", 15000);
+    });
+    socket.on("session_was_opened", () => {
+        isSessionOpened = true;
+        const message =
+            "The session has been opened. Changes are allowed again.";
+        showPopupMessage(message, "info", 15000);
+    });
+
+    socket.on("session_status", (data) => {
+        isSessionOpened = data.is_open;
+
+        if (!isSessionOpened) {
+            showPopupMessage(
+                "The session is closed. No further edits are allowed.",
+                "info",
+                15000,
+            );
+        }
     });
 });
 
@@ -77,7 +99,14 @@ const onToggleHistory = () => {
 
 //saves the action on the history database
 const createAction = async (data) => {
-    console.log("Creating action:", data);
+    if (!isSessionOpened) {
+        showPopupMessage(
+            "Editing is disabled as the session is closed.",
+            "error",
+            15000,
+        );
+        return;
+    }
     await request("/actions", { session_id: sessionId, ...data });
 };
 
@@ -143,6 +172,7 @@ const closeModal = () => {
                 {#if isInitialized}
                     <Editor
                             on:createAction={(event) => createAction(event.detail)}
+                            {isSessionOpened}
                             nodes={nodes}
                             edges={edges}
                     />

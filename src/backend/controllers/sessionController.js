@@ -148,6 +148,8 @@ export const changeSessionStatus = async (req, res) => {
 
     if (!session.is_open) {
         sendMessageToSession(session_id, "session_was_closed", null, null);
+    } else {
+        sendMessageToSession(session_id, "session_was_opened", null, null);
     }
 
     res.status(200).json(session);
