@@ -31,6 +31,23 @@ directly to an [external service, including GitLab][3].
 There are many other platforms that fit clients' needs, such as [Lucidchart][4] or [Miro][5]; however, these solutions
 are commercial and can often be very expensive. Furthermore, they are not tailored to the customer's needs.
 
+## Business Requirements
+
+| ID  | Description                                                                                                                        | MoSCoW | Source     |
+|-----|------------------------------------------------------------------------------------------------------------------------------------|--------|------------|
+| B1  | The system allows developers to collaborate in real time.                                                                          | M      | Assignment |
+| B2  | The system provides a visual editor to create mind maps.                                                                           | M      | Interview  |
+| B3  | The system must prevent users who are not a part of the team accessing brainstorming sessions.                                     | M      | Interview  |
+| B4  | The client wants team leaders to have the ability to export the result of a brainstorming session to the team's GitLab repository. | M      | Assignment |
+| B5  | The client wants team leaders to have the ability to view a replay of all manipulations in a session.                              | M      | Assignment |
+| B6  | The system provides members of a session to view relevant statistics on the collaboration process.                                 | M      | Assignment |
+| B7  | The client wants team leaders to manage who can access a brainstorming session.                                                    | M      | Interview  |
+| B8  | The client wants one administrator to appoint leaders.                                                                             | M      | Assignment |
+| B9  | The client does not want guest users to modify documents.                                                                          | M      | Interview  |
+| B10 | The client does not want to have a junk of users in the database.                                                                  | S      | Interview  |
+| B11 | The client wants team leaders to have the ability to rollback to a past version of a session.                                      | C      | Interview  |
+| B12 | The client wants guest users to have the ability to comment on a session.                                                          | W      | Interview  |
+
 ## Solution Overview
 
 1. Authentication and User Management:
@@ -57,104 +74,58 @@ are commercial and can often be very expensive. Furthermore, they are not tailor
 
 ## Requirements
 
-Feature 1: Editor
+### Functional Requirements
 
-| ID     | Description                                                                                         | Priority | Source                               | 
-|--------|-----------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U1.1   | As a developer I want to cooperate with other users in real time.                                   | MUST     | Interview 1 & Assignment description |
-| S1.1.1 | The system shows the mouse cursor of a user with their name that is currently in the editor.        | MUST     | U1.1                                 |
-| S1.1.2 | The system should utilize WebSockets/SocketIO to provide real time cooperation functionality.       | SHOULD   | U1.1                                 |
-| U1.2   | As a developer I want to work with the visual editor of objects.                                    | MUST     | Interview 1                          |
-| S1.2.1 | The system should provide rectangles, arrows, labels related to other objects.                      | MUST     | U1.2                                 |
-| S1.2.2 | The system should provide the ability to add, move, and delete objects.                             | MUST     | U1.2                                 |
-| S1.2.3 | The system should provide the ability to connect objects with arrows.                               | MUST     | U1.2                                 |
-| S1.2.4 | The system should provide the ability to add labels to objects.                                     | MUST     | U1.2                                 |
-| S1.2.5 | The system should provide the ability to change the color of objects.                               | MUST     | U1.2                                 |
-| S1.2.6 | The system should provide the ability to change styles of arrows.                                   | MUST     | U1.2                                 |
-| S1.2.7 | The system should automatically resize rectangles based on the amount of text content in the label. | SHOULD   | U1.2                                 |
-| S1.2.8 | The system should provide the ability to zoom in and out.                                           | COULD    | U1.2                                 |
-| S1.2.9 | The system should provide the ability to add images to the canvas.                                  | COULD    | U1.2                                 |
+| ID  | Description                                                                                                                | MoSCoW | Source     |
+|-----|----------------------------------------------------------------------------------------------------------------------------|--------|------------|
+| F1  | A developer can access a session they were invited to.                                                                     | M      | Assignment |
+| F2  | Display a list of sessions that the user has access to.                                                                    | M      | Advice     |
+| F3  | The system must prevent unauthorized users from accessing a session or its content.                                        | M      | Interview  |
+| F4  | A session member can see the activity of other members of the session in real time.                                        | M      | Assignment |
+| F5  | A session member can place new nodes in the visual editor.                                                                 | M      | Interview  |
+| F6  | A session member can connect existing nodes in the visual editor together.                                                 | M      | Interview  |
+| F7  | A session member can put custom labels on nodes or connection between nodes in the visual editor.                          | M      | Interview  |
+| F8  | A session member can include images in the visual editor.                                                                  | C      | Interview  |
+| F9  | A leader can export the current state of the document to a GitLab repository in a user-friendly format.                    | M      | Assignment |
+| F10 | A leader can start a new session with a custom name.                                                                       | M      | Assignment |
+| F11 | A leader can close an ongoing session that they are a part of.                                                             | M      | Interview  |
+| F12 | The system does not allow changes to a closed session.                                                                     | S      | Advice     |
+| F13 | A leader can invite other users to a session.                                                                              | M      | Assignment |
+| F14 | A leader can remove members from a session that they are a part of.                                                        | M      | Interview  |
+| F15 | A leader can see a list of team members with a status in regards to the session (invited/not invited).                     | S      | Advice     |
+| F16 | A leader can view a list of history actions done in a document with the username of the author and the type of the action. | M      | Interview  |
+| F17 | A leader can view a past state of the document.                                                                            | M      | Interview  |
+| F18 | A leader can apply a past state of a document.                                                                             | C      | Interview  |
+| F19 | A leader can undo actions done to a document by other session members.                                                     | C      | Interview  |
+| F20 | A team member can view statistics of an activity (a summary of action weights) in a session they are a part of.            | M      | Interview  |
+| F21 | An administrator can appoint a leader.                                                                                     | M      | Interview  |
+| F22 | An administrator can change a leader back to a user.                                                                       | M      | Interview  |
+| F23 | An administrator creates new user accounts.                                                                                | M      | Advice     |
+| F24 | An administrator can modify the account of other users.                                                                    | C      | Advice     |
+| F25 | An administrator can delete other users.                                                                                   | C      | Advice     |
+| F26 | A user can log in to the system using their unique email address and password.                                             | M      | Advice     |
+| F27 | A user can change their password.                                                                                          | M      | Interview  |
+| F28 | Display the current user's role in a clear way on every page.                                                              | S      | Interview  |
+| F29 | A node in the visual editor with more connections should be clearly highlighted from other nodes.                          | C      | Interview  |
+| F30 | A node in the visual editor with no connections should stand out.                                                          | C      | Interview  |
+| F31 | A node in the visual editor can have multiple (2+) connections.                                                            | C      | Interview  |
+| F32 | A guest user can comment on a session.                                                                                     | W      | Interview  |
 
-Feature 2: Git Integration
+### Non-Functional Requirements
 
-| ID     | Description                                                                                                            | Priority | Source                               |
-|--------|------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U2.1   | As a leader I want to save the current state of the project to the Git repository.                                     | MUST     | Interview 1 & Assignment description |
-| S2.1.1 | The system should provide the ability for the lead to export the result of the session to the provided Git repository. | MUST     | U2.1                                 |
-| S2.1.2 | The system exports the result of the session as the Markdown file or any other viewable/renderable type of a file.     | MUST     | Interview 1                          |
-
-Feature 3: Sessions
-
-| ID     | Description                                                                                            | Priority | Source                               |
-|--------|--------------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U3.1   | As a leader I want to create a new session so that I can start a new document.                         | MUST     | Interview 1 & Assignment description |
-| S3.1.1 | The system has a button for starting a new session.                                                    | MUST     | U3.1                                 |
-| U3.2   | As a leader I want to be able to close active sessions or to set status to active for the closed ones. | MUST     | Interview 1                          |
-| S3.2.1 | The system should provide a button to close an active the session.                                     | MUST     | U3.2                                 |
-| S3.2.2 | The system should provide a button to make closed session opened.                                      | MUST     | U3.2                                 |
-| U3.3   | As a developer I want to be able to access the editor for an active session.                           | MUST     | Interview 1                          |
-| S3.3.1 | The system has a dashboard page with a list of active sessions that the user has access to.            | MUST     | U3.3                                 |
-
-Feature 4: Invitations
-
-| ID     | Description                                                                                        | Priority | Source                               |
-|--------|----------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U4.1   | As a leader I want to invite other users to the session so that they can join the collaboration.   | MUST     | Interview 1 & Assignment description |
-| S4.1.1 | The system should provide a button on the session's editor page that leads to the invitation page. | MUST     | U4.1                                 |
-| S4.1.2 | The invitation page should list all of the users and provide a button to invite them.              | MUST     | U4.1                                 |
-| S4.1.3 | The invitation page should provide a functionality to search for the users.                        | SHOULD   | U4.1                                 |
-| S4.1.4 | The users that was invited can access the session on their session list.                           | MUST     | U4.1                                 |
-
-Feature 5: Replays
-
-| ID     | Description                                                                    | Priority | Source                               |
-|--------|--------------------------------------------------------------------------------|----------|--------------------------------------|
-| U5.1   | As a leader I want to replay the session to analyse the whole thought process. | MUST     | Interview 1 & Assignment description |
-| S5.1.1 | The system should have a list of actions done to the document.                 | MUST     | U5.1                                 |
-| U5.2   | As a leader I want to control past actions done to the document.               | SHOULD   | Interview 1                          |
-| S5.2.1 | The system should have a button to undo the **last** action.                   | SHOULD   | U5.2                                 |
-| S5.2.2 | The system should have a button to undo the action.                            | COULD    | U5.2                                 |
-| S5.2.3 | The system should have a button to redo the action.                            | COULD    | U5.2                                 |
-
-Feature 6: Statistics
-
-| ID     | Description                                                                                                                     | Priority | Source                               |
-|--------|---------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U6.1   | As a team member I want to see the statistics of the collaboration process to know how effective the brainstorm process is.     | MUST     | Interview 1 & Assignment description |
-| S6.1.1 | The system should have a button on the session's editor page that leads to the statistics page.                                 | MUST     | U6.1                                 |
-| S6.1.2 | The statistics page should provide the information about the number of actions done to the document in relation to each member. | MUST     | U6.1                                 |
-| S6.1.3 | The statistics page should provide heatmaps showing the contributions of each user relative to sessions they have access to.    | COULD    | Assignment description               |
-
-Feature 7: Role based access
-
-| ID     | Description                                                                                                                              | Priority | Source                               |
-|--------|------------------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------------|
-| U7.1   | As a team member I want to have different roles such as administrator, lead and user so that I can have different permissions.           | MUST     | Interview 1 & Assignment description |
-| S7.1.1 | The system provides 3 roles: administrator, leader and developer. See the rights for each role here: [Rights for each role](#user-roles) | MUST     | U7.1                                 |
-| U7.2   | As an administrator I want to be able to manage leaders.                                                                                 | MUST     | Interview 1 & Assignment description |
-| S7.2.1 | The system has a button to promote a team member to a leader or demote a leader.                                                         | MUST     | U7.2                                 |
-
-Feature 8: Authentication
-
-| ID     | Description                                                                                                     | Priority | Source |
-|--------|-----------------------------------------------------------------------------------------------------------------|----------|--------|
-| U8.1   | As a user I want to log in to the system using my email address and a password I set.                           | MUST     | Advice |
-| S8.1.1 | The system shows a log in form with email address and address inputs to guests.                                 | MUST     | U8.1   |
-| S8.1.2 | The system authenticates the user by matching a user account in the database based on the provided credentials. | MUST     | U8.1   |
-| S8.1.3 | The system generates a valid JWT token for an authenticated user.                                               | MUST     | U8.1   |
-| U8.2   | As a user I want to change my password at any time.                                                             | MUST     | Advice |
-| S8.2.1 | The system has a separate page with settings for the user to change their own password.                         | MUST     | U8.2   |
-
-Feature 9: User management
-
-| ID     | Description                                                                                                    | Priority | Source               |
-|--------|----------------------------------------------------------------------------------------------------------------|----------|----------------------|
-| U9.1   | As an administrator I want to be able to create accounts for other users.                                      | MUST     | Interview 1 & Advice |
-| S9.1.1 | The system has a page with a form with an email address, a password, and a role selection for creating a user. | MUST     | U9.1                 |
-| U9.2   | As an administrator I want to edit/delete existing user accounts.                                              | SHOULD   | Interview 1 & Advice |
-| S9.2.1 | The system has a button leading to a list of users that can be managed.                                        | SHOULD   | U9.2                 |
-| S9.2.2 | The system has a button to delete an existing user account (which is not an administrator).                    | SHOULD   | U9.2                 |
-| S9.2.3 | The system has a form for editing the email address of an existing user account.                               | COULD    | U9.2                 |
+| ID   | Description                                                                                         | MoSCoW | Source     |
+|------|-----------------------------------------------------------------------------------------------------|--------|------------|
+| NF1  | The backend is built using Node.js with Express.js.                                                 | M      | -          |
+| NF2  | The frontend is built using Svelte (not Svelte Kit).                                                | M      | -          |
+| NF3  | The application should be accessible from a desktop and tablet devices.                             | M      | Email      |
+| NF4  | The system stores an anonymized user account after deletion to retain a clear history of actions.   | C      | F25        |
+| NF5  | The system uses [three roles for authorization](#user-roles): Developer, Leader, and Administrator. | M      | Assignment |
+| NF6  | A user can be both an administrator and a leader.                                                   | S      | -          |
+| NF7  | There is only one administrator account in the system that is created upfront.                      | M      | -          |
+| NF8  | The system generates a valid JWT token for an authenticated user.                                   | M      | -          |
+| NF9  | Passwords must be stored as a hash that is a result of the bcrypt function.                         | M      | -          |
+| NF10 | The contrast between a background color and text must meet the WCAG AA standard (4.5:1 ratio).      | C      | Interview  |
+| NF11 | The system should not use dull colors as the primary color scheme.                                  | C      | Interview  |
 
 ## User Roles
 
@@ -167,8 +138,9 @@ Feature 9: User management
     - Replay functionality is accessible only to leaders.
     - They start new sessions and can manage them.
     - They invite other users to sessions.
+    - They remove participants from sessions.
     - They make sure that developers stick to the subject of the session.
-    - They can save the progress of a document to a Git repository.
+    - They can save the progress of a document to a GitLab repository.
 - **Developer**
     - They participate in brainstorming sessions.
 
@@ -176,21 +148,22 @@ Feature 9: User management
 
 1. As a developer, I want to participate in online sessions with other team members, so I can evaluate ideas with the
    entire team or come up with designs for software.
-2. As a developer, I want to work with objects, arrows, and labels in a visual editor, so I can present my ideas.
-3. As a team member, I want to see contributions of other developers during sessions, so I know how effective the
+2. As a developer, I want to see the cursor of other participants in a session, so I know what they are editing.
+3. As a developer, I want to work with nodes, arrows, and labels in a visual editor, so I can present my ideas.
+4. As a team member, I want to see contributions of other developers during sessions, so I know how effective the
    brainstorming process is.
-4. As a leader, I want to see the action history done during a session, so I can analyze the entire thought process.
-5. As a leader, I want to export the result of the session into a Git repository, so I can store the result
+5. As a leader, I want to see the action history done during a session, so I can analyze the entire thought process.
+6. As a leader, I want to export the result of the session into a GitLab repository, so I can store the result
    independently to the system.
-6. As a leader, I want to start a new session, so others can participate.
-7. As a leader, I want to close an active session, so nobody can contribute to resolved topics anymore.
-8. As a leader, I want to invite other members to a sessions, so they can participate in the brainstorming process.
-9. As an administrator, I want to appoint new leaders, so they can manage sessions.
-10. As an administrator, I want to add new team members to the system, so they can utilize the online editor.
-11. As an administrator, I want to manage accounts of other users, so I have full control over who has access to the
-    system.
-12. As a team member, I want to be able to change my password, so I can properly secure my account.
-13. As a leader, I want to be able to undo actions done to the system, so I can revert changes.
+7. As a leader, I want to start a new session, so others can participate.
+8. As a leader, I want to close an active session, so nobody can contribute to resolved topics anymore.
+9. As a leader, I want to invite other members to a sessions, so they can participate in the brainstorming process.
+10. As an administrator, I want to appoint new leaders, so they can manage sessions.
+11. As an administrator, I want to add new team members to the system, so they can join brainstorming sessions.
+12. As an administrator, I want to manage all user accounts, so I have full control over who has access to the system.
+13. As a team member, I want to be able to change my password, so I can properly secure my account.
+14. As a leader, I want to be able to undo actions done to the system, so I can revert irrelevant changes.
+15. As a guest user, I want to comment on an active session that can be seen by its members, so I can provide feedback.
 
 ## Mockups and wireframes (Low-Fidelity)
 
@@ -294,6 +267,12 @@ The "Explore Statistics" button displays the number of contributions made by pro
 Users can see the names of contributors along with the number of changes they have made, allowing for easy
 identification of the most active participants in the project.
 
+## Changelog
+
+| By  | Changes                                               | Date       |
+|-----|-------------------------------------------------------|------------|
+| Jan | Reworking Requirements and User Stories               | 17.01.2025 |
+| Jan | Introduction, Problem Analysis, Alternatives Research | 10.01.2025 |
 
 [1]: https://www.drawio.com/blog/real-time-collaboration-diagrams
 
