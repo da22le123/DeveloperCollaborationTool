@@ -19,6 +19,7 @@ const onLogoutClick = () => {
     <h1 class="text-xl font-bold"><a href="/">Purple Alligator</a></h1>
     {#if $isAdminStore}
         <a href="/manage-users">Manage Users</a>
+        <a href="/register">Create User</a>
     {/if}
     {#if $isAdminStore || $isLeadStore}
         <a href="/sessions/create">Create Session</a>
