@@ -85,7 +85,7 @@ pm2 startup
 - If you have a reverse proxy (which is highly recommended), don't forget to set up proxy forwarding for both frontend
   and backend. Backend port is specified as `PORT` in `backend/.env`, frontend port is specified in `pm2 start` command.
 - `VITE_API_BASE_URL` environmental variable on frontend must be a public address on which the backend is available.
-  I.e. not `http://localhost:5123`, but `http://domain.com:5123` or `https://*public_ip*:5123`
+  I.e. not `http://localhost:4173`, but `http://domain.com:4173` or `https://*public_ip*:4173`
 - `CLIENT_URL` environmental variable on backend must be a public address on which the frontend is available (it is only
   used for CORS so it can be omitted if your reverse proxy manages it for you).
 
