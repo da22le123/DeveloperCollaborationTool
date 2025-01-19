@@ -2,10 +2,10 @@
 import router from "page";
 import { SvelteFlowProvider } from "@xyflow/svelte";
 import { onDestroy, onMount } from "svelte";
+import { writable } from "svelte/store";
 import { get, request } from "../utils/fetch.js";
 import { applyAction } from "../lib/applyAction.js";
 import { showPopupMessage } from "../stores/popupStore.js";
-
 import { createSocket } from "../lib/socket.js";
 
 import Editor from "../components/Editor.svelte";
@@ -14,9 +14,9 @@ import ReplayHistory from "../components/editor/ReplayHistory.svelte";
 import NodeList from "../components/editor/NodeList.svelte";
 import EditorNodeProvider from "../providers/EditorNodeProvider.svelte";
 import FlowDataModal from "../components/FlowDataModal.svelte";
-import { writable } from "svelte/store";
 
 export let params;
+
 const sessionId = params.params.id;
 let activeHistory = false;
 let snapshot;
@@ -153,7 +153,8 @@ const closeModal = () => {
 
                 <div class="flex justify-between mb-6">
                     <ExportButton sessionId={params.params.id}></ExportButton>
-                    <a href={`/sessions/${sessionId}/invitations`} class="btn-black px-9 rounded-md">
+
+                    <a href={`/sessions/${sessionId}/invitations`} class="btn-primary px-9 rounded-md">
                         Invite Users
                     </a>
                 </div>
@@ -161,10 +162,11 @@ const closeModal = () => {
                 <NodeList />
 
                 <div class="flex justify-between">
-                    <a href={`/sessions/${sessionId}/statistics`} class="btn-black px-9 rounded-md">
-                        Explore Statistics
+                    <a href={`/sessions/${sessionId}/statistics`} class="btn-primary px-7 rounded-md">
+                        View Statistics
                     </a>
-                    <button class="btn-black px-7" on:click={onToggleHistory}>
+
+                    <button class="btn-primary px-7" on:click={onToggleHistory}>
                         {activeHistory ? 'Close History' : 'View History'}
                     </button>
                 </div>
@@ -200,9 +202,3 @@ const closeModal = () => {
         on:showAction = {(event) => showAction(event.detail)}
         socket={socket}
 />
-
-<style>
-    .btn-black {
-        @apply bg-[#009c82] text-black py-1.5 hover:border-black;
-    }
-</style>
