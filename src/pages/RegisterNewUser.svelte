@@ -64,7 +64,6 @@ const register = async (event) => {
                     bind:value="{role}"
                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
             >
-                <option disabled selected>Dropdown option</option>
                 <option>Developer</option>
                 <option>Lead</option>
             </select>
