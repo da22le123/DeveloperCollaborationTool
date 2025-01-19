@@ -6,7 +6,30 @@
 
 # Design considerations
 
-**Considerations for Real-Time Update Technology**
+## Considerations for Visual Editor
+
+The visual editor is the core feature of the application. Implementing rendering of nodes and edges from scratch would 
+take ages. Therefore, multiple libraries were considered:
+
+- [svg.js](https://svgjs.dev/) - A very simple library just for the manipulation of **SVG**. It can be extended with
+  plugins such as svg.draggable.js to support dragging elements or svg.panzoom.js to enable zooming in/out. Sadly, there
+  is no mention of resizing/scaling.
+- [fabricJS](https://fabricjs.com/) - A **canvas** editor outside the box. Supports (importing) images, text editing,
+  and even exporting the editor state into JSON or SVG.
+- [konvaJS](https://konvajs.org/) - Another **canvas** editor outside the box. Supports Svelte. The current editor state
+  can be exported to JSON or a PNG image.
+- [Svelte Flow](https://svelteflow.dev/) - A very recent library working with the **HTML DOM**. It provides a flowchart
+  rendering outside the box with arrows (and labels) for connecting boxes, supports zooming in/out, and supports loading
+  data from an object (e.g., JSON). The result can be exported to an image.
+
+An honorable mention is [DgrmJS](https://github.com/AlexeyBoiko/DgrmJS), an open-source flowchart editor built purely in
+JavaScript without external libraries. It has features such as real-time collaboration, undoing past actions, or zooming
+in and out.
+
+The team decided to choose [Svelte Flow](#svelte-flow) as it is feature-complete for our needs, and it can be very
+easily extended or modified; it comes with an extensive documentation and examples.
+
+## Considerations for Real-Time Update Technology
 
 As the requested application requires real-time updates for session members, including session action updates,
 live cursor tracking, and synchronized session state management, the team considered using WebSocket-based technology.
@@ -16,8 +39,7 @@ ensuring compatibility with Svelte for the frontend and Node.js for the backend.
 During this research, two options were evaluated: bare WebSockets and the Socket.IO library,
 which is built on top of WebSockets.
 
-
-**Research results:**
+### Research results
 
 - Bare WebSockets are lightweight and efficient for real-time updates but lack features such as automatic reconnection,
   fallback mechanisms, and tools for shared state management. These limitations require additional development effort to
@@ -27,7 +49,7 @@ which is built on top of WebSockets.
   event-driven communication, and tools such as rooms for session-specific updates and namespaces for better
   communication organization.
 
-**Selected technology:**
+### Selected technology
 
 The team decided to choose the Socket.IO library over bare WebSockets due to several key advantages.
 
@@ -83,7 +105,6 @@ was chosen, but Sequelize's flexibility ensures scalability if the database dial
 Its built-in features, such as migrations, validations, and associations, save development time and provide a
 structured, consistent approach to database management.
 
-
 ### Socket.IO 
 
 Socket.IO is a library built on top of the WebSocket protocol,
@@ -99,7 +120,6 @@ called namespaces,
 each acting as an independent communication channel
 to better organize and manage the application's real-time update needs.
 
-
 ## Information architecture (what data provided how, navigation)
 
 ## Security architecture
@@ -109,7 +129,9 @@ protecting their data and preventing unauthorized access to restricted parts of 
 
 The two key components of the security architecture are the **JSON Web Token (JWT)** and the **bcrypt library**.
 
-**JSON Web Tokens (JWT)** are used to handle both authentication and authorization. JWT enables the secure transmission of user data between the frontend and backend and implements role-based access control, ensuring that only users with the appropriate permissions can access specific resources or perform certain actions.
+**JSON Web Tokens (JWT)** are used to handle both authentication and authorization. JWT enables the secure transmission
+of user data between the frontend and backend and implements role-based access control, ensuring that only users with
+the appropriate permissions can access specific resources or perform certain actions.
 
 **Backend:**
 
@@ -128,9 +150,9 @@ Additionally, further validation is performed within controller functions to ens
 verifying if a user is part of a session
 or if a session exists—returning appropriate error responses to prevent undesirable changes to the database.
 
-
-**Bcrypt** is used to securely hash user passwords before storing them in the database. During login, bcrypt compares the entered password with the stored hash, ensuring robust protection against brute-force attacks and safeguarding user credentials.
-
+**Bcrypt** is used to securely hash user passwords before storing them in the database. During login, bcrypt compares
+the entered password with the stored hash, ensuring robust protection against brute-force attacks and safeguarding user
+credentials.
 
 The real-time communication functionality,
 implemented using the **Socket.IO** library, also incorporates JWT for validation.
@@ -139,7 +161,6 @@ And further use it
 to ensure the user has the required permissions to perform specific actions within a session.
 If a user attempts to perform unauthorized actions, appropriate error notifications are sent via the WebSocket,
 ensuring real-time feedback and preventing unauthorized activities.
-
 
 **Frontend:**
 
@@ -156,7 +177,9 @@ to prevent unauthorized users or users without the necessary roles from accessin
 These pages include role and authentication checks,
 redirecting users to the login page if an unauthorized access attempt is detected.
 
-API requests on the frontend are managed using utility functions get and request, which include the Authorization header with the JWT (Bearer <token>) when sending requests. These functions ensure secure authentication and authorization for all backend interactions.
+API requests on the frontend are managed using utility functions get and request, which include the Authorization header
+with the JWT (Bearer <token>) when sending requests. These functions ensure secure authentication and authorization for
+all backend interactions.
 
 ## Performance
 
@@ -304,14 +327,17 @@ and each record in the `Action` table linked to a specific user who performed th
 
 ### Tailwind
 
-In our project, we used Tailwind CSS, CSS framework, to streamline the styling process. 
-Unlike traditional frameworks such as Bootstrap, which come with pre-built components, Tailwind focuses on providing utility classes that allow to take control over styling directly in your HTML.
+In our project, we used Tailwind CSS, CSS framework, to streamline the styling process. Unlike traditional frameworks
+such as Bootstrap, which come with pre-built components, Tailwind focuses on providing utility classes that allow to
+take control over styling directly in your HTML.
 
 This approach has several benefits:
 
-- No Need for Class Naming: Tailwind eliminates the need to create custom class names and write separate CSS rules for each.
+- No Need for Class Naming: Tailwind eliminates the need to create custom class names and write separate CSS rules for
+  each.
 - Built-In Responsiveness: Tailwind provides an intuitive system for responsive design using prefixes.
-- Productivity Boost: By using utility classes, we avoided jumping between HTML and CSS files, which significantly sped up the development process.
+- Productivity Boost: By using utility classes, we avoided jumping between HTML and CSS files, which significantly sped
+  up the development process.
 
 ### Chart.js for statistics page
 
