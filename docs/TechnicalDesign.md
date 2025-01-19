@@ -160,6 +160,74 @@ API requests on the frontend are managed using utility functions get and request
 
 ## Performance
 
+## GitLab
+
+### Solutions for handling GitLab authorization:
+
+#### [Personal Access Tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) / [Group Access Tokens](https://docs.gitlab.com/ee/user/group/settings/group_access_tokens.html) / [Project Access Tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)
+
+Pros:
+- Easy set up
+
+Cons:
+- Tedious for the user (they would need to manually issue a new token in GitLab settings)
+
+#### [OAuth 2.0](https://docs.gitlab.com/ee/api/oauth2.html)
+
+Pros:
+- Intuitive for the user ("Login with GitLab" → "Authorize" → done)
+
+Cons:
+- Hard to set up (need extra code for token management) ~ 3sp
+- HTTPS is advised in production environment
+
+### Token flow: possible implementation of remembering a token
+
+#### No caching
+
+Pros: Easy to implement.
+
+Cons: User has to input the token on every export; possibly, they will also need to create an extra token.
+
+#### Client-side caching (e.g. store it in localStorage)
+
+Pros: Relatively easy to implement (1sp).
+
+Cons: Does not persist after a re-login.
+
+#### Server-side caching (e.g. database)
+
+Pros: Convenient for the user (provide token once and use up to forever).
+
+Cons:
+- Hard to implement (require extra database fields and methods 3sp).
+- Security concerns (data leak would expose access to user data on GitLab)
+
+### Solutions for uploading data to GitLab
+
+#### [GitLab API](https://docs.gitlab.com)
+
+- [POST /projects/:id/repository/commits](https://docs.gitlab.com/ee/api/commits.html#create-a-commit-with-multiple-files-and-actions) can be used to create a commit and add any files to it.
+- [PUT /projects/:id/repository/files/:file_path](https://docs.gitlab.com/ee/api/repository_files.html#update-existing-file-in-repository) can be used to update a single file in a repository. Unsure if it would fail if the file did not exist initially. Downside: Does not specify error messages.
+
+Verdict: Even though Repository Files API technically covers all our needs, probably use Commits API because it is more robust and allows more customization.
+
+Possible Errors: TBD, but here are some hypotheses
+
+- 401 — Forward to user, prompt to change access token / reauth
+- 400 — Forward to user, check, possibly invalidate file path or repo
+
+#### Git CLI
+
+Another method would be to run git commands in a shell on a server, just like a person would. This could be viable if we had to support arbitrary git repos, but since GitLab offers an API, it does not look feasible.
+
+### Final solution
+
+- Fully frontend-based
+- Uses GitLab Access Tokens for authentication
+- Uses localStorage for caching
+- Uses GitLab Commits API for uploading
+
 # System Design
 
 ## Database design
