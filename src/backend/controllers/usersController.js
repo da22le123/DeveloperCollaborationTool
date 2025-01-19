@@ -44,6 +44,8 @@ export const getListOfAllUsers = async (req, res) => {
             "id",
             "username",
             "email",
+            "is_admin",
+            "is_lead",
             [
                 Sequelize.literal(`
                         CASE 
