@@ -15,6 +15,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --primary-color: #009c82;
 }
 
 a {
@@ -74,6 +76,10 @@ a:hover {
 }
 button {
     background-color: #f9f9f9;
+}
+
+.btn-primary {
+    @apply bg-[color:--primary-color] text-white py-1.5 hover:border-[color:--primary-color] hover:text-white;
 }
 
 @layer utilities {
