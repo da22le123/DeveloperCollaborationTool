@@ -149,9 +149,16 @@ export const deleteUser = async (req, res) => {
     const userId = await userIdSchema.validate(req.params.id, {
         abortEarly: false,
     });
+
     const user = await User.findOne({ where: { id: userId } });
 
     if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (user.is_admin) {
+        return res
+            .status(403)
+            .json({ message: "You cannot delete an administrator account." });
+    }
 
     await User.update(
         {

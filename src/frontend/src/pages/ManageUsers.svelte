@@ -125,8 +125,10 @@ const userPromise = fetchUsers();
                                 />
                             </td>
                             <td class="px-6 py-4 text-center">
+                                {#if !user.is_admin}
                                 <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                                         on:click={() => confirmAndDeleteUser(user)}>Delete</button>
+                                {/if}
                             </td>
                             <td class="px-6 py-4 text-center">
                                 {#if !user.is_admin}
