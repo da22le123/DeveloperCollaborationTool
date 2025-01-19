@@ -220,3 +220,20 @@ Topic: Progress discussion
 - Denys was working on issue #87 "Render the editor latest state" with Kirill.
 - Illya finished working on issue #39 "Add an API endpoint for retrieving users that can be invited to a session" and merged it. Assigned a new task for himself.
 - Nestoras was working on issue #82 "Render a specific action by clicking on it".
+
+
+
+### 13.1.2025
+
+Attendees: Jan, Denys, Ilya, Nestoras, Yevheniia, Fedor, Rokas, Kirill
+
+Topic: Progress discussion
+
+- Jan was working on issues #74 "Refine the requirements based on the feedback of the client". Also reviewed other team members merge requests. Will focus on tasks related to documentation.
+- Yevheniia finished working on issue #34 "Create business logic for closing a session." and merged it. Assigned a new task for herself.
+- Fedor was working on issue #22 "Create the functionality of tracking cursor position and streaming it to all other users".
+- Kirill was working on issue #87 "Render the editor latest state" with Denys.
+- Rokas finished working on issue #66 "Frontend: Add modifying user accounts" and waits for it to be reviewed.
+- Denys was working on issue #87 "Render the editor latest state" with Kirill.
+- Illya finished working on issue #38 "Create a page with a list of invitable members to a session" and waits for it to be reviewed. Also reviewed other team members merge requests.
+- Nestoras was working on issue #82 "Render a specific action by clicking on it".
