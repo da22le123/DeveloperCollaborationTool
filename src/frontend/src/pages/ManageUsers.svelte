@@ -1,6 +1,4 @@
 <script>
-import page from "page";
-import { isAdminStore } from "../stores/tokenStore.js";
 import { tokenStore } from "../stores/tokenStore";
 import { showPopupMessage } from "../stores/popupStore";
 import { request } from "../utils/fetch.js";
@@ -12,10 +10,6 @@ let isVisible = false;
 let isModalOpen = false;
 let editingUser = null;
 let newEmail = "";
-
-if (!$tokenStore || !$isAdminStore) {
-    page("/login");
-}
 
 async function fetchUsers() {
     const response = await fetch("http://localhost:3000/users", {
