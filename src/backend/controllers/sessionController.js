@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { sessionSchema } from "../schemas.js";
 import { Session, SessionMember, User } from "../database/database.js";
 import { sendMessageToSession } from "../socket.js";
@@ -169,7 +170,13 @@ export const getListOfUsersAndInviteStatuses = async (req, res) => {
         where: { session_id },
     });
 
-    const allUsers = await User.findAll();
+    const allUsers = await User.findAll({
+        where: {
+            email: {
+                [Op.ne]: null,
+            },
+        },
+    });
 
     const users = [];
 
