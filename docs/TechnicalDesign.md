@@ -8,7 +8,7 @@
 
 ## Considerations for Visual Editor
 
-The visual editor is the core feature of the application. Implementing rendering of nodes and edges from scratch would 
+The visual editor is the core feature of the application. Implementing rendering of nodes and edges from scratch would
 take ages. Therefore, multiple libraries were considered:
 
 - [svg.js](https://svgjs.dev/) - A very simple library just for the manipulation of **SVG**. It can be extended with
@@ -105,7 +105,7 @@ was chosen, but Sequelize's flexibility ensures scalability if the database dial
 Its built-in features, such as migrations, validations, and associations, save development time and provide a
 structured, consistent approach to database management.
 
-### Socket.IO 
+### Socket.IO
 
 Socket.IO is a library built on top of the WebSocket protocol,
 designed for real-time, bidirectional communication between clients and servers.
@@ -119,6 +119,105 @@ Furthermore, multiplexing feature enables a single WebSocket connection to be di
 called namespaces,
 each acting as an independent communication channel
 to better organize and manage the application's real-time update needs.
+
+### Bcrypt
+
+Bcrypt is a widely used library for securely hashing passwords. It provides a robust mechanism for storing sensitive
+user credentials by encrypting passwords before they are saved to the database. This ensures that even if a database is
+compromised, the actual passwords remain secure. Bcrypt also includes a method for comparing hashed passwords, which is
+essential for user authentication systems. It helps mitigate the risk of password-based attacks like brute-force or
+dictionary attacks.
+
+### Cors
+
+CORS (Cross-Origin Resource Sharing) is a middleware library used to enable secure communication between the frontend
+and backend when they are hosted on different domains or ports. By default, browsers block web pages from making
+requests to a different domain than the one the page was loaded from. CORS allows you to control which domains are
+permitted to access resources on your server, thus enhancing security and enabling flexible application architectures.
+
+### Dotenv
+
+Dotenv simplifies the process of managing environment variables in Node.js applications. It loads environment-specific
+variables from a `.env` file into the `process.env` object, ensuring that sensitive configuration data such as API keys,
+database credentials, or secrets are kept outside the source code. This makes it easier to switch between different
+environments (development, testing, production) without exposing sensitive data in the codebase.
+
+### Express
+
+Express is a minimal and flexible web framework for Node.js that simplifies building server-side applications. It
+provides a robust set of features for handling HTTP requests, managing middleware, and routing. Express helps developers
+quickly create APIs, handle user input, and manage sessions. Its lightweight nature makes it highly customizable, while
+its extensive documentation and large community support make it a popular choice for building web applications.
+
+### Express-async-errors
+
+Express-async-errors is a small library that extends Express's error-handling capabilities. It allows you to write
+asynchronous route handlers without having to manually catch and pass errors to the error-handling middleware. This
+makes it easier to work with promises and async/await syntax, and ensures that uncaught errors are handled in a
+consistent and graceful manner, improving the reliability of the application.
+
+### Jsonwebtoken
+
+Jsonwebtoken (JWT) is a library for securely transmitting information between parties as a JSON object. It is commonly
+used for implementing token-based authentication in modern web applications. JWTs are typically issued after a user
+successfully logs in and are used to authenticate requests. JWTs can contain claims (user data) and are signed using a
+secret key to prevent tampering. This ensures that the user's identity can be verified without needing to store session
+data on the server.
+
+### Yup
+
+Yup is a JavaScript schema validation library that allows developers to define the structure of data and validate it
+against defined rules. It can be used to validate user input, form submissions, or API responses, ensuring that data
+meets certain criteria before it is processed or stored. Yup supports complex validation scenarios, such as nested
+objects, arrays, and custom validation rules. By using Yup, developers can catch errors early and ensure that the data
+their application handles is consistent and correct.
+
+### @biomejs/biome
+
+Biome is a comprehensive code quality tool that integrates various features like linting, formatting, and static
+analysis into a single package. It helps developers maintain a consistent code style, identify potential bugs or code
+smells, and ensure best practices are followed. By using Biome, teams can automate code checks, reducing manual review
+time and improving collaboration. It also supports TypeScript, JSX, and other modern syntax, making it a flexible choice
+for JavaScript and TypeScript projects.
+
+### Cross-env
+
+Cross-env is a utility library that makes it easy to set environment variables in a consistent manner across different
+operating systems (Linux, macOS, Windows). Environment variables are often used to configure settings for development,
+testing, and production environments. Cross-env ensures that setting these variables works the same way, regardless of
+the OS, avoiding issues with platform-specific syntax differences. It is commonly used in development scripts to set
+environment-specific configurations.
+
+### Supertest
+
+Supertest is a testing library for making HTTP assertions in Node.js applications. It is designed to simplify the
+process of writing integration tests for web applications and APIs. With Supertest, developers can easily make requests
+to their APIs, check the status codes of responses, and validate response bodies. It integrates well with popular
+testing frameworks like Mocha, Jest, or Vitest, making it easy to write and run tests for endpoints, ensuring that the
+API behaves as expected under different conditions.
+
+### Vitest
+
+Vitest is a fast and modern testing framework for JavaScript, designed to provide a smooth testing experience for
+Node.js and frontend applications. It supports features like snapshot testing, mocking, and code coverage out of the
+box. Vitest is known for its speed, making it a great choice for projects that need quick feedback during development.
+It is compatible with popular testing styles like Jest and Mocha and integrates well with other tools and libraries in
+the testing ecosystem.
+
+### Chart.js
+
+Chart.js is a popular JavaScript library used to create interactive and visually appealing charts and graphs in web
+applications. It provides an easy-to-use API for drawing various types of charts, including line, bar, radar, and pie
+charts. With built-in animations and responsiveness, Chart.js is ideal for displaying data dynamically on the frontend.
+It supports both static and real-time data updates, making it a versatile tool for creating data visualizations.
+
+### Html-to-image
+
+Html-to-image is a JavaScript library that allows you to convert HTML content into image files. It enables developers to
+capture a portion of the webpage (or entire content) as an image, which can then be downloaded or shared. This is
+particularly useful for generating reports, charts, or saving visual content directly from the browser. The library
+supports various output formats like PNG and JPEG, and it can render HTML elements, including styles, images, and text,
+into high-quality images.
 
 ## Information architecture (what data provided how, navigation)
 
@@ -190,17 +289,21 @@ all backend interactions.
 #### [Personal Access Tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) / [Group Access Tokens](https://docs.gitlab.com/ee/user/group/settings/group_access_tokens.html) / [Project Access Tokens](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)
 
 Pros:
+
 - Easy set up
 
 Cons:
+
 - Tedious for the user (they would need to manually issue a new token in GitLab settings)
 
 #### [OAuth 2.0](https://docs.gitlab.com/ee/api/oauth2.html)
 
 Pros:
-- Intuitive for the user ("Login with GitLab" → "Authorize" → done)
+
+- Intuitive for the user ("Login with GitLab" →"Authorize" → done)
 
 Cons:
+
 - Hard to set up (need extra code for token management) ~ 3sp
 - HTTPS is advised in production environment
 
@@ -223,6 +326,7 @@ Cons: Does not persist after a re-login.
 Pros: Convenient for the user (provide token once and use up to forever).
 
 Cons:
+
 - Hard to implement (require extra database fields and methods 3sp).
 - Security concerns (data leak would expose access to user data on GitLab)
 
@@ -230,19 +334,24 @@ Cons:
 
 #### [GitLab API](https://docs.gitlab.com)
 
-- [POST /projects/:id/repository/commits](https://docs.gitlab.com/ee/api/commits.html#create-a-commit-with-multiple-files-and-actions) can be used to create a commit and add any files to it.
-- [PUT /projects/:id/repository/files/:file_path](https://docs.gitlab.com/ee/api/repository_files.html#update-existing-file-in-repository) can be used to update a single file in a repository. Unsure if it would fail if the file did not exist initially. Downside: Does not specify error messages.
+- [POST /projects/:id/repository/commits](https://docs.gitlab.com/ee/api/commits.html#create-a-commit-with-multiple-files-and-actions)
+  can be used to create a commit and add any files to it.
+- [PUT /projects/:id/repository/files/:file_path](https://docs.gitlab.com/ee/api/repository_files.html#update-existing-file-in-repository)
+  can be used to update a single file in a repository. Unsure if it would fail if the file did not exist initially.
+  Downside: Does not specify error messages.
 
-Verdict: Even though Repository Files API technically covers all our needs, probably use Commits API because it is more robust and allows more customization.
+Verdict: Even though Repository Files API technically covers all our needs, probably use Commits API because it is more
+robust and allows more customization.
 
 Possible Errors: TBD, but here are some hypotheses
 
-- 401 — Forward to user, prompt to change access token / reauth
-- 400 — Forward to user, check, possibly invalidate file path or repo
+- 401 — Forward to user, prompt to change access token / reauth
+- 400 — Forward to user, check, possibly invalidate file path or repo
 
 #### Git CLI
 
-Another method would be to run git commands in a shell on a server, just like a person would. This could be viable if we had to support arbitrary git repos, but since GitLab offers an API, it does not look feasible.
+Another method would be to run git commands in a shell on a server, just like a person would. This could be viable if we
+had to support arbitrary git repos, but since GitLab offers an API, it does not look feasible.
 
 ### Final solution
 
