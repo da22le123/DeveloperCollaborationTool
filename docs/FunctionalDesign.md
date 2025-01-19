@@ -180,10 +180,10 @@ Login page allows users that are part of the system to login to the system by pr
 ![wireframe2](./wireframes/wireframe2-home.png)
 
 Once logged in, user will be able to join possible sessions that he/she has been added to or depending on the role,
-user’s own created sessions. Session has two buttons to keep track of current session status: open (to open) and close (to close) - leads can manage it.
-On top, there are 5 buttons : manage users (only for admin), create a new session (only for leaders), add new users (
-only for administrator), circled first letter username (leads to change user's current password) and logout button to
-leave an account.
+user’s own created sessions. Session has two buttons to keep track of current session status: open (to open) and close
+(to close) - leads can manage it. On top, there are 5 buttons : manage users (only for admin), create a new session
+(only for leaders), add new users (only for administrator), circled first letter username (leads to change user's
+current password) and logout button to leave an account.
 
 ### 3. Session management
 
@@ -210,8 +210,8 @@ an email.
 
 ![wireframe6](./wireframes/wireframe6-home-to-change-password.png)
 
-The user can change their current password at any time by accessing their profile. 
-This can be done from any page by clicking on the first letter of their name, displayed in a circle, located in the header next to the logout button.
+The user can change their current password at any time by accessing their profile. This can be done from any page by
+clicking on the first letter of their name, displayed in a circle, located in the header next to the logout button.
 
 ![wireframe7](./wireframes/wireframe7-change-password.png)
 
@@ -239,16 +239,16 @@ When clicking on a replay entry in the history, the saved state as a diagram wil
 
 On the right-hand side, a collaboration space is provided. Users can create different diagrams and view changes in real
 time. Objects can easily be deleted by clicking on it and press "delete" keyboard. If user wants to change a label,
-he/she just presses a label and can immediately change it. When someone is making a change, their cursor, along with their name, will be visible. 
-If the users decide to change the object or label, they can simply select the object, and a blue radius will appear.
+he/she just presses a label and can immediately change it. When someone is making a change, their cursor, along with
+their name, will be visible. If the users decide to change the object or label, they can simply select the object, and a
+blue radius will appear.
 
 #### Invite members and export
 
 ![wireframe12](./wireframes/wireframe12-editor-invite-members.png)
 
-On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub.
-The project leader can invite new members to the project by clicking the "Invite Members" button.
-
+On the left-hand side, the "Export" button is used to export the created diagram as a Markdown file to Gitlub. The
+project leader can invite new members to the project by clicking the "Invite Members" button.
 
 ![wireframe13](./wireframes/wireframe13-invite-members.png)
 
@@ -263,16 +263,17 @@ Administrator can create a new user by providing an email, name, password and ro
 ![wireframe15](./wireframes/wireframe15-editor-to-statistics.png)
 ![wireframe16](./wireframes/wireframe16-statistics.png)
 
-The "Explore Statistics" button displays the number of contributions made by project members.
-Users can see the names of contributors along with the number of changes they have made, allowing for easy
-identification of the most active participants in the project.
+The "Explore Statistics" button displays the number of contributions made by project members. Users can see the names of
+contributors along with the number of changes they have made, allowing for easy identification of the most active
+participants in the project.
 
 ## Changelog
 
-| By  | Changes                                               | Date       |
-|-----|-------------------------------------------------------|------------|
-| Jan | Reworking Requirements and User Stories               | 17.01.2025 |
-| Jan | Introduction, Problem Analysis, Alternatives Research | 10.01.2025 |
+| By    | Changes                                               | Date       |
+|-------|-------------------------------------------------------|------------|
+| Denys | Connected wireframes together                         | 17.01.2025 |
+| Jan   | Reworking Requirements and User Stories               | 17.01.2025 |
+| Jan   | Introduction, Problem Analysis, Alternatives Research | 10.01.2025 |
 
 [1]: https://www.drawio.com/blog/real-time-collaboration-diagrams
 
