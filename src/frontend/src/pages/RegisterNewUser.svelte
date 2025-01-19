@@ -1,6 +1,4 @@
 <script>
-import page from "page";
-import { isAdminStore } from "../stores/tokenStore.js";
 import { popupMessage, showPopup } from "../stores/popupStore.js";
 import { request } from "../utils/fetch.js";
 
@@ -8,10 +6,6 @@ let email = "";
 let username = "";
 let password = "";
 let role = "Developer";
-
-if (!$isAdminStore) {
-    page("/");
-}
 
 const register = async (event) => {
     event.preventDefault();

@@ -1,17 +1,10 @@
 <script>
-import { tokenStore } from "../stores/tokenStore.js";
-import { isAdminStore } from "../stores/tokenStore.js";
-import { isLeadStore } from "../stores/tokenStore.js";
 import page from "page";
 import { showPopupMessage } from "../stores/popupStore.js";
 import { request } from "../utils/fetch.js";
 import Field from "../components/Field.svelte";
 
 let sessionName = "";
-
-if (!$tokenStore || (!$isAdminStore && !$isLeadStore)) {
-    page("/login");
-}
 
 async function createSession() {
     if (!sessionName) {
