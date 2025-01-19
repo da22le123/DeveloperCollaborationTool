@@ -149,7 +149,7 @@ const closeModal = () => {
     <EditorNodeProvider>
         <div class="flex w-full">
             <div class="w-96 pr-10">
-                <h1 class="text-2xl font-semibold mb-6">Session Name</h1>
+                <h1 class="text-2xl font-semibold mb-6">Session #{sessionId}</h1>
 
                 <div class="flex justify-between mb-6">
                     <ExportButton sessionId={params.params.id}></ExportButton>
@@ -177,6 +177,8 @@ const closeModal = () => {
                             {isSessionOpened}
                             nodes={nodes}
                             edges={edges}
+                            sessionId={params.params.id}
+                            socket={socket}
                     />
                 {/if}
             </div>
@@ -201,10 +203,6 @@ const closeModal = () => {
 
 <style>
     .btn-black {
-        @apply bg-black text-white py-1.5 hover:border-black;
-    }
-
-    .btn-red {
-        @apply bg-red-900 text-white py-1.5 hover:border-red-900;
+        @apply bg-[#009c82] text-black py-1.5 hover:border-black;
     }
 </style>
