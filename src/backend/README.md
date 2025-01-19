@@ -1,4 +1,4 @@
-**Environmental variables**
+# Environmental variables
 
 `PORT` - Port on which the server is hosted. Default is `3000`.
 `CLIENT_URL` - URL on which the frontend part is hosted. Can be left blank during development.
