@@ -1,6 +1,11 @@
 import bcrypt from "bcrypt";
 import { modifyUser, registerSchema, userIdSchema } from "../schemas.js";
-import { Session, SessionMember, User } from "../database/database.js";
+import {
+    sequelize,
+    Session,
+    SessionMember,
+    User,
+} from "../database/database.js";
 import { Op, Sequelize } from "sequelize";
 
 export const handleNewUser = async (req, res, next) => {
@@ -57,6 +62,11 @@ export const getListOfAllUsers = async (req, res) => {
                 "role",
             ],
         ],
+        where: {
+            email: {
+                [Op.ne]: null,
+            },
+        },
     });
 
     res.status(200).json(users);
@@ -147,7 +157,6 @@ export const deleteUser = async (req, res) => {
         {
             username: `deleted (${user.id})`,
             email: null,
-            password: null,
             is_admin: null,
             is_lead: null,
         },
