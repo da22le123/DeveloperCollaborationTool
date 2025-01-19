@@ -1,6 +1,7 @@
 <script>
 export let value = "";
 export let placeholder = "";
+export let required = false;
 
 function handleInput(event) {
     value = event.target.value;
@@ -13,6 +14,6 @@ function handleInput(event) {
             placeholder={placeholder}
             bind:value={value}
             on:input={handleInput}
-
+            required={required}
     />
 </div>

@@ -26,7 +26,9 @@ const onLogoutClick = () => {
     <div class="flex-grow"/>
     <div class="flex gap-4 items-center">
         {#if $tokenStore}
-            <strong>Logged in as {$usernameStore} ({getUserRole()})</strong>
+            <a href="/settings" class="text-black">
+                <strong>Logged in as {$usernameStore} ({getUserRole()})</strong>
+            </a>
             <button on:click={onLogoutClick} class="px-4 py-2 -my-2 bg-gray-100 hover:bg-gray-200 rounded font-medium">Log out</button>
         {:else}
             <a href="/login">Log in</a>
