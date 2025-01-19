@@ -15,6 +15,7 @@ import PopupMessage from "./components/PopupMessage.svelte";
 import CreateSession from "./pages/CreateSession.svelte";
 import AddUsers from "./pages/AddUsers.svelte";
 import Statistics from "./pages/Statistics.svelte";
+import Settings from "./pages/Settings.svelte";
 
 let page;
 let params;
@@ -78,6 +79,8 @@ router("/register", authenticated, admin, (ctx) => render(NewUser, ctx));
 router("/manage-users", authenticated, admin, (ctx) =>
     render(ManageUsers, ctx),
 );
+
+router("/settings", authenticated, (ctx) => render(Settings, ctx));
 
 router("*", (ctx) => render(NotFound, ctx));
 

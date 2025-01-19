@@ -50,7 +50,7 @@ const handleAction = (data) => eventDispatcher("showAction", data);
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                })}  username={entry.User.username} active={false} data={entry.state} on:showAction={(event) => handleAction(event.detail)}/>
+                })}  username={entry.User.username} type={entry.action_data.type} active={false} data={entry.state} on:showAction={(event) => handleAction(event.detail)}/>
         {/each}
     {:catch error}
         <p>An error occurred</p>
