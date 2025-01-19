@@ -23,6 +23,7 @@ Prioritized Planning: Focus planning sessions on the most critical and high-impa
 Streamlined Merge Process: Assign two designated reviewers for each merge request and send them personal notifications to ensure timely reviews.
 
 
+
 # Sprint 2 Retrospective
 
 ### What Went Well
@@ -48,3 +49,29 @@ This will provide a more clear overview of the sprint's progress.
 Defined Planning: Focus on creating a more structured and detailed plan before the sprint begins. 
 Clearly define what tasks and features are essential, prioritize them effectively,
 and ensure all team members understand their responsibilities.
+
+
+
+## Sprint 3 Retrospective
+
+### What Went Well
+
+Teamwork: The quality and quantity of collaboration grew since last sprint, which resulted in more tasks done by multiple team members and deeper reviews. 
+
+Communication: With increased amount of work team maintained decent and consistent work pace throughout the sprint by clearly discussing all the risen problems, ways to split and solve them.
+
+### What Didn’t Go Well
+
+Planning: Since holidays fallen onto the end of sprint planning done in a hurry resulted in less recognition to bigger issues, multiple different simultaneous tasks affecting one piece of code running at the same time which resulted in a lot of hard merge conflicts.
+
+Customer Feedback Procession: Feedback given by customer on only "Client Meeting" haven't resulted neither into instant changes to issues nor requirements, which resulted into some late code changes and some of the requested things missing.
+
+Time Management: Most of the tasks were finished on Thursday and Sunday evenings which resulted into even more merge conflicts and some team members doing a lot of reviewing in one time.  
+
+### Improvements for Next (Theoretical) Sprint
+
+Focus on Customer Feedback: Customer feedback should instantly result into changes to issues and requirements.
+
+Issue Prioritization and Distribution: Bigger issues should have priority over smaller ones, more than one person should work on such issues. Multiple issues affecting same part of the code base are preferred to not concurent.
+
+Work Distribution: Work should be evenly distributed throughout the week.
