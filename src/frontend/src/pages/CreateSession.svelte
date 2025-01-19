@@ -7,15 +7,6 @@ import Field from "../components/Field.svelte";
 let sessionName = "";
 
 async function createSession() {
-    if (!sessionName) {
-        showPopupMessage(
-            "Session name is required. Please enter a session name ",
-            "error",
-            3000,
-        );
-        return;
-    }
-
     try {
         const session = await request("/sessions", { name: sessionName });
         const { id } = session;
@@ -42,6 +33,7 @@ async function createSession() {
                 <Field
                         placeholder="Enter session name"
                         bind:value={sessionName}
+                        required={true}
                 />
             </div>
             <div>

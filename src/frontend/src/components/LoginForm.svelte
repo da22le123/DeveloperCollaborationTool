@@ -2,6 +2,7 @@
 import page from "page";
 import { setToken } from "../stores/tokenStore.js";
 import { request } from "../utils/fetch.js";
+import { showPopupMessage } from "../stores/popupStore.js";
 
 let email = "";
 let password = "";
@@ -13,6 +14,7 @@ const login = async (event) => {
         setToken(data.token);
         page("/");
     } catch (error) {
+        showPopupMessage("Email or password is incorrect", "error", 3000);
         console.error(error.message);
     }
 };

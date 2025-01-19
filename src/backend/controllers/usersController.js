@@ -167,3 +167,27 @@ export const deleteUser = async (req, res) => {
 
     res.status(204).send();
 };
+
+export const handleChangeUserPassword = async (req, res, next) => {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    const foundUser = await User.findOne({ where: { id: userId } });
+
+    if (!foundUser) return res.status(401).json({ message: "User not found" });
+
+    const isPasswordCorrect = await bcrypt.compare(
+        currentPassword,
+        foundUser.password,
+    );
+
+    if (!isPasswordCorrect)
+        return res.status(400).json({ message: "Incorrect current password" });
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    foundUser.password = hashedNewPassword;
+
+    await foundUser.save();
+
+    return res.status(200).json({ message: "Password changed successfully" });
+};
