@@ -2,7 +2,9 @@
 
 # Introduction
 
-# General overview and approach
+This document provides a technical design for the collaborative editing tool. The tool is designed to streamline the
+brainstorming process for teams by providing real-time collaboration features with enhanced functionality, such as
+session management, Git integration, and role-based permissions, ensuring an efficient and user-friendly solution.
 
 # Design considerations
 
@@ -71,11 +73,7 @@ ensure consistent connectivity, and streamline the implementation of synchronize
 
 # System Architecture
 
-## Logical view (functional components)
-
-## Hardware architecture (deploy)
-
-## Software architecture (overview, libs, protocols, frameworks, components, api’s, etc)
+## Libraries
 
 ### [Svelte Flow](https://svelteflow.dev/)
 
@@ -219,8 +217,6 @@ particularly useful for generating reports, charts, or saving visual content dir
 supports various output formats like PNG and JPEG, and it can render HTML elements, including styles, images, and text,
 into high-quality images.
 
-## Information architecture (what data provided how, navigation)
-
 ## Security architecture
 
 The developed system architecture is designed to ensure robust security for users,
@@ -235,52 +231,40 @@ the appropriate permissions can access specific resources or perform certain act
 **Backend:**
 
 The backend uses **JWT** for authenticating and authorizing users across API routes and real-time WebSocket connections.
-Upon login, the server generates a JWT containing user-specific data,
-which is signed with a secure secret key and sent to the client.
-This token,
-included in the `Authorization` header for subsequent requests,
-enables the backend to validate user identity and permissions.
-Validation is performed using middlewares such as `verifyToken`,
-`verifyIfAdmin`, and `verifyLeader`, which are applied to API routes.
-These middlewares validate the JWT provided by the client
-and restrict access to specific actions based on the user's role,
-such as managing users or sessions.
+Upon login, the server generates a JWT containing user-specific data, which is signed with a secure secret key and sent
+to the client. This token, included in the `Authorization` header for subsequent requests, enables the backend to
+validate user identity and permissions. Validation is performed using middlewares such as `verifyToken`,
+`verifyIfAdmin`, and `verifyLeader`, which are applied to API routes. These middlewares validate the JWT provided by the
+client and restrict access to specific actions based on the user's role, such as managing users or sessions.
 Additionally, further validation is performed within controller functions to ensure data integrity—for example,
-verifying if a user is part of a session
-or if a session exists—returning appropriate error responses to prevent undesirable changes to the database.
+verifying if a user is part of a session or if a session exists—returning appropriate error responses to prevent
+undesirable changes to the database.
 
 **Bcrypt** is used to securely hash user passwords before storing them in the database. During login, bcrypt compares
 the entered password with the stored hash, ensuring robust protection against brute-force attacks and safeguarding user
 credentials.
 
-The real-time communication functionality,
-implemented using the **Socket.IO** library, also incorporates JWT for validation.
-Custom middleware as `socketAuthMiddleware` validates JWTs sent from the frontend during the handshake process.
-And further use it  
-to ensure the user has the required permissions to perform specific actions within a session.
-If a user attempts to perform unauthorized actions, appropriate error notifications are sent via the WebSocket,
+The real-time communication functionality, implemented using the **Socket.IO** library, also incorporates JWT for
+validation. Custom middleware as `socketAuthMiddleware` validates JWTs sent from the frontend during the handshake
+process. And further use it to ensure the user has the required permissions to perform specific actions within a
+session. If a user attempts to perform unauthorized actions, appropriate error notifications are sent via the WebSocket,
 ensuring real-time feedback and preventing unauthorized activities.
 
 **Frontend:**
 
-The frontend manages the JWT token using a `tokenStore`,
-which stores the token in `localStorage` after login and clears it upon logout.
-The `tokenStore` includes derived stores like `isAdminStore` and `isLeadStore`,
-which are used to restrict access to UI elements and frontend pages based on user roles.
-For example, UI components such as the "Manage Users" button (admin-only) and "Create Session"
-button (leader-specific) are dynamically displayed by verifying the user role from the token.
+The frontend manages the JWT token using a `tokenStore`, which stores the token in `localStorage` after login and clears
+it upon logout. The `tokenStore` includes derived stores like `isAdminStore` and `isLeadStore`, which are used to
+restrict access to UI elements and frontend pages based on user roles. For example, UI components such as the "Manage
+Users" button (admin-only) and "Create Session" button (leader-specific) are dynamically displayed by verifying the 
+user role from the token.
 
-Additionally,
-access to restricted pages is controlled
-to prevent unauthorized users or users without the necessary roles from accessing them directly via the browser.
-These pages include role and authentication checks,
-redirecting users to the login page if an unauthorized access attempt is detected.
+Additionally, access to restricted pages is controlled to prevent unauthorized users or users without the necessary
+roles from accessing them directly via the browser. These pages include role and authentication checks, redirecting
+users to the login page if an unauthorized access attempt is detected.
 
 API requests on the frontend are managed using utility functions get and request, which include the Authorization header
 with the JWT (Bearer <token>) when sending requests. These functions ensure secure authentication and authorization for
 all backend interactions.
-
-## Performance
 
 ## GitLab
 
@@ -370,62 +354,50 @@ had to support arbitrary git repos, but since GitLab offers an API, it does not 
 
 **Tables:**
 
-**User Table:** It stores all information related to the users of the application.
-It includes a unique,
-auto-incremented `id` to identify each user, a `username` for display purposes,
-and an `email` used for session invitations.
-A hashed `password`  and 'email' is stored for login purposes.
-Additionally, the table contains two boolean attributes, `is_admin`
-and `is_lead`, which determines the user's role within the system.
-If `is_admin` is set to true, the user is assigned the role of an Administrator.
-If `is_lead` is set to true and `is_admin` is false, the user is assigned the role of a Team Lead.
-If both `is_admin` and `is_lead` are set to false, the user is assigned the role of a Developer.
+**User Table:** It stores all information related to the users of the application. It includes a unique,
+auto-incremented `id` to identify each user, a `username` for display purposes, and an `email` used for session
+invitations. A hashed `password`  and 'email' is stored for login purposes. Additionally, the table contains two boolean
+attributes, `is_admin` and `is_lead`, which determines the user's role within the system. If `is_admin` is set to true,
+the user is assigned the role of an Administrator. If `is_lead` is set to true and `is_admin` is false, the user is
+assigned the role of a Team Lead. If both `is_admin` and `is_lead` are set to false, the user is assigned the role of a
+Developer.
 
-**Session table:** This table stores information about brainstorming sessions.
-It includes a unique `id` field, which is an auto-incremented session ID used to identify each session.
-The table also contains a `name` field
-to provide a meaningful name for the session.
-The `is_open` boolean field indicates the state of the session, such as "open" or "closed."
-Additionally, it includes a `last_state` field to store the latest state of the session,
-representing the current state of the session in a JSON/SVG format,
-and a `creation_date` timestamp to record when the session was created.
+**Session table:** This table stores information about brainstorming sessions. It includes a unique `id` field, which is
+an auto-incremented session ID used to identify each session. The table also contains a `name` field to provide a
+meaningful name for the session. The `is_open` boolean field indicates the state of the session, such as "open" or "
+closed." Additionally, it includes a `last_state` field to store the latest state of the session, representing the 
+current state of the session in a JSON/SVG format, and a `creation_date` timestamp to record when the session was 
+created.
 
-**SessionMember table:** This table serves as a junction table between the `User` and `Session` tables,
-representing the many-to-many relationship between users and sessions.
-It includes two foreign keys: `session_id`,
-which references the `id` field in the `Session` table to indicate the session a user is part of,
-and `user_id`,
-which references the `id` field in the `User` table to identify the specific user participating in the session.
-The table does not have a separate primary key;
-instead, the `session_id` and `user_id` foreign keys form the composite primary key.
-Additionally, the table includes a `join_date` timestamp to record when the user joined the session.
+**SessionMember table:** This table serves as a junction table between the `User` and `Session` tables, representing the
+many-to-many relationship between users and sessions. It includes two foreign keys: `session_id`, which references the
+`id` field in the `Session` table to indicate the session a user is part of, and `user_id`, which references the `id`
+field in the `User` table to identify the specific user participating in the session. The table does not have a separate
+primary key; instead, the `session_id` and `user_id` foreign keys form the composite primary key. Additionally, the
+table includes a `join_date` timestamp to record when the user joined the session.
 
 **Action table:**
-This table represents actions performed during brainstorming sessions and stores various types of actions,
-such as adding, connecting elements, as well as redo and undo actions.
-Each action has a unique, auto-incremented `id` field,
-which serves as the action ID. The table includes a `user_id` foreign key
-referencing the `id` field in the `User` table to identify the user who performed the action,
-and a `session_id` foreign key
-referencing the `id` field in the `Session` table to link the action to a specific session.
-The `action_data` field stores information about the action, represented in JSON/SVG format.
-Additionally, the table contains a `creation_date` timestamp to record when the action was performed.
+This table represents actions performed during brainstorming sessions and stores various types of actions, such as
+adding, connecting elements, as well as redo and undo actions. Each action has a unique, auto-incremented `id` field,
+which serves as the action ID. The table includes a `user_id` foreign key referencing the `id` field in the `User` table
+to identify the user who performed the action, and a `session_id` foreign key referencing the `id` field in the
+`Session` table to link the action to a specific session. The `action_data` field stores information about the action,
+represented in JSON/SVG format. Additionally, the table contains a `creation_date` timestamp to record when the action
+was performed.
 
 **Relationships between tables:**
 
 **User and Session relationship:**
 
-The relationship between `User` and `Session` is many-to-many,
-where a user can participate in multiple sessions, and each session can include multiple users.
-This many-to-many relationship is implemented using the `SessionMember` table as a junction table.
-The `SessionMember` table contains records representing the participation of specific users in specific sessions,
-linking the `User` and `Session` tables.
+The relationship between `User` and `Session` is many-to-many, where a user can participate in multiple sessions, and
+each session can include multiple users. This many-to-many relationship is implemented using the `SessionMember` table
+as a junction table. The `SessionMember` table contains records representing the participation of specific users in
+specific sessions, linking the `User` and `Session` tables.
 
 **Action and Session relationship:**
 
-The relationship between `Session` and `Action` is one-to-many,
-where a session can have multiple actions performed during it,
-but each action is associated with one specific session.
+The relationship between `Session` and `Action` is one-to-many, where a session can have multiple actions performed
+during it, but each action is associated with one specific session.
 
 **Action and User relationship:**
 
@@ -458,11 +430,3 @@ We have implemented the feature to keep track of the amount of contributions, to
 
 Data is present in a way that is easy to understand, even for non-technical users. It allows users to interact with the
 charts to explore data in greater depth.
-
-## Hardware design
-
-## Software Design
-
-## Security Design
-
-# Changelog
