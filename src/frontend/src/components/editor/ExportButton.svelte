@@ -59,4 +59,4 @@ async function handleClick() {
 }
 </script>
 
-<button class="bg-black text-white py-1.5 hover:border-black" on:click={handleClick}>Export</button>
+<button class="bg-[#009c82] text-black py-1.5 hover:border-black" on:click={handleClick}>Export</button>

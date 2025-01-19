@@ -1,6 +1,7 @@
-import { sessionSchema, userIdSchema } from "../schemas.js";
+import { sessionSchema } from "../schemas.js";
 import { Session, SessionMember, User } from "../database/database.js";
 import { sendMessageToSession } from "../socket.js";
+import { removeSession } from "./cursorsController.js";
 
 export const addUserToSession = async (req, res) => {
     const { session_id } = req.params;
@@ -148,6 +149,7 @@ export const changeSessionStatus = async (req, res) => {
 
     if (!session.is_open) {
         sendMessageToSession(session_id, "session_was_closed", null, null);
+        removeSession(session_id);
     } else {
         sendMessageToSession(session_id, "session_was_opened", null, null);
     }
