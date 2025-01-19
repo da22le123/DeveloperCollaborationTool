@@ -237,3 +237,20 @@ Topic: Progress discussion
 - Denys was working on issue #87 "Render the editor latest state" with Kirill.
 - Illya finished working on issue #38 "Create a page with a list of invitable members to a session" and waits for it to be reviewed. Also reviewed other team members merge requests.
 - Nestoras was working on issue #82 "Render a specific action by clicking on it".
+
+
+
+### 17.1.2025
+
+Attendees: Jan, Denys, Ilya, Nestoras, Yevheniia, Fedor, Rokas, Kirill
+
+Topic: Progress discussion
+
+- Jan finished working on issues #74 "Refine the requirements based on the feedback of the client" and #75 "Add missed user stories and activity diagram" and waits for it to be reviewed.
+- Yevheniia finished working on issue #70 "Support disabled status for a closed session" and merged it.
+- Fedor finished working on issue #22 "Create the functionality of tracking cursor position and streaming it to all other users" and waits for it to be reviewed.
+- Kirill finished working on issue #87 "Render the editor latest state" with Denys. Also added dynamic node text coloring. Helped Nestoras with statistics
+- Rokas finished working #67 "Add business logic for deleting user accounts" and merged it. Picked new task for himself.
+- Denys finished working on issue #87 "Render the editor latest state" with Kirill and merged it.
+- Illya finished working on issues #38 "Create a page with a list of invitable members to a session" and #90 "Add functionality to remove users from the session" and merged them. Also fixed bugs related to roles access permissions.
+- Nestoras finished working on issue #45 "Create a page that displays statistics for the session" and waits for it to be merged.
