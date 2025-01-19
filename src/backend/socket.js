@@ -1,6 +1,10 @@
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "./middlewares/socketAuthMiddleware.js";
 import { Action, Session, SessionMember } from "./database/database.js";
+import {
+    cursorUpdateHandler,
+    removeCursor,
+} from "./controllers/cursorsController.js";
 
 let io; // WebSocket instance
 const socketsList = []; // List of connected sockets
@@ -69,8 +73,11 @@ export const initializeSocket = (server) => {
                 socketsList.splice(index, 1); // Remove from the list
             }
 
+            removeCursor(socket.user.id);
             console.log(`User disconnected: ${socket.id}`);
         });
+
+        socket.on("cursor", (data) => cursorUpdateHandler(data));
     });
 
     return io;

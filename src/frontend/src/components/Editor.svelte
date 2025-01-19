@@ -3,25 +3,39 @@ import { Background, SvelteFlow, useSvelteFlow } from "@xyflow/svelte";
 import { createEventDispatcher, getContext } from "svelte";
 import { createDebounceWithMap } from "../lib/debounce.js";
 import { getBrightness } from "../lib/colors.js";
+import { get, writable } from "svelte/store";
 
 import NodeContextMenu from "./editor/NodeContextMenu.svelte";
 import EdgeContextMenu from "./editor/EdgeContextMenu.svelte";
 
 import "@xyflow/svelte/dist/style.css";
+import Cursor from "./Cursor.svelte";
+import { idStore } from "../stores/tokenStore.js";
+import { throttle } from "../lib/throttle.js";
 
 export let nodes;
 export let edges;
+export let sessionId;
+export let socket;
 
 const {
     screenToFlowPosition,
+    toObject,
     viewport,
     updateNode,
     updateNodeData,
     deleteElements,
     getNode,
 } = useSvelteFlow();
+
 const newNode = getContext("newNode");
 const dispatch = createEventDispatcher();
+
+socket.on("cursors", (data) => {
+    const filteredData = data.filter((c) => c.id !== get(idStore));
+    lastCursors = filteredData;
+    updateCursors(filteredData);
+});
 
 export let isSessionOpened = true; // property to control the interactivity of editor
 
@@ -78,6 +92,59 @@ const onDelete = ({ nodes, edges }) => {
         }
     }
 };
+
+const cursors = writable([]);
+
+let lastCursorX;
+let lastCursorY;
+
+// Throttle the mousemove event to 15 FPS
+const throttledOnMouseMove = throttle(onMouseMove, 1000 / 15);
+
+function onMouseMove(event) {
+    const onFlowPosition = screenToFlowPosition(
+        {
+            x: event.clientX,
+            y: event.clientY,
+        },
+        {
+            snapToGrid: false,
+        },
+    );
+
+    if (lastCursorX !== onFlowPosition.x || lastCursorY !== onFlowPosition.y) {
+        lastCursorX = onFlowPosition.x;
+        lastCursorY = onFlowPosition.y;
+        socket.emit("cursor", {
+            id: get(idStore),
+            sessionId: sessionId,
+            x: lastCursorX,
+            y: lastCursorY,
+        });
+    }
+}
+
+let lastCursors;
+
+function updateCursors(cursorsData) {
+    if (!cursorsData) {
+        return;
+    }
+
+    let { viewport } = toObject();
+    viewport.x = viewport.x / -viewport.zoom;
+    viewport.y = viewport.y / -viewport.zoom;
+
+    const cursorsLatest = cursorsData.map((c) => {
+        return {
+            ...c,
+            x: (c.x - viewport.x) * viewport.zoom,
+            y: (c.y - viewport.y) * viewport.zoom,
+        };
+    });
+
+    cursors.set(cursorsLatest);
+}
 
 const onDragOver = (event) => {
     if (!isSessionOpened) return;
@@ -215,6 +282,7 @@ const onEdgeContextMenu = ({ detail: { event, edge } }) => {
 };
 
 const onPaneClick = () => cancelContextMenus();
+
 const onNodeDragStop = ({ detail: { targetNode } }) => {
     if (!isSessionOpened) return;
     dispatchAction({
@@ -238,13 +306,27 @@ const onEdgeCreate = (connection) => {
     return edge;
 };
 
-let lastZoom = $viewport.zoom;
+const onNodeDrag = (e) => {
+    throttledOnMouseMove(e.detail.event);
+};
 
-// Cancel context menus when the zoom level changes.
+let lastZoom = $viewport.zoom;
+let lastX = $viewport.x;
+let lastY = $viewport.y;
+
+// Cancel context menus and redraw cursors when the zoom level changes.
 $: {
     if ($viewport.zoom !== lastZoom) {
         cancelContextMenus();
+        updateCursors(lastCursors);
         lastZoom = $viewport.zoom;
+    }
+
+    if ($viewport.x !== lastX || $viewport.y !== lastY) {
+        cancelContextMenus();
+        updateCursors(lastCursors);
+        lastX = $viewport.x;
+        lastY = $viewport.y;
     }
 }
 
@@ -270,10 +352,16 @@ const onKeyDown = (event) => {
                     on:nodecontextmenu={onNodeContextMenu}
                     on:edgecontextmenu={onEdgeContextMenu}
                     on:paneclick={onPaneClick}
+                    on:nodedrag={onNodeDrag}
                     on:nodedragstop={onNodeDragStop}
                     ondelete={onDelete}
                     onedgecreate={onEdgeCreate}
         >
+
+            {#each $cursors as cursor}
+                <Cursor data={cursor}/>
+            {/each}
+
             <Background/>
 
             {#if isSessionOpened}
@@ -294,7 +382,10 @@ const onKeyDown = (event) => {
     {/if}
 </div>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window
+        on:keydown={onKeyDown}
+        on:mousemove={throttledOnMouseMove}
+/>
 
 <style>
     .editor-wrapper {
