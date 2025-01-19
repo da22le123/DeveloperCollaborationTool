@@ -14,9 +14,9 @@ export const verifyToken = (req, res, next) => {
 
         req.user = {
             id: user.id,
-            username: decoded.username,
-            isAdmin: decoded.isAdmin,
-            isLead: decoded.isLead,
+            username: user.username,
+            isAdmin: user.is_admin,
+            isLead: user.is_lead,
         };
 
         next();
