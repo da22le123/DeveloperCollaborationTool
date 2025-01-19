@@ -52,6 +52,29 @@ async function saveEmailChange() {
     }
 }
 
+async function deleteUser(user) {
+    try {
+        await request(`/users/${user.id}`, {}, "DELETE");
+        users = users.filter((u) => u.id !== user.id);
+        showPopupMessage("User deleted successfully", "success", 3000);
+    } catch (error) {
+        showPopupMessage(
+            `Failed to delete user: ${error.message}`,
+            "error",
+            3000,
+        );
+    }
+}
+
+function confirmAndDeleteUser(user) {
+    const isConfirmed = confirm(
+        `Are you sure you want to delete ${user.username}?`,
+    );
+    if (isConfirmed) {
+        deleteUser(user);
+    }
+}
+
 function closeModal() {
     isModalOpen = false;
     editingUser = null;
@@ -102,7 +125,8 @@ const userPromise = fetchUsers();
                                 />
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                        on:click={() => confirmAndDeleteUser(user)}>Delete</button>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 {#if !user.is_admin}
