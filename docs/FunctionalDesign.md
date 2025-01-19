@@ -126,6 +126,7 @@ are commercial and can often be very expensive. Furthermore, they are not tailor
 | NF9  | Passwords must be stored as a hash that is a result of the bcrypt function.                         | M      | -          |
 | NF10 | The contrast between a background color and text must meet the WCAG AA standard (4.5:1 ratio).      | C      | Interview  |
 | NF11 | The system should not use dull colors as the primary color scheme.                                  | C      | Interview  |
+| NF12 | A session supports up to 10 members in real time.                                                   | S      | Interview  |
 
 ## User Roles
 
@@ -271,7 +272,8 @@ participants in the project.
 
 | By    | Changes                                               | Date       |
 |-------|-------------------------------------------------------|------------|
-| Denys | Connected wireframes together                         | 17.01.2025 |
+| Jan   | Adding NF12 requirement                               | 19.01.2025 |
+| Denys | Connecting wireframes together                        | 17.01.2025 |
 | Jan   | Reworking Requirements and User Stories               | 17.01.2025 |
 | Jan   | Introduction, Problem Analysis, Alternatives Research | 10.01.2025 |
 
