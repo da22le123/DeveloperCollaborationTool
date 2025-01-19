@@ -1,41 +1,29 @@
 <script>
-import { tokenStore } from "../stores/tokenStore";
 import { showPopupMessage } from "../stores/popupStore";
-import { request } from "../utils/fetch.js";
+import { get, request } from "../utils/fetch.js";
 
 let users = [];
-let message = "";
-let type = "";
-let isVisible = false;
 let isModalOpen = false;
 let editingUser = null;
 let newEmail = "";
 
 async function fetchUsers() {
-    const response = await fetch("http://localhost:3000/users", {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${$tokenStore}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error(`Failed to fetch users: ${response.statusText}`);
-    }
-
-    users = await response.json();
+    users = await get("/users");
+    return users;
 }
 
 function handleCheckboxChange(event, user) {
     const isChecked = event.target.checked;
-    user.role = isChecked ? "Lead" : "Developer";
-    changeUserIsLead(user.id, isChecked);
-    users = [...users];
+    return changeUserIsLead(user, isChecked);
 }
 
-async function changeUserIsLead(userId, isLead) {
+async function changeUserIsLead(user, isLead) {
     try {
-        const data = await request(`/users/${userId}`, { isLead }, "PATCH");
+        const data = await request(`/users/${user.id}`, { isLead }, "PATCH");
+
+        user.role = data.is_lead ? "Lead" : "Developer";
+        users = [...users];
+
         showPopupMessage("User updated successfully", "success", 3000);
     } catch (error) {
         showPopupMessage("Failed to update user", "error", 3000);
@@ -72,17 +60,22 @@ function closeModal() {
 
 const userPromise = fetchUsers();
 </script>
+
 <div class="flex flex-col items-center  min-h-screen py-10">
     <div class="w-full max-w-5xl mb-6">
         <h1 class="text-2xl font-bold text-gray-800 mt-10 mb-10">Manage Users</h1>
     </div>
+
     <div class="w-full max-w-5xl bg-white  overflow-hidden ">
-            {#if users.length > 0}
-                <div class="w-full max-w-5xl mb-2">
-                    <p class="text-lg  text-left font-bold text-gray-800">All Members</p>
-                </div>
-                <table class="table-auto w-full">
-                    <thead class="border-b border-gray-300">
+        {#await userPromise}
+            <div class="text-center text-neutral-400 font-bold py-10">Loading users...</div>
+        {:then response}
+            <div class="w-full max-w-5xl mb-2">
+                <p class="text-lg  text-left font-bold text-gray-800">All Members</p>
+            </div>
+
+            <table class="table-auto w-full">
+                <thead class="border-b border-gray-300">
                     <tr>
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Email</th>
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Name</th>
@@ -91,9 +84,9 @@ const userPromise = fetchUsers();
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Delete User</th>
                         <th class="px-6 py-3 text-center text-stone-400 font-normal tracking-wider">Change Email</th>
                     </tr>
-                    </thead>
+                </thead>
 
-                    <tbody class="divide-y divide-gray-300">
+                <tbody class="divide-y divide-gray-300">
                     {#each users as user (user.id)}
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4 text-gray-800 text-left">{user.email}</td>
@@ -103,28 +96,28 @@ const userPromise = fetchUsers();
                                 <input
                                         type="checkbox"
                                         class="form-checkbox h-5 w-5 text-blue-600"
-                                        checked={user.role === "Lead" || user.role === "Admin"}
+                                        checked={user.is_lead || user.is_admin}
                                         on:change={(event) => handleCheckboxChange(event, user)}
-                                        disabled={user.role === "Admin"}
+                                        disabled={user.is_admin}
                                 />
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"> Delete </button>
+                                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                                        on:click={() => openEditEmailModal(user)}> Change Email </button>
+                                {#if !user.is_admin}
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                            on:click={() => openEditEmailModal(user)}>Change Email</button>
+                                {/if}
                             </td>
                         </tr>
                     {/each}
                     <tr>
                         <td colspan="5" class="border-t border-gray-300"></td>
                     </tr>
-                    </tbody>
-                </table>
-            {:else}
-                <div class="text-center text-neutral-400 font-bold py-10">No users found.</div>
-            {/if}
+                </tbody>
+            </table>
+        {/await}
     </div>
 
     {#if isModalOpen}
