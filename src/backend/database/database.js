@@ -1,9 +1,9 @@
+import bcrypt from "bcrypt";
 import { Sequelize } from "sequelize";
 import UserModel from "./model/User.js";
 import SessionModel from "./model/Session.js";
 import SessionMemberModel from "./model/SessionMember.js";
 import ActionModel from "./model/Action.js";
-import * as path from "node:path";
 
 const dbFilePath = process.env.DB_PATH ?? "database.sqlite";
 
@@ -67,6 +67,24 @@ const closeConnection = async () => {
     }
 };
 
+async function createDefaultAdminUser() {
+    return User.findOrCreate({
+        where: {
+            is_admin: true,
+        },
+        defaults: {
+            username: "admin",
+            email: process.env.DEFAULT_ADMIN_EMAIL || "admin@saxion.nl",
+            password: await bcrypt.hash(
+                process.env.DEFAULT_ADMIN_PASSWORD || "password",
+                10,
+            ),
+            is_admin: true,
+            is_lead: true,
+        },
+    });
+}
+
 export {
     sequelize,
     User,
@@ -75,4 +93,5 @@ export {
     Action,
     connectToDatabase,
     closeConnection,
+    createDefaultAdminUser,
 };
