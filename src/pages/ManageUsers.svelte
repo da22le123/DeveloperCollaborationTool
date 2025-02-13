@@ -1,5 +1,5 @@
 <script>
-import { showPopupMessage } from "../stores/popupStore";
+import { showPopupMessage } from "../stores/popupStore.js";
 import { get, request } from "../utils/fetch.js";
 
 let users = [];

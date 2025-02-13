@@ -6,7 +6,7 @@ import {
     stringUpload,
 } from "../../utils/gitlab.js";
 import { getNodesBounds, getViewportForBounds, useNodes } from "@xyflow/svelte";
-import { showPopupMessage } from "../../stores/popupStore";
+import { showPopupMessage } from "../../stores/popupStore.js";
 
 export let sessionId;
 const nodes = useNodes();
